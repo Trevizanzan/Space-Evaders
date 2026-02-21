@@ -151,7 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc0469ee403b211439f189beef86a0a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpaceshipMovement
-  moveSpeed: 60
 --- !u!58 &74886321
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -196,7 +195,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74886319}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -289,6 +288,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &1052158365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1052158367}
+  - component: {fileID: 1052158366}
+  m_Layer: 0
+  m_Name: AsteroidSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1052158366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052158365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b24b2698f5027044f8b8750a4b9f2174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AsteroidSpawner
+  asteroidPrefabs:
+  - {fileID: 1933450810738102250, guid: 584d4491b285b1b47a5d26669f26f5bc, type: 3}
+  - {fileID: 1557415453779876514, guid: d3d4bca083355eb4a80c53cb8f108485, type: 3}
+  - {fileID: 6342991118519517000, guid: aee20b28e8292c842861f365d06e9faa, type: 3}
+  spawnRate: 2
+--- !u!4 &1052158367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052158365}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -16.71782, y: -5.92004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1726090261
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +348,7 @@ GameObject:
   - component: {fileID: 1726090264}
   - component: {fileID: 1726090263}
   - component: {fileID: 1726090262}
+  - component: {fileID: 1726090265}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -393,6 +442,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1726090265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726090261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674f8f970b4a1024ab20e35733c37779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackgroundScroll
+  scrollSpeed: 50
 --- !u!1 &2045221348
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,3 +554,4 @@ SceneRoots:
   - {fileID: 2045221351}
   - {fileID: 1726090264}
   - {fileID: 74886324}
+  - {fileID: 1052158367}

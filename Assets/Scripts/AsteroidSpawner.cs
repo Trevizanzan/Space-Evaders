@@ -3,7 +3,7 @@ using UnityEngine;
 public class AsteroidSpawner : MonoBehaviour
 {
     public GameObject[] asteroidPrefabs;  // array di prefab
-    public float spawnRate = 2f;
+    public float spawnRate = 1.25f;          // 2 secondi tra uno spawn e l'altro
 
     private float timer;
     private float minX;
@@ -26,6 +26,9 @@ public class AsteroidSpawner : MonoBehaviour
     {
         timer += Time.deltaTime;
 
+        // Aggiungiamo una leggera variazione al tempo di spawn per rendere il gioco più dinamico e imprevedibile
+        //float randomSpawnRate = spawnRate + Random.Range(1.5f, 3f);
+
         if (timer >= spawnRate)
         {
             SpawnAsteroid();
@@ -35,7 +38,10 @@ public class AsteroidSpawner : MonoBehaviour
 
     void SpawnAsteroid()
     {
-        float randomX = Random.Range(minX, maxX);       // TODO mettere offset per evitare spawn troppo vicini ai bordi
+        // TODO mettere offset per evitare spawn troppo vicini ai bordi per la X e per la Y (grandezza asteroide)
+        float randomX = Random.Range(minX, maxX);               // X casuale con più varietà    
+        float randomSpawnY = spawnY + Random.Range(-2.5f, 5f);  // Y spawn con leggera variazione (alcuni più alti, altri meno)
+
         Vector3 spawnPosition = new Vector3(randomX, spawnY, 0);    // TODO alzare spawnY per evitare spawn troppo vicini alla camera
 
         int i = Random.Range(0, asteroidPrefabs.Length);

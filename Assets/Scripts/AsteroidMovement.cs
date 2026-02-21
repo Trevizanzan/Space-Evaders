@@ -25,7 +25,7 @@ using UnityEngine;
 
 //    void Update()
 //    {
-//        // Movimento verso il basso
+//        // Movimento (verso il basso)
 //        transform.Translate(0, -fallSpeed * Time.deltaTime, 0);
 
 //        // Rotazione
@@ -41,7 +41,7 @@ using UnityEngine;
 
 public class AsteroidMovement : MonoBehaviour
 {
-    public float fallSpeed = 25f;
+    public float fallSpeed = 30f;
     private float rotationSpeed;
     private float destroyY;
     private Rigidbody2D rb;
@@ -53,15 +53,15 @@ public class AsteroidMovement : MonoBehaviour
         // Rotazione casuale (in gradi al secondo)
         rotationSpeed = Random.Range(-90f, 90f);
         Debug.Log("rotationSpeed: " + rotationSpeed);
-        rb.angularVelocity = rotationSpeed;
-        
-        // Movimento verticale costante
-        rb.linearVelocity = new Vector2(0, -fallSpeed);
+        rb.angularVelocity = rotationSpeed;                 // rotazione su se stessa
+
+        // Velocità caduta con leggera variazione
+        float randomFallSpeed = fallSpeed + Random.Range(-10f, 10f);
+        rb.linearVelocity = new Vector2(0, -randomFallSpeed);   // direzione verso il basso
 
         // Calcola bordo inferiore camera
         float camDistance = transform.position.z - Camera.main.transform.position.z;
         //Debug.Log($"camDistance: {camDistance}");
-
         Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
         destroyY = bottomLeft.y - 2f;
     }
