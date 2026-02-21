@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// OLD version: la rotazione degli asteroidi funziona in maniera strana, iniziano a girare in cerchio dal basso verso l'alto generando una casualità interessante, come se avessero un ORBITA!!!
+/// OLD version: la rotazione degli asteroidi funziona in maniera strana, iniziano a girare in cerchio dal basso verso l'alto generando una casualitï¿½ interessante, come se avessero un ORBITA!!!
 /// </summary>
 //public class AsteroidMovement : MonoBehaviour
 //{
@@ -51,11 +51,16 @@ public class AsteroidMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         // Rotazione casuale (in gradi al secondo)
-        rotationSpeed = Random.Range(-180f, 180f);
+        rotationSpeed = Random.Range(-90f, 90f);
+        Debug.Log("rotationSpeed: " + rotationSpeed);
+        rb.angularVelocity = rotationSpeed;
+        
+        // Movimento verticale costante
+        rb.linearVelocity = new Vector2(0, -fallSpeed);
 
         // Calcola bordo inferiore camera
         float camDistance = transform.position.z - Camera.main.transform.position.z;
-        Debug.Log($"camDistance: {camDistance}");
+        //Debug.Log($"camDistance: {camDistance}");
 
         Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
         destroyY = bottomLeft.y - 2f;
@@ -63,13 +68,7 @@ public class AsteroidMovement : MonoBehaviour
 
     void Update()
     {
-        // Movimento verso il basso
-        transform.Translate(0, -fallSpeed * Time.deltaTime, 0);
-
-        // Rotazione tramite Rigidbody
-        rb.angularVelocity = rotationSpeed;
-
-        // Distruzione se esce sotto
+        // Solo controllo distruzione
         if (transform.position.y < destroyY)
         {
             Destroy(gameObject);
