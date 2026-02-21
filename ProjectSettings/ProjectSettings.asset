@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: Trevizanzan Enterprises
   productName: Space Evaders
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -807,7 +807,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: a57af58e-a56f-4d32-8cc8-a898843d2029
   framebufferDepthMemorylessMode: 0
