@@ -52,7 +52,7 @@ public class AsteroidMovement : MonoBehaviour
 
         // Rotazione casuale (in gradi al secondo)
         rotationSpeed = Random.Range(-90f, 90f);
-        Debug.Log("rotationSpeed: " + rotationSpeed);
+        //Debug.Log("rotationSpeed: " + rotationSpeed);
         rb.angularVelocity = rotationSpeed;                 // rotazione su se stessa
 
         // Velocità caduta con leggera variazione
