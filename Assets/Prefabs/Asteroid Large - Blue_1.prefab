@@ -102,7 +102,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933450810738102250}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -151,7 +151,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -169,3 +169,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e6504de82ab78488a6d1edb0c23c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidMovement
+  fallSpeed: 25
