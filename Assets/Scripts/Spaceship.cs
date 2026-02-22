@@ -1,6 +1,10 @@
+using System;
 using UnityEngine;
 
-public class SpaceshipMovement : MonoBehaviour
+/// <summary>
+/// calcola movimento della Spaceship in base a input WASD o frecce, e limita movimento ai bordi della camera (considerando anche la larghezza della nave per non farla uscire)
+/// </summary>
+public class Spaceship : MonoBehaviour
 {
     private float moveSpeed = 100f;
     private float minX;
@@ -8,6 +12,21 @@ public class SpaceshipMovement : MonoBehaviour
     private float minY;
     private float maxY;
     private float shipHalfWidth;
+
+    private Rigidbody2D spaceShipRigidbody2D;
+    public event EventHandler OnDied;
+
+    private static Spaceship instance;
+    public static Spaceship GetInstance()
+    {
+        return instance;
+    }
+
+    void Awake()
+    {
+        spaceShipRigidbody2D = GetComponent<Rigidbody2D>();
+        instance = this;
+    }
 
     void Start()
     {
@@ -59,5 +78,21 @@ public class SpaceshipMovement : MonoBehaviour
         newY = Mathf.Clamp(newY, minY, maxY);
 
         transform.position = new Vector3(newX, newY, transform.position.z);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log($"Spaceship collided with {collision.gameObject.name}");
+
+        spaceShipRigidbody2D.linearVelocity = Vector2.zero; // Ferma la nave in caso di collisione
+
+        if (collision.gameObject.CompareTag("Asteroid"))
+        {
+            if (OnDied != null)
+                OnDied.Invoke(this, EventArgs.Empty);
+
+            //Destroy(gameObject);
+            GameManager.GetInstance().GameOver();
+        }
     }
 }
