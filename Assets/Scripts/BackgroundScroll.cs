@@ -13,7 +13,7 @@ public class BackgroundScroll : MonoBehaviour
     {
         // Calcola altezza viewport camera
         cameraHeight = Camera.main.orthographicSize * 2f;
-        Debug.Log("cameraHeight: " + cameraHeight);
+        //Debug.Log("cameraHeight: " + cameraHeight);
     }
     
     void Update()

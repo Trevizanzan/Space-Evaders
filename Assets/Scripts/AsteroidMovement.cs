@@ -48,6 +48,8 @@ public class AsteroidMovement : MonoBehaviour
 
     void Start()
     {
+        float cameraHeight = Camera.main.orthographicSize * 2f;
+
         rb = GetComponent<Rigidbody2D>();
 
         // Rotazione casuale (in gradi al secondo)
@@ -56,14 +58,14 @@ public class AsteroidMovement : MonoBehaviour
         rb.angularVelocity = rotationSpeed;                 // rotazione su se stessa
 
         // Velocità caduta con leggera variazione
-        float randomFallSpeed = fallSpeed + Random.Range(-10f, 10f);
+        float randomFallSpeed = fallSpeed + Random.Range(-10f, 25f);
         rb.linearVelocity = new Vector2(0, -randomFallSpeed);   // direzione verso il basso
 
         // Calcola bordo inferiore camera
         float camDistance = transform.position.z - Camera.main.transform.position.z;
         //Debug.Log($"camDistance: {camDistance}");
         Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
-        destroyY = bottomLeft.y - 2f;
+        destroyY = bottomLeft.y - (cameraHeight * 0.2f);
     }
 
     void Update()
