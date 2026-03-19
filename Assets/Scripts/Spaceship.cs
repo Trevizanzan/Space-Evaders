@@ -14,18 +14,19 @@ public class Spaceship : MonoBehaviour
     private float shipHalfWidth;
 
     private Rigidbody2D spaceShipRigidbody2D;
-    public event EventHandler OnDied;
+    //public event EventHandler OnDied;
 
-    private static Spaceship instance;
+    private static Spaceship instanceSpaceShip;
+
     public static Spaceship GetInstance()
     {
-        return instance;
+        return instanceSpaceShip;
     }
 
     void Awake()
     {
         spaceShipRigidbody2D = GetComponent<Rigidbody2D>();
-        instance = this;
+        instanceSpaceShip = this;
     }
 
     void Start()
@@ -35,7 +36,7 @@ public class Spaceship : MonoBehaviour
         Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
         Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
 
-        Debug.Log($"Camera bounds: minX={bottomLeft.x}, maxX={topRight.x}, minY={bottomLeft.y}, maxY={topRight.y}");
+        //Debug.Log($"Camera bounds: minX={bottomLeft.x}, maxX={topRight.x}, minY={bottomLeft.y}, maxY={topRight.y}");
 
         minX = bottomLeft.x;
         maxX = topRight.x;
@@ -82,17 +83,23 @@ public class Spaceship : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Spaceship collided with {collision.gameObject.name}");
-
-        spaceShipRigidbody2D.linearVelocity = Vector2.zero; // Ferma la nave in caso di collisione
+        //Debug.Log($"Spaceship collided with {collision.gameObject.name}");
+        // Ferma la nave in caso di collisione
+        //spaceShipRigidbody2D.linearVelocity = Vector2.zero; 
 
         if (collision.gameObject.CompareTag("Asteroid"))
         {
-            if (OnDied != null)
-                OnDied.Invoke(this, EventArgs.Empty);
+            //if (OnDied != null)
+            //    OnDied.Invoke(this, EventArgs.Empty);
+
+            PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(1);
+            }
 
             //Destroy(gameObject);
-            GameManager.GetInstance().GameOver();
+            //GameManager.GetInstance().GameOver();
         }
     }
 }
