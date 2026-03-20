@@ -4,6 +4,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 3;
     private int currentHealth;
+    public int CurrentHealth => currentHealth;
 
     void Awake()
     {
@@ -14,7 +15,13 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= amount;
 
-        Debug.Log("Player took damage. Current health: " + currentHealth);
+        // aggiorna UI vite
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.UpdateLivesUI();
+        }
+
+        // Controlla se il giocatore è morto
         if (currentHealth <= 0)
         {
             //Destroy(gameObject);

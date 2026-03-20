@@ -2,7 +2,7 @@
 
 public class ProjectileMovement : MonoBehaviour
 {
-    public float speed = 60f; // Speed of the projectile
+    public float speed = 6f; // Speed of the projectile
     private float destroyY;
     private Rigidbody2D rigidBody;
 

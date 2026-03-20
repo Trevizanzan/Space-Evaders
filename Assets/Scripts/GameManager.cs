@@ -1,7 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // MISURE DELLA CAMEREA
+    //  Con orthographicSize = 5.5:
+    //  Altezza visibile = 2 * 5.5 = 11 unità
+    //  Con 16:9, larghezza visibile ≈ 11 * 16/9 = 19.56 unità
+
+
     public static GameManager Instance;
     public AsteroidSpawner spawner;
     public GameObject gameOverUI;
