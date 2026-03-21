@@ -45,9 +45,8 @@ public class BackgroundScroll : MonoBehaviour
     public float scrollSpeed = 40f;
     [SerializeField] private float extraMargin = 1f; // margine anti-barre
 
-    private float bgHeight;
-    private float camBottomY;
-    private float camX;
+    private float bgHeight;       // altezza completa dello sprite in world units
+    private float bgHalfHeight;   // metà altezza    private float camBottomY;
 
     private SpriteRenderer topSR, bottomSR;
     private Camera cam;
@@ -55,6 +54,7 @@ public class BackgroundScroll : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
+
         topSR = backgroundTop.GetComponent<SpriteRenderer>();
         bottomSR = backgroundBottom.GetComponent<SpriteRenderer>();
 
@@ -64,42 +64,41 @@ public class BackgroundScroll : MonoBehaviour
 
         // Altezza reale DOPO lo scaling
         bgHeight = topSR.bounds.size.y;
+        bgHalfHeight = bgHeight * 0.5f;
+
         // Posiziona impilati
         float startY = cam.transform.position.y;
-        backgroundBottom.position = new Vector3(cam.transform.position.x, startY, backgroundBottom.position.z);
-        backgroundTop.position = new Vector3(cam.transform.position.x, startY + bgHeight, backgroundTop.position.z);
+        float camX = cam.transform.position.x;
 
-        //camX = Camera.main.transform.position.x;
-
-        //// Altezza reale sprite in world units (dipende da PPU e scale)
-        //var sr = backgroundBottom.GetComponent<SpriteRenderer>();
-        //bgHeight = sr.bounds.size.y;
-
-        //// Basso al centro camera (o y=0 se preferisci, ma meglio legarlo alla camera)
-        //float startY = Camera.main.transform.position.y;
-
-        //backgroundBottom.position = new Vector3(camX, startY, backgroundBottom.position.z);
-        //backgroundTop.position = new Vector3(camX, startY + bgHeight, backgroundTop.position.z);
-
-        //camBottomY = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
+        backgroundBottom.position = new Vector3(camX, startY, backgroundBottom.position.z);
+        backgroundTop.position = new Vector3(camX, startY + bgHeight, backgroundTop.position.z);
     }
 
     void Update()
     {
         float dy = scrollSpeed * Time.deltaTime;
+
         backgroundTop.Translate(0, -dy, 0, Space.World);
         backgroundBottom.Translate(0, -dy, 0, Space.World);
 
-        // Wrap quando esce sotto
+        // Fondo camera in world space
         float camBottomY = cam.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
-        if (backgroundBottom.position.y + bgHeight < camBottomY)
+
+        // BORDO SUPERIORE del background bottom
+        float bottomTopEdge = backgroundBottom.position.y + bgHalfHeight;
+
+        // Se il background bottom è completamente uscito sotto la camera,
+        // cioè il suo bordo superiore è sotto il fondo della camera
+        if (bottomTopEdge < camBottomY)
         {
+            float camX = cam.transform.position.x;
+            // mettilo sopra il top
             backgroundBottom.position = new Vector3(
-                cam.transform.position.x,
+                camX,
                 backgroundTop.position.y + bgHeight,
                 backgroundBottom.position.z
             );
-            // Swap
+            // Swap riferimenti (così "top" rimane sempre quello più in alto)
             var tmp = backgroundTop;
             backgroundTop = backgroundBottom;
             backgroundBottom = tmp;
@@ -107,33 +106,18 @@ public class BackgroundScroll : MonoBehaviour
             topSR = bottomSR;
             bottomSR = tmpSR;
         }
-
-        //// Se il bottom è completamente sotto la camera, mettilo sopra top
-        //if (backgroundBottom.position.y + bgHeight < camBottomY)
-        //{
-        //    backgroundBottom.position = new Vector3(
-        //        camX,
-        //        backgroundTop.position.y + bgHeight,
-        //        backgroundBottom.position.z
-        //    );
-
-        //    // swap dei riferimenti (così continuiamo a ciclare correttamente)
-        //    var tmp = backgroundTop;
-        //    backgroundTop = backgroundBottom;
-        //    backgroundBottom = tmp;
-        //}
     }
 
     void ScaleToFillCamera(SpriteRenderer sr)
     {
-        // Calcola dimensioni REALI della viewport in world units
+        // Dimensioni reali della viewport in world units
         Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
         float camWidth = topRight.x - bottomLeft.x + extraMargin;
         float camHeight = topRight.y - bottomLeft.y + extraMargin;
-        // Size "naturale" dello sprite (prima dello scaling)
+        // Size naturale dello sprite
         Vector2 spriteSize = sr.sprite.bounds.size;
-        // Scala per coprire
+        // Scala per coprire la camera
         sr.transform.localScale = new Vector3(
             camWidth / spriteSize.x,
             camHeight / spriteSize.y,
