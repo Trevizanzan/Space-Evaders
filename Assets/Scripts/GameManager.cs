@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     //  Con 16:9, larghezza visibile ≈ 11 * 16/9 = 19.56 unità
 
     [Header("Gameplay")]
-    public AsteroidSpawner spawner;
+    public AsteroidSpawner asteroidSpawner;
 
     [Header("Game Over UI")]
     public GameObject gameOverPanel;
@@ -37,15 +38,14 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
 
         // suona suono di game over
-        if (SoundManager.Instance != null)
-        {
+        if (SoundManager.Instance != null) 
             SoundManager.Instance.PlayGameOver();
-        }
 
-        if (spawner != null)
-            spawner.enabled = false;
+        // Ferma lo spawner
+        if (asteroidSpawner != null)
+            asteroidSpawner.enabled = false;
         
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
 
         // Aggiorna testi della schermata
         if (ScoreManager.Instance != null)
@@ -58,6 +58,20 @@ public class GameManager : MonoBehaviour
                 goBestText.text = $"BEST: {best}";
         }
 
+        // Mostra UI dopo un attimo (usando tempo non scalato),
+        // questo per dare tempo alle animazioni di esplosione di completarsi
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private System.Collections.IEnumerator GameOverRoutine()
+    {
+        // Aspetta un attimo (tempo reale, non affected dal timeScale)
+        yield return new WaitForSecondsRealtime(0.333f); 
+
+        // Ferma il gioco
+        Time.timeScale = 0f;
+
+        // Mostra pannello game over
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
     }
