@@ -19,6 +19,12 @@ public class AsteroidHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            // suona l'effetto sonoro di esplosione
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayAsteroidExplode();
+            }
+
             // Aggiungi punti allo score UI
             if (ScoreManager.Instance != null)
             {

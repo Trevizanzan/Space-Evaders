@@ -34,8 +34,13 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         if (isGameOver) return;
-
         isGameOver = true;
+
+        // suona suono di game over
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayGameOver();
+        }
 
         if (spawner != null)
             spawner.enabled = false;

@@ -14,6 +14,12 @@ public class PlayerShooting : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
+
+            // suona il suono dello sparo
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayShoot();
+            }
         }
     }
 }

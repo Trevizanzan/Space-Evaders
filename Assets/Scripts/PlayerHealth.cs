@@ -15,6 +15,12 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= amount;
 
+        // suona effetto colpo
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayPlayerHit();
+        }
+
         // aggiorna UI vite
         if (ScoreManager.Instance != null)
         {
