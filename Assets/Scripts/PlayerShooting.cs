@@ -9,16 +9,25 @@ public class PlayerShooting : MonoBehaviour
     public GameObject projectilePrefab;  // slot per il prefab
     public Transform firePoint;      // punto dove spawna (davanti alla nave)
 
+    // Aggiunta cooldown per evitare di sparare troppo velocemente
+    private float shootCooldown = 0.13f; // tra uno sparo e l'altro devono passare almeno 0.12 secondi (8 spari al secondo)
+    private float lastShootTime = 0f;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
-
-            // suona il suono dello sparo
-            if (SoundManager.Instance != null)
+            if (Time.time - lastShootTime >= shootCooldown)
             {
-                SoundManager.Instance.PlayShoot();
+                Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
+
+                // suona il suono dello sparo
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlayShoot();
+                }
+
+                lastShootTime = Time.time;  // aggiorna il tempo dell'ultimo sparo
             }
         }
     }
