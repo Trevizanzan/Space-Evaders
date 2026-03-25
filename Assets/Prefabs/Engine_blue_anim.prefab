@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6063750948800041726}
   - component: {fileID: 7609789096587178858}
   - component: {fileID: 1105096753895889234}
+  - component: {fileID: 7432328812594336793}
   m_Layer: 0
   m_Name: Engine_blue_anim
   m_TagString: Untagged
@@ -114,3 +115,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7432328812594336793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2653212734628866043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c6b99a29f4a8a34abf16f1f829d6e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationController
+  lifetime: 0.375
