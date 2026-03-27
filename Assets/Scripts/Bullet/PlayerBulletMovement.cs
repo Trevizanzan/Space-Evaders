@@ -9,6 +9,8 @@ public class ProjectileMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Debug.Log($"[PLAYER_BULLET] Spawned with tag: {gameObject.tag}"); 
+
         float cameraHeight = Camera.main.orthographicSize * 2f;
         //float cameraWidth = cameraHeight / Screen.height * Screen.width;
         //Debug.Log($"Camera Height: {cameraHeight}");
@@ -46,5 +48,8 @@ public class ProjectileMovement : MonoBehaviour
             // Il proiettile viene distrutto sempre, in ogni caso, dopo aver colpito l'asteroide
             Destroy(gameObject);
         }
+
+        // la collisione con il bosso è gestita in BossBase, quindi non è necessario aggiungere codice qui per quella situazione
+
     }
 }

@@ -69,13 +69,17 @@ public class Spaceship : MonoBehaviour
         transform.position = new Vector3(newX, newY, transform.position.z);
     }
 
+    /// <summary>
+    /// Il player perde vita se colpito da un asteroide o dal boss, e muore se la vita arriva a 0 (gestito da PlayerHealth)
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log($"Spaceship collided with {collision.gameObject.name}");
         // Ferma la nave in caso di collisione
         //spaceShipRigidbody2D.linearVelocity = Vector2.zero; 
 
-        if (collision.gameObject.CompareTag("Asteroid"))
+        if (collision.gameObject.CompareTag("Asteroid") || collision.gameObject.CompareTag("Boss"))
         {
             //if (OnDied != null)
             //    OnDied.Invoke(this, EventArgs.Empty);
@@ -86,9 +90,6 @@ public class Spaceship : MonoBehaviour
             {
                 playerHealth.TakeDamage(1);
             }
-
-            //Destroy(gameObject);
-            //GameManager.GetInstance().GameOver();
         }
     }
 

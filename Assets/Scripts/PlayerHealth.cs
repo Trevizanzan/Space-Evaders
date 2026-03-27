@@ -39,7 +39,14 @@ public class PlayerHealth : MonoBehaviour
             //Destroy(gameObject);
 
             // disabilita il player (invece di distruggerlo) per mostrare esplosione e suono
-            GetComponent<SpriteRenderer>().enabled = false;
+
+            // Disabilita TUTTI i SpriteRenderer (inclusi i child come il motore)
+            SpriteRenderer[] allSprites = GetComponentsInChildren<SpriteRenderer>();
+            foreach (var sr in allSprites)
+            {
+                sr.enabled = false;
+            }
+
             GetComponent<Collider2D>().enabled = false;
 
             GameManager.GetInstance().GameOver();

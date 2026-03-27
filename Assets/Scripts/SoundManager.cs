@@ -12,6 +12,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip asteroidExplodeClip;
     public AudioClip playerHitClip;
     public AudioClip gameOverClip;
+    public AudioClip bossDeadClip;
 
     void Awake()
     {
@@ -45,6 +46,20 @@ public class SoundManager : MonoBehaviour
     {
         PlayOneShot(gameOverClip, .7f);
     }
+
+    #region Boss
+
+    public void PlayBossDead()
+    {
+        PlayOneShot(bossDeadClip, 1f);
+    }
+
+    public void PlayBossHit()
+    {
+        PlayOneShot(playerHitClip, .25f);
+    }
+
+    #endregion
 
     private void PlayOneShot(AudioClip clip, float volume = 1f)
     {

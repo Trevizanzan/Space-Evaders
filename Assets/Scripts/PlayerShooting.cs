@@ -15,6 +15,9 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
+        // Il player non può sparare se il boss sta entrando
+        if (BossBase.IsBossEntering) return;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (Time.time - lastShootTime >= shootCooldown)
