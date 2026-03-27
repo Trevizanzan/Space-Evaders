@@ -179,11 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911866595ec0ac644af03e3544e23913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAngel
-  maxHealth: 20
-  moveSpeed: 1
+  maxHealth: 100
+  moveSpeed: 4
   explosionDiePrefab: {fileID: 5670646399192729188, guid: c776b2872c4679e4e8f72fbe60c24c1f, type: 3}
-  spawnSound: {fileID: 8300000, guid: b57285a16184fc742a088543f08bbc35, type: 3}
-  deathSound: {fileID: 8300000, guid: 6e4e3b0420803244c968d2be81c19c7b, type: 3}
-  patrolWidth: 7
-  shootInterval: 1
+  shootInterval: 0.75
   enemyBulletPrefab: {fileID: 2093506508120260160, guid: 8eb7cba3c948f594c86bc62e06db91ce, type: 3}
+  cameraEdgeOffset: 0.25
