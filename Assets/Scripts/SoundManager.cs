@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -12,7 +13,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip asteroidExplodeClip;
     public AudioClip playerHitClip;
     public AudioClip gameOverClip;
+    public AudioClip bossEntranceClip;
     public AudioClip bossDeadClip;
+
 
     void Awake()
     {
@@ -49,6 +52,11 @@ public class SoundManager : MonoBehaviour
 
     #region Boss
 
+    public void PlayBossEntrance(float duration = 0f)
+    {
+        PlayOneShot(bossEntranceClip, 1f, duration);
+    }
+
     public void PlayBossDead()
     {
         PlayOneShot(bossDeadClip, 1f);
@@ -61,9 +69,20 @@ public class SoundManager : MonoBehaviour
 
     #endregion
 
-    private void PlayOneShot(AudioClip clip, float volume = 1f)
+    private void PlayOneShot(AudioClip clip, float volume = 1f, float duration = 0f)
     {
         if (clip == null || sfxSource == null) return;
         sfxSource.PlayOneShot(clip, volume);
+
+        if (duration > 0)
+        {
+            StartCoroutine(StopSoundAfterDuration(duration));
+        }
+    }
+
+    private IEnumerator StopSoundAfterDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        sfxSource.Stop();
     }
 }

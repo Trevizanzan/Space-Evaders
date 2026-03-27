@@ -8,10 +8,6 @@ public abstract class BossBase : MonoBehaviour
     [SerializeField] protected float moveSpeed = 3f;
     [SerializeField] protected GameObject explosionDiePrefab;
 
-    [Header("Audio")]
-    [SerializeField] protected AudioClip spawnSound;
-    [SerializeField] protected AudioClip deathSound;
-
     public static bool IsBossEntering { get; private set; } = false;
     protected int currentHealth;
     protected bool isEntering = true;
@@ -22,9 +18,9 @@ public abstract class BossBase : MonoBehaviour
         currentHealth = maxHealth;
         StartCoroutine(EntranceRoutine());
 
-        // TODO: suono di spawn 
-        //if (spawnSound != null && SoundManager.Instance != null)
-        //    SoundManager.Instance.PlayOneShot(spawnSound, 1);
+        // Suono di spawn del boss
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlayBossEntrance(4f);
     }
 
     /// <summary>
@@ -84,9 +80,7 @@ public abstract class BossBase : MonoBehaviour
 
         // Suono quando il boss viene colpito
         if (SoundManager.Instance != null)
-        {
             SoundManager.Instance.PlayBossHit();
-        }
 
         // Feedback visivo (flash, shake, ecc.)
         OnDamageFeedback();
@@ -131,10 +125,9 @@ public abstract class BossBase : MonoBehaviour
         }
 
         // Suono di morte
-        if (deathSound != null && SoundManager.Instance != null)
-        {
+        if (SoundManager.Instance != null)
             SoundManager.Instance.PlayBossDead();
-        }
+        
 
         // Notifica DifficultyManager
         if (DifficultyManager.Instance != null)
