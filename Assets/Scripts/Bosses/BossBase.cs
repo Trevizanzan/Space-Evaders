@@ -16,6 +16,11 @@ public abstract class BossBase : MonoBehaviour
     protected virtual void Start()
     {
         currentHealth = maxHealth;
+
+        // Mostra la barra della vita
+        if (BossHealthBar.Instance != null)
+            BossHealthBar.Instance.ShowBar(maxHealth);
+
         StartCoroutine(EntranceRoutine());
 
         // Suono di spawn del boss
@@ -78,6 +83,12 @@ public abstract class BossBase : MonoBehaviour
         // Applica danno
         currentHealth -= amount;
 
+        // Aggiorna la barra della vita
+        if (BossHealthBar.Instance != null)
+        {
+            BossHealthBar.Instance.UpdateHealth(currentHealth);
+        }
+
         // Suono quando il boss viene colpito
         if (SoundManager.Instance != null)
             SoundManager.Instance.PlayBossHit();
@@ -108,6 +119,12 @@ public abstract class BossBase : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        // Nascondi la barra
+        if (BossHealthBar.Instance != null)
+        {
+            BossHealthBar.Instance.HideBar();
+        }
 
         // Posizione davanti al boss
         Vector3 explosionPos = new Vector3(transform.position.x, transform.position.y, -1f);
