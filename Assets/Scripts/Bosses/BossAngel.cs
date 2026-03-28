@@ -5,10 +5,10 @@ public class BossAngel : BossBase
 {
     [Header("BossAngel Specifics")]
     [SerializeField] private float shootIntervalMin = 0.25f;
-    [SerializeField] private float shootIntervalMax = 1.25f;
+    [SerializeField] private float shootIntervalMax = 0.8f;
     [SerializeField] private GameObject enemyBulletPrefab;
-    [SerializeField] private float cameraEdgeOffset = 1f;    // Distanza dal bordo camera (.5 è un quadrattino)
-    [SerializeField] private float centerY = -2f;   // Quanto scende (appena sopra il centro)
+    [SerializeField] private float cameraEdgeOffset = .25f;    // Distanza dal bordo camera (.5 è un quadrattino)
+    [SerializeField] private float centerY = -1f;   // Quanto scende (appena sopra il centro)
     [SerializeField] private float timeAtCenterMin = 2f;
     [SerializeField] private float timeAtCenterMax = 5f;
 
