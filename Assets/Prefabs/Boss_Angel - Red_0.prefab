@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911866595ec0ac644af03e3544e23913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAngel
-  maxHealth: 200
+  maxHealth: 20
   moveSpeed: 3
   explosionDiePrefab: {fileID: 5670646399192729188, guid: c776b2872c4679e4e8f72fbe60c24c1f, type: 3}
   shootIntervalMin: 0.25

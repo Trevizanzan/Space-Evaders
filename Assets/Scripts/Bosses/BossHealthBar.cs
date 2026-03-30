@@ -18,13 +18,10 @@ public class BossHealthBar : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("[HEALTH_BAR] Awake called");
-
         // Singleton
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("[HEALTH_BAR] Instance created!");
         }
         else
             Destroy(gameObject);
@@ -32,8 +29,6 @@ public class BossHealthBar : MonoBehaviour
         // Nascondi all'inizio
         if (healthBarContainer != null)
             healthBarContainer.SetActive(false);
-        else
-            Debug.LogError("[HEALTH_BAR] healthBarContainer NOT ASSIGNED!");
     }
 
     void Update()
@@ -50,8 +45,6 @@ public class BossHealthBar : MonoBehaviour
     /// </summary>
     public void ShowBar(int maxHP)
     {
-        Debug.Log($"[HEALTH_BAR] ShowBar called with maxHP={maxHP}");
-
         maxHealth = maxHP;
         currentHealth = maxHP;
         targetFillAmount = 1f;
@@ -59,15 +52,10 @@ public class BossHealthBar : MonoBehaviour
         if (fillImage != null)
         {
             fillImage.fillAmount = 1f;
-            Debug.Log($"[HEALTH_BAR] fillImage.fillAmount set to 1.0");
         }
-        else
-            Debug.LogError("[HEALTH_BAR] fillImage NOT ASSIGNED!");
 
         if (healthBarContainer != null)
             healthBarContainer.SetActive(true);
-        else
-            Debug.LogError("[HEALTH_BAR] healthBarContainer is null!");
     }
 
     /// <summary>
@@ -75,15 +63,11 @@ public class BossHealthBar : MonoBehaviour
     /// </summary>
     public void UpdateHealth(int currentHP)
     {
-        Debug.Log($"[HEALTH_BAR] UpdateHealth called: {currentHP}/{maxHealth}");
-
         currentHealth = currentHP;
         targetFillAmount = (float)currentHealth / maxHealth;
 
         // Clamp tra 0 e 1
         targetFillAmount = Mathf.Clamp01(targetFillAmount);
-
-        Debug.Log($"[HEALTH_BAR] targetFillAmount set to {targetFillAmount}");
     }
 
     /// <summary>
@@ -91,8 +75,6 @@ public class BossHealthBar : MonoBehaviour
     /// </summary>
     public void HideBar()
     {
-        Debug.Log("[HEALTH_BAR] HideBar called");
-
         if (healthBarContainer != null)
             healthBarContainer.SetActive(false);
     }
