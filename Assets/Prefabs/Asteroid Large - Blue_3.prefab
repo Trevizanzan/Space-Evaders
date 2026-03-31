@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6586960302130138059}
   - component: {fileID: 7134512780071084295}
   - component: {fileID: 3083437077788067950}
-  - component: {fileID: 588274007455459084}
+  - component: {fileID: 3293707535698794416}
   - component: {fileID: -8229142857380511677}
   - component: {fileID: -4742545588063804035}
   m_Layer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1933450810738102250}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.9547768, y: -1.9238102, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -122,8 +122,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &588274007455459084
-CircleCollider2D:
+--- !u!60 &3293707535698794416
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,7 +157,31 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1.1
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.46875, y: 2.5}
+    newSize: {x: 0.79, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.0069714, y: 0.59560895}
+      - {x: 0.52971125, y: 1.0908175}
+      - {x: -0.2902243, y: 1.0225961}
+      - {x: -0.54492164, y: 0.7588848}
+      - {x: -0.89248407, y: 0.41926277}
+      - {x: -1.0827723, y: 0.11634612}
+      - {x: -0.99939084, y: -0.72153854}
+      - {x: -0.5287819, y: -1.1211381}
+      - {x: 0.38197112, y: -1.1362977}
+      - {x: 0.60739875, y: -0.7730584}
+      - {x: 0.8539016, y: -0.6364329}
+      - {x: 0.90471196, y: -0.19479156}
+      - {x: 1.0600319, y: -0.09374976}
+  m_UseDelaunayMesh: 1
 --- !u!114 &-8229142857380511677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e6504de82ab78488a6d1edb0c23c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidMovement
-  fallSpeed: 8
+  defalutFallSpeed: 3
 --- !u!114 &-4742545588063804035
 MonoBehaviour:
   m_ObjectHideFlags: 0

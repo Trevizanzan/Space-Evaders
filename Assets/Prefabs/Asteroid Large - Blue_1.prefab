@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6342991118519517000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50, y: 0, z: 0}
+  m_LocalPosition: {x: 2.8964682, y: -2.0392623, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -156,8 +156,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.77
+  m_Offset: {x: 0.00000011920929, y: -0.02037263}
+  m_Radius: 0.7147027
 --- !u!114 &7320617667310872399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e6504de82ab78488a6d1edb0c23c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidMovement
-  fallSpeed: 8
+  defalutFallSpeed: 3
 --- !u!114 &-1131783773265045579
 MonoBehaviour:
   m_ObjectHideFlags: 0

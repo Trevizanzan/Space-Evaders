@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2786028633228396543}
   - component: {fileID: 1453943650981789665}
   - component: {fileID: 8162468036299702790}
-  - component: {fileID: 5574747548623539750}
+  - component: {fileID: 1979504973666688182}
   - component: {fileID: -4023730859778279105}
   - component: {fileID: 9195123081901347944}
   m_Layer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1557415453779876514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50, y: 0, z: 0}
+  m_LocalPosition: {x: 3.0565388, y: -1.9781442, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -122,8 +122,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5574747548623539750
-CircleCollider2D:
+--- !u!60 &1979504973666688182
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -156,8 +156,36 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.3, y: -0.03}
-  m_Radius: 1.06
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.75, y: 2.5}
+    newSize: {x: 0.79, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.49706745, y: 1.1362981}
+      - {x: 0.28418303, y: 1.0908173}
+      - {x: -0.29626608, y: 0.7509295}
+      - {x: -0.45243096, y: 0.44955587}
+      - {x: -0.737484, y: 0.26330125}
+      - {x: -1.0338942, y: -0.11556077}
+      - {x: -1.1930767, y: -0.28961563}
+      - {x: -1.0356977, y: -0.60074115}
+      - {x: -0.7166023, y: -0.72711587}
+      - {x: -0.08323717, y: -0.92884636}
+      - {x: 0.2605126, y: -0.9619551}
+      - {x: 0.5557053, y: -1.0908172}
+      - {x: 1.0793753, y: -0.7414906}
+      - {x: 1.2327507, y: -0.30982733}
+      - {x: 1.2113993, y: 0.113463044}
+      - {x: 1.0566344, y: 0.3285898}
+      - {x: 1.0462666, y: 0.65717936}
+  m_UseDelaunayMesh: 1
 --- !u!114 &-4023730859778279105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e6504de82ab78488a6d1edb0c23c65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidMovement
-  fallSpeed: 8
+  defalutFallSpeed: 3
 --- !u!114 &9195123081901347944
 MonoBehaviour:
   m_ObjectHideFlags: 0
