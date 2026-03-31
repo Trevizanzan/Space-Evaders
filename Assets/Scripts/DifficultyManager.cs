@@ -284,6 +284,9 @@ public class DifficultyManager : MonoBehaviour
     /// </summary>
     public int GetCurrentPhase()
     {
+        // FOR DEBUG:
+        //return 3;
+
         if (progress < 0.33f) return 1; // Fase 1: 0-20s
         if (progress < 0.66f) return 2; // Fase 2: 20-40s
         return 3;                       // Fase 3: 40-60s
