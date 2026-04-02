@@ -679,20 +679,19 @@ public class DifficultyManager : MonoBehaviour
         // Aggiorna barra di progresso
         waveProgressBarFill.fillAmount = progress;
 
-        // Cambia colore in base al progresso (verde → giallo → rosso)
-        Color barColor;
-        if (progress < 0.5f)
-        {
-            // 0% - 50%: Verde → Giallo
-            barColor = Color.Lerp(barColorStart, barColorMid, progress * 2f);
-        }
-        else
-        {
-            // 50% - 100%: Giallo → Rosso
-            barColor = Color.Lerp(barColorMid, barColorEnd, (progress - 0.5f) * 2f);
-        }
-
-        waveProgressBarFill.color = barColor;
+        //// Cambia colore in base al progresso (verde → giallo → rosso)
+        //Color barColor;
+        //if (progress < 0.5f)
+        //{
+        //    // 0% - 50%: Verde → Giallo
+        //    barColor = Color.Lerp(barColorStart, barColorMid, progress * 2f);
+        //}
+        //else
+        //{
+        //    // 50% - 100%: Giallo → Rosso
+        //    barColor = Color.Lerp(barColorMid, barColorEnd, (progress - 0.5f) * 2f);
+        //}
+        //waveProgressBarFill.color = barColor;
     }
 
     /// <summary>
@@ -753,8 +752,6 @@ public class DifficultyManager : MonoBehaviour
     // Gestisce la transizione al boss: notifica, ferma spawn asteroidi, aspetta, spawna boss, attiva modalità boss fight
     IEnumerator BossTransition()
     {
-        Debug.Log($"[DifficultyManager] BossTransition iniziato - bossIndex={bossIndex}");
-
         isInTransition = true;
         OnLevelComplete?.Invoke();
 
@@ -771,25 +768,14 @@ public class DifficultyManager : MonoBehaviour
         // Spawna il boss corrente con posizione e rotazione corrette
         if (bossIndex < bossPrefabs.Length && bossPrefabs[bossIndex] != null)
         {
-            Debug.Log($"[DifficultyManager] Spawnando boss {bossIndex}: {bossPrefabs[bossIndex].name}");
-
             float cameraTop = Camera.main.orthographicSize;
             Vector3 spawnPos = new Vector3(0, cameraTop + 1f, 0);
             GameObject bossInstance = Instantiate(bossPrefabs[bossIndex], spawnPos, bossPrefabs[bossIndex].transform.rotation);
-
-            Debug.Log($"[DifficultyManager] Boss istanziato: {bossInstance.name}");
-        }
-        else
-        {
-            Debug.LogError($"[DifficultyManager] Boss {bossIndex} non trovato! Array length: {bossPrefabs.Length}");
         }
 
         // Attiva il boss fight mode
         isBossFight = true;
         isInTransition = false;
-
-        Debug.Log("[DifficultyManager] Boss fight mode attivato");
-
     }
 
     public void OnBossDefeated()
@@ -859,13 +845,10 @@ public class DifficultyManager : MonoBehaviour
         // Spawna il primo boss (o quello che vuoi testare) con posizione e rotazione corretta
         if (bossPrefabs.Length > 0 && bossPrefabs[debugBossIndex] != null)
         {
-            Debug.Log($"[DEBUG] Spawning boss {debugBossIndex} for testing");
             float cameraTop = Camera.main.orthographicSize;
             Vector3 spawnPos = new Vector3(0, cameraTop + 1f, 0);
             Instantiate(bossPrefabs[bossIndex], spawnPos, bossPrefabs[bossIndex].transform.rotation);   // mantengo rotazione del prefab
         }
-        else
-            Debug.LogWarning("[DEBUG] No boss prefab assigned!");
 
         // Attiva il boss fight mode
         isBossFight = true;
@@ -873,8 +856,6 @@ public class DifficultyManager : MonoBehaviour
         //// Opzionale: nascondi il pannello di level complete se è attivo
         //if (levelCompletePanel != null)
         //    levelCompletePanel.SetActive(false);
-        //else
-        //    Debug.LogWarning("[DEBUG] No level complete panel assigned!");
     }
 
     #endregion
