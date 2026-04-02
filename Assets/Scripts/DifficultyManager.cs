@@ -789,8 +789,6 @@ public class DifficultyManager : MonoBehaviour
         //if (waveText != null) waveText.gameObject.SetActive(true);
         //if (waveNameText != null) waveNameText.gameObject.SetActive(true);
         //if (waveProgressBarFill != null) waveProgressBarFill.transform.parent.gameObject.SetActive(true);
-        // ⭐ Switch da Boss UI a Wave UI
-        ShowWaveUI();
 
         // TODO: game finale??
         // Se hai battuto tutti e 6 i boss, ricomincia loop con difficoltà aumentata
@@ -812,13 +810,37 @@ public class DifficultyManager : MonoBehaviour
         // EnemySpawner enemySpawner = FindFirstObjectByType<EnemySpawner>();
         // if (enemySpawner != null) enemySpawner.enabled = true;
 
-        StartCoroutine(WaveStartDelay()); // normale transizione
+        // Transizione ritardata con UI Wave che appare dopo
+        StartCoroutine(BossDefeatedTransition()); // normale transizione
     }
 
-    IEnumerator WaveStartDelay()
+    IEnumerator BossDefeatedTransition()
     {
         isInTransition = true;
-        yield return new WaitForSeconds(3f); // Breve pausa prima di ricominciare
+
+        // Forza la barra boss a 0 (animazione morte)
+        if (bossHealthBarFill != null)
+        {
+            float duration = 0.2f;
+            float elapsed = 0f;
+            float startFill = bossHealthBarFill.fillAmount;
+
+            while (elapsed < duration)
+            {
+                bossHealthBarFill.fillAmount = Mathf.Lerp(startFill, 0f, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            bossHealthBarFill.fillAmount = 0f; // Assicura che arrivi esattamente a 0
+        }
+
+        // Aspetta qualche secondo prima di mostrare la wave bar
+        yield return new WaitForSeconds(3f); 
+
+        // Mostra Wave UI con il numero corretto (totalBossesDefeated è già aggiornato)
+        ShowWaveUI();
+
         isInTransition = false;
     }
 
