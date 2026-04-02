@@ -637,17 +637,11 @@ public class DifficultyManager : MonoBehaviour
             Debug.LogError("[DifficultyManager] BossInfoGroup è NULL!");
         }
 
-
         // Reset barra boss
         if (bossHealthBarFill != null)
         {
             bossHealthBarFill.fillAmount = 1f;
             bossHealthBarFill.color = new Color(1f, 0.2f, 0.2f);
-            Debug.Log("[DifficultyManager] Barra boss settata a piena");
-        }
-        else
-        {
-            Debug.LogError("[DifficultyManager] BossHealthBarFill è NULL!");
         }
     }
     IEnumerator FadeOutWaveBar()
@@ -710,13 +704,13 @@ public class DifficultyManager : MonoBehaviour
         {
             bossHealthBarFill.fillAmount = fillAmount;
 
-            // Cambia colore in base alla vita
-            if (fillAmount > 0.5f)
-                bossHealthBarFill.color = new Color(1f, 0.2f, 0.2f); // Rosso
-            else if (fillAmount > 0.25f)
-                bossHealthBarFill.color = new Color(1f, 0.5f, 0f); // Arancione
-            else
-                bossHealthBarFill.color = new Color(1f, 1f, 0f); // Giallo (critico)
+            //// Cambia colore in base alla vita
+            //if (fillAmount > 0.5f)
+            //    bossHealthBarFill.color = new Color(1f, 0.2f, 0.2f); // Rosso
+            //else if (fillAmount > 0.25f)
+            //    bossHealthBarFill.color = new Color(1f, 0.5f, 0f); // Arancione
+            //else
+            //    bossHealthBarFill.color = new Color(1f, 1f, 0f); // Giallo (critico)
         }
     }
 
