@@ -33,9 +33,7 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        //UpdateLevelUI();
         // Ora la wave UI è gestita da DifficultyManager.UpdateWaveUI()
-
     }
 
     public void AddScore(int amount)
