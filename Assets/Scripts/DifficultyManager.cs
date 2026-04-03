@@ -106,11 +106,6 @@ public class DifficultyManager : MonoBehaviour
     //public GameObject levelCompletePanel;
     //public TMP_Text levelCompleteCountdown;
 
-    //[Header("Difficulty Curves (0 = inizio, 1 = fine livello)")]
-    //[SerializeField] private AnimationCurve spawnRateCurve = AnimationCurve.Linear(0, 1.5f, 1, 0.4f);
-    //[SerializeField] private AnimationCurve fallSpeedCurve = AnimationCurve.Linear(0, 4f, 1, 8f);
-    //[SerializeField] private AnimationCurve asteroidHealthMultiplier = AnimationCurve.Constant(0, 1, 1f);
-
     private int currentLevel = 1;
     //private float levelTime = 0f;
     public System.Action OnLevelComplete; // evento per notificare altri sistemi (es. UI) quando un livello è completato
@@ -170,19 +165,6 @@ public class DifficultyManager : MonoBehaviour
 
             waveProgressBarFill.color = barColorGold; // Lascia oro
         }
-
-        //if (levelCompletePanel != null)
-        //    levelCompletePanel.SetActive(true);
-
-        //for (int i = 3; i > 0; i--)
-        //{
-        //    if (levelCompleteCountdown != null)
-        //        levelCompleteCountdown.text = $"⭐ WAVE COMPLETE! ⭐\nBoss incoming in {i}...";
-        //    yield return new WaitForSeconds(1f);
-        //}
-
-        //if (levelCompletePanel != null)
-        //    levelCompletePanel.SetActive(false);
     }
 
     // Inizializza wave profiles di default (chiamato una volta)
@@ -898,12 +880,12 @@ public class DifficultyManager : MonoBehaviour
         return 3;                       // Fase 3: 40-60s
     }
 
-    public float GetProgress() => progress;
-    public float GetWaveTime() => waveTime;
-    public bool IsInTransition() => isInTransition;
-    public int GetTotalBossesDefeated() => totalBossesDefeated;
-    public float GetGlobalMultiplier() => globalDifficultyMultiplier;
-    public int GetCurrentLevel() => currentLevel;
+    //public float GetProgress() => progress;
+    //public float GetWaveTime() => waveTime;
+    //public bool IsInTransition() => isInTransition;
+    //public int GetTotalBossesDefeated() => totalBossesDefeated;
+    //public float GetGlobalMultiplier() => globalDifficultyMultiplier;
+    //public int GetCurrentLevel() => currentLevel;
 
     #endregion
 }
