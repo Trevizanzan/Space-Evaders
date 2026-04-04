@@ -440,15 +440,15 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.31015304, y: 0.44308037}
-      - {x: -0.30454692, y: -0.45934376}
-      - {x: -0.18779948, y: -0.45645732}
-      - {x: 0.06037423, y: -0.21387456}
-      - {x: 0.3879423, y: -0.09131214}
-      - {x: 0.39339855, y: -0.00415986}
-      - {x: 0.38981748, y: 0.08457037}
-      - {x: 0.054354925, y: 0.22173332}
-      - {x: -0.17292833, y: 0.45053762}
+    - - {x: -0.2980898, y: 0.21086392}
+      - {x: -0.29851538, y: -0.21204829}
+      - {x: -0.16367294, y: -0.21820937}
+      - {x: 0.012691004, y: -0.16171513}
+      - {x: 0.2126899, y: -0.10153515}
+      - {x: 0.35688785, y: 0.0002214429}
+      - {x: 0.21602537, y: 0.10939787}
+      - {x: 0.018165365, y: 0.17348051}
+      - {x: -0.11562804, y: 0.21832116}
   m_UseDelaunayMesh: 1
 --- !u!1 &114123442
 GameObject:
@@ -2351,11 +2351,12 @@ MonoBehaviour:
   - {fileID: 3359056063305447441, guid: bb1df13e08595ea49b9dd6ce9f1e2a58, type: 3}
   kamikazePrefabs:
   - {fileID: 6169655311992338039, guid: e4d9f1cfee031194b805e0a26bd00570, type: 3}
-  bomberPrefabs: []
+  bomberPrefabs:
+  - {fileID: 4071098312061028186, guid: b45e6a97d89556641bb3164a090bf1c9, type: 3}
   debugEnemyOnly: 1
   debugFighterOnly: 0
-  debugKamikazeOnly: 1
-  debugBomberOnly: 0
+  debugKamikazeOnly: 0
+  debugBomberOnly: 1
   debugSpawnInterval: 2
 --- !u!4 &1145615753
 Transform:
