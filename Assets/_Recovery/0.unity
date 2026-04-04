@@ -2342,7 +2342,7 @@ MonoBehaviour:
   baseKamikazeInterval: 6
   baseBomberInterval: 12
   topSpawnMargin: 0.5
-  sideSpawnMargin: 0.5
+  sideSpawnMargin: 1.5
   topHorizontalInset: 1
   sideVerticalInset: 1
   minSpawnDistance: 2
@@ -2356,7 +2356,7 @@ MonoBehaviour:
   debugFighterOnly: 0
   debugKamikazeOnly: 1
   debugBomberOnly: 0
-  debugSpawnInterval: 2.5
+  debugSpawnInterval: 1
 --- !u!4 &1145615753
 Transform:
   m_ObjectHideFlags: 0

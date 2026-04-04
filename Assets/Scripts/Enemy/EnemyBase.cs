@@ -4,7 +4,7 @@ public abstract class EnemyBase : MonoBehaviour
 {
     [Header("Base Stats")]
     [SerializeField] protected int maxHealth = 2;
-    [SerializeField] protected float moveSpeed = 3f;
+    //[SerializeField] protected float moveSpeed = 3f;
     [SerializeField] protected int scoreValue = 100;
     [SerializeField] protected int damageToPlayer = 1;
 

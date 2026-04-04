@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Spawn Range Settings")]
     [SerializeField] private float topSpawnMargin = .5f;  // quanto sopra la camera
-    [SerializeField] private float sideSpawnMargin = .5f;  // quanto fuori dai lati
+    [SerializeField] private float sideSpawnMargin = 20.1f;  // quanto fuori dai lati
     [SerializeField] private float topHorizontalInset = 1f;    // rientra dai bordi sinistro/destro (top spawn)
     [SerializeField] private float sideVerticalInset = 1f;    // rientra dal bordo superiore (side spawn)
     [SerializeField] private float minSpawnDistance = 2f;    // distanza minima tra spawn consecutivi (stessa fascia)

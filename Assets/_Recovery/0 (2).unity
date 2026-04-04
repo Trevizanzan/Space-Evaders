@@ -2349,12 +2349,11 @@ MonoBehaviour:
   maxRetries: 10
   fighterPrefabs:
   - {fileID: 3359056063305447441, guid: bb1df13e08595ea49b9dd6ce9f1e2a58, type: 3}
-  kamikazePrefabs:
-  - {fileID: 6169655311992338039, guid: e4d9f1cfee031194b805e0a26bd00570, type: 3}
+  kamikazePrefabs: []
   bomberPrefabs: []
   debugEnemyOnly: 1
-  debugFighterOnly: 0
-  debugKamikazeOnly: 1
+  debugFighterOnly: 1
+  debugKamikazeOnly: 0
   debugBomberOnly: 0
   debugSpawnInterval: 2.5
 --- !u!4 &1145615753
