@@ -106,7 +106,6 @@ public class DifficultyManager : MonoBehaviour
     //public GameObject levelCompletePanel;
     //public TMP_Text levelCompleteCountdown;
 
-    private int currentLevel = 1;
     //private float levelTime = 0f;
     public System.Action OnLevelComplete; // evento per notificare altri sistemi (es. UI) quando un livello è completato
 
@@ -178,7 +177,7 @@ public class DifficultyManager : MonoBehaviour
         waveProfiles[0] = new WaveProfile
         {
             waveName = "Wave 1 - Asteroid Field",
-            waveDuration = 5f,
+            waveDuration = 30f,
             phase1 = new PhaseConfig
             {
                 // Solo asteroidi normali, lenti, mix di dimensioni
@@ -187,8 +186,8 @@ public class DifficultyManager : MonoBehaviour
                 spawnHorizontal = false,
                 normalSpawnMultiplier = 0.8f, // Spawn più lento del base
                 speedMultiplier = 0.7f, // 70% velocità base
-                healthMultiplier = 1f,
-                asteroidSizeFocus = 0, // Mix di tutte le dimensioni
+                healthMultiplier = 1f,  // gli asteroidi hanno vita normale
+                asteroidSizeFocus = 1, // Mix di tutte le dimensioni
                 allowFighters = false,
                 allowKamikazes = false,
                 allowBombers = false
@@ -202,7 +201,7 @@ public class DifficultyManager : MonoBehaviour
                 normalSpawnMultiplier = 1f, // Velocità normale
                 speedMultiplier = 0.85f,
                 healthMultiplier = 1f,
-                asteroidSizeFocus = 1, // Solo piccoli per ora
+                asteroidSizeFocus = 0, // mix di tutte le dimensioni
                 allowFighters = false,
                 allowKamikazes = false,
                 allowBombers = false
@@ -216,24 +215,24 @@ public class DifficultyManager : MonoBehaviour
                 normalSpawnMultiplier = 1.2f,
                 speedMultiplier = 1f, // Velocità standard
                 healthMultiplier = 1f,
-                asteroidSizeFocus = 0, // Ritorna a mix
+                asteroidSizeFocus = 0, 
                 allowFighters = false,
                 allowKamikazes = false,
                 allowBombers = false
             }
         };
         // ═══════════════════════════════════════════════════════════════════════
-        // WAVE 2 - "DIAGONAL ASSAULT" - Introduzione spawn diagonali
+        // WAVE 2 - "DIAGONAL ASSAULT" - Introduzione spawn diagonali - intrduce il Fight
         // ═══════════════════════════════════════════════════════════════════════
         waveProfiles[1] = new WaveProfile
         {
             waveName = "Wave 2 - Diagonal Assault",
-            waveDuration = 15f,
+            waveDuration = 40f,
             phase1 = new PhaseConfig
             {
-                // Solo normali, ma più veloci di wave 1
+                // INTRODUZIONE DIAGONALI - primo contatto
                 spawnNormal = true,
-                spawnDiagonal = false,
+                spawnDiagonal = true,   // novità!
                 spawnHorizontal = false,
                 normalSpawnMultiplier = 1f,
                 speedMultiplier = 0.9f,
@@ -245,32 +244,31 @@ public class DifficultyManager : MonoBehaviour
             },
             phase2 = new PhaseConfig
             {
-                // INTRODUZIONE DIAGONALI - primo contatto
+                // Introduzione Fighter
                 spawnNormal = true,
-                spawnDiagonal = true, // NOVITÀ!
+                spawnDiagonal = true, 
                 spawnHorizontal = false,
                 normalSpawnMultiplier = 1f,
-                diagonalSpawnMultiplier = 0.7f, // Spawn lento per imparare
+                diagonalSpawnMultiplier = 0.9f, // Spawn rate diagonali più alto per aumentare pressione
                 speedMultiplier = 0.95f,
                 healthMultiplier = 1f,
                 asteroidSizeFocus = 0,
-                allowFighters = false,
+                allowFighters = true,   // FIGHTERS UNLOCKED!
                 allowKamikazes = false,
                 allowBombers = false
             },
             phase3 = new PhaseConfig
             {
-                // Mix normale + diagonale intenso
                 spawnNormal = true,
                 spawnDiagonal = true,
                 spawnHorizontal = false,
-                normalSpawnMultiplier = 1.1f,
+                normalSpawnMultiplier = 1.1f,   // Aumenta spawn rate normali per bilanciare l'introduzione dei diagonali
                 diagonalSpawnMultiplier = 1f,
                 speedMultiplier = 1.1f,
                 healthMultiplier = 1f,
-                asteroidSizeFocus = 2, // Solo medi per aumentare sfida
-                allowFighters = false,
-                allowKamikazes = false,
+                asteroidSizeFocus = 0,  //2, // Solo medi per aumentare sfida
+                allowFighters = true,   
+                allowKamikazes = false, // fighter + diagonali
                 allowBombers = false
             }
         };
@@ -557,7 +555,7 @@ public class DifficultyManager : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.IsGameOver()) return;
         if (isInTransition) return;
         if (isBossFight) return;
-        if (EnemySpawner.IsDebugMode) return; // ← blocca tutto: wave timer, boss transition, ship transition
+        if (EnemySpawner.IsDebugMode || AsteroidSpawner.IsDebugMode) return; // ← blocca tutto: wave timer, boss transition, ship transition
 
         waveTime += Time.deltaTime;
 

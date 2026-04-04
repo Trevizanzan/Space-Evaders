@@ -37,6 +37,13 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] private float topOffset = 2f;
     [SerializeField] private float spawnYVariation = 5f; // Variazione casuale Y per spawn normali
 
+    [Header("Debug")]
+    [SerializeField] private bool debugAsteroidOnly = false; // disabilita nemici, spawna solo asteroidi
+    [SerializeField] private bool debugNormalOnly = false;
+    [SerializeField] private bool debugDiagonalOnly = false;
+    [SerializeField] private bool debugHorizontalOnly = false;
+    [SerializeField] private float debugSpawnInterval = 2f;
+
     private DifficultyManager difficultyManager;
 
     //[Header("Spawn Settings")]
@@ -48,6 +55,20 @@ public class AsteroidSpawner : MonoBehaviour
     private float spawnY;    // TODO: aumentarlo di un offset per evitare spawn troppo vicini alla camera (grandezza asteroide)
     private float cameraWidth;
     private float cameraHeight;
+
+    // Aggiungi questi campi
+    private float leftSpawnX;
+    private float rightSpawnX;
+    private float sideSpawnMinY;
+    private float sideSpawnMaxY;
+
+    public static AsteroidSpawner Instance { get; private set; }
+    public static bool IsDebugMode => Instance != null && Instance.debugAsteroidOnly;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     void Start()
     {
@@ -67,11 +88,25 @@ public class AsteroidSpawner : MonoBehaviour
         spawnY = topRight.y + topOffset;
         cameraHeight = Camera.main.orthographicSize;
         cameraWidth = cameraHeight * Camera.main.aspect;
+
+        // Calcola i range di spawn laterali basati sulla posizione centrale della camera
+        float camCenter = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, camDistance)).y;
+
+        leftSpawnX = bottomLeft.x - 1f;   // appena fuori dal bordo sinistro
+        rightSpawnX = -(bottomLeft.x - 1f); // appena fuori dal bordo destro
+        sideSpawnMinY = camCenter + 1f;            // dalla metà camera in su
+        sideSpawnMaxY = spawnY + 5f;      // fino a 3 unità sopra il bordo superiore
     }
 
     void Update()
     {
         if (difficultyManager == null) return;
+
+        if (debugAsteroidOnly)
+        {
+            UpdateDebug();
+            return;
+        }
 
         WaveProfile currentWave = difficultyManager.GetCurrentWaveProfile();
         PhaseConfig currentPhase = currentWave.GetPhaseConfig(difficultyManager.GetCurrentPhase());
@@ -91,6 +126,32 @@ public class AsteroidSpawner : MonoBehaviour
         {
             HandleHorizontalSpawn(currentPhase);
         }
+    }
+
+    // ======================== DEBUG ========================
+
+    private float debugTimer;
+
+    void UpdateDebug()
+    {
+        debugTimer += Time.deltaTime;
+        if (debugTimer < debugSpawnInterval) return;
+        debugTimer = 0f;
+
+        // Crea una PhaseConfig fittizia con tutti i moltiplicatori a 1
+        PhaseConfig debugPhase = new PhaseConfig
+        {
+            speedMultiplier = 1f,
+            healthMultiplier = 1f,
+            asteroidSizeFocus = 0,
+            normalSpawnMultiplier = 1f,
+            diagonalSpawnMultiplier = 1f,
+            horizontalSpawnMultiplier = 1f
+        };
+
+        if (debugNormalOnly) SpawnNormalAsteroid(debugPhase);
+        if (debugDiagonalOnly) SpawnDiagonalAsteroid(debugPhase);
+        if (debugHorizontalOnly) SpawnHorizontalAsteroid(debugPhase);
     }
 
     // ======================== SPAWN NORMALI (VERTICALI) ========================
@@ -141,7 +202,12 @@ public class AsteroidSpawner : MonoBehaviour
         // 50% spawn da sinistra, 50% da destra
         bool spawnFromLeft = Random.value > 0.5f;
         Transform[] spawnPoints = spawnFromLeft ? leftSpawnPoints : rightSpawnPoints;
-        Vector3 spawnPosition = GetSpawnPosition(spawnPoints, 0, 0, 0);
+
+        // (spawn fuori dai bordi laterali)
+        float spawnX = spawnFromLeft ? leftSpawnX : rightSpawnX;
+        float spawnY = Random.Range(sideSpawnMinY, sideSpawnMaxY);
+        Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0f);
+        
         GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);
         // Direzione diagonale: da sinistra → giù-destra, da destra → giù-sinistra
         Rigidbody2D rb = asteroid.GetComponent<Rigidbody2D>();
@@ -170,7 +236,12 @@ public class AsteroidSpawner : MonoBehaviour
         if (asteroidPrefab == null) return;
         bool spawnFromLeft = Random.value > 0.5f;
         Transform[] spawnPoints = spawnFromLeft ? leftSpawnPoints : rightSpawnPoints;
-        Vector3 spawnPosition = GetSpawnPosition(spawnPoints, 0, 0, 0);
+
+        // (spawn fuori dai bordi laterali)
+        float spawnX = spawnFromLeft ? leftSpawnX : rightSpawnX;
+        float spawnY = Random.Range(sideSpawnMinY, sideSpawnMaxY);
+        Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0f);
+
         GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);
         // Movimento orizzontale puro
         Rigidbody2D rb = asteroid.GetComponent<Rigidbody2D>();

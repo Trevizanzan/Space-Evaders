@@ -328,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 74886319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -1.5, y: -2.48, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2193,6 +2193,11 @@ MonoBehaviour:
   horizontalOffset: 1
   topOffset: 2
   spawnYVariation: 5
+  debugAsteroidOnly: 1
+  debugNormalOnly: 0
+  debugDiagonalOnly: 1
+  debugHorizontalOnly: 0
+  debugSpawnInterval: 0.2
 --- !u!4 &1052158367
 Transform:
   m_ObjectHideFlags: 0
@@ -2353,10 +2358,10 @@ MonoBehaviour:
   - {fileID: 6169655311992338039, guid: e4d9f1cfee031194b805e0a26bd00570, type: 3}
   bomberPrefabs:
   - {fileID: 4071098312061028186, guid: b45e6a97d89556641bb3164a090bf1c9, type: 3}
-  debugEnemyOnly: 1
+  debugEnemyOnly: 0
   debugFighterOnly: 0
   debugKamikazeOnly: 0
-  debugBomberOnly: 1
+  debugBomberOnly: 0
   debugSpawnInterval: 2
 --- !u!4 &1145615753
 Transform:
@@ -4706,6 +4711,7 @@ SceneRoots:
   - {fileID: 1125841084}
   - {fileID: 1060262998}
   - {fileID: 74886324}
+  - {fileID: 187418848}
   - {fileID: 1052158367}
   - {fileID: 1145615753}
   - {fileID: 1957841473}
@@ -4713,5 +4719,4 @@ SceneRoots:
   - {fileID: 1498926281}
   - {fileID: 1712983331}
   - {fileID: 804611731}
-  - {fileID: 187418848}
   - {fileID: 618220924}
