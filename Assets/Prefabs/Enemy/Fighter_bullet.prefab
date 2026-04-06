@@ -179,6 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba6850295aa5dd4ca58a7b8b799f05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBullet
-  speed: 6
+  speed: 18
   damage: 1
   lifetime: 4

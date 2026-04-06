@@ -204,8 +204,8 @@ Transform:
   m_GameObject: {fileID: 58584994}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 1.76, y: -1.17, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 7.1, y: -1.17, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -2452,8 +2452,8 @@ MonoBehaviour:
   - {fileID: 6169655311992338039, guid: e4d9f1cfee031194b805e0a26bd00570, type: 3}
   bomberPrefabs:
   - {fileID: 4071098312061028186, guid: b45e6a97d89556641bb3164a090bf1c9, type: 3}
-  debugEnemyOnly: 0
-  debugFighterOnly: 0
+  debugEnemyOnly: 1
+  debugFighterOnly: 1
   debugKamikazeOnly: 0
   debugBomberOnly: 0
   debugSpawnInterval: 2

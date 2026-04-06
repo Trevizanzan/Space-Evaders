@@ -172,7 +172,7 @@ MonoBehaviour:
   maxHealth: 2
   scoreValue: 100
   damageToPlayer: 1
-  moveSpeed: 5
+  moveSpeed: 15
   rotationSpeed: 200
   accelerationTime: 1.5
   chargeDelay: 0.8

@@ -172,10 +172,10 @@ MonoBehaviour:
   maxHealth: 2
   scoreValue: 100
   damageToPlayer: 1
-  moveSpeed: 2
+  moveSpeed: 6
   patrolMinY: 3
   patrolMaxY: 4.5
-  verticalSpeed: 1
+  verticalSpeed: 3
   bombPrefab: {fileID: 8640828698436091449, guid: 817d53ad8101f35438f3aec52596478f, type: 3}
   bombIntervalMin: 1.5
   bombIntervalMax: 4

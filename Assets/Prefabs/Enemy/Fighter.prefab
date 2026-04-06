@@ -191,7 +191,7 @@ MonoBehaviour:
   maxHealth: 2
   scoreValue: 100
   damageToPlayer: 1
-  moveSpeed: 3
+  moveSpeed: 9
   diagonalAngle: 35
   sCurveFrequency: 0.5
   sCurveAmplitude: 2
