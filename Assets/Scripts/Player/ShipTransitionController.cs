@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ShipTransitionController : MonoBehaviour
 {
-    [SerializeField] private float exitSpeed = 8f;
-    [SerializeField] private float exitHeight = 15f; // altezza oltre la camera
+    [SerializeField] private float exitSpeed = 24f;
+    //[SerializeField] private float exitHeight = 15f; // altezza oltre la camera
 
     private Spaceship ship;
     private bool isTransitioning = false;
@@ -36,6 +36,10 @@ public class ShipTransitionController : MonoBehaviour
         ship.enabled = false;
         ship.GetComponent<Collider2D>().enabled = false;
 
+        // Calcola exitHeight dalla camera (20% sopra il bordo superiore)
+        float cameraTop = Camera.main.orthographicSize;
+        float exitHeight = cameraTop + (cameraTop * 0.2f);
+
         // Movimento verso l'alto
         Vector3 startPos = ship.transform.position;
         Vector3 targetPos = new Vector3(startPos.x, exitHeight, startPos.z);
@@ -53,7 +57,11 @@ public class ShipTransitionController : MonoBehaviour
         // Teletrasporta in basso per il prossimo livello
         yield return new WaitForSeconds(0.5f);
 
-        Vector3 entryPos = new Vector3(0f, -4f, startPos.z);
+        // Calcola entryPos dalla camera (30% dal basso)
+        float cameraBottom = -Camera.main.orthographicSize;
+        float entryY = cameraBottom + (Camera.main.orthographicSize * 0.3f);
+
+        Vector3 entryPos = new Vector3(0f, entryY, startPos.z);
         ship.transform.position = entryPos;
 
         // Riattiva controlli e collisioni

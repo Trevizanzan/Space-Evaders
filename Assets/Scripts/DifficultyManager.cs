@@ -750,7 +750,7 @@ public class DifficultyManager : MonoBehaviour
         if (bossIndex < bossPrefabs.Length && bossPrefabs[bossIndex] != null)
         {
             float cameraTop = Camera.main.orthographicSize;
-            Vector3 spawnPos = new Vector3(0, cameraTop + 1f, 0);
+            Vector3 spawnPos = new Vector3(0, cameraTop *1.1f, 0);
             GameObject bossInstance = Instantiate(bossPrefabs[bossIndex], spawnPos, bossPrefabs[bossIndex].transform.rotation);
         }
 
@@ -849,7 +849,7 @@ public class DifficultyManager : MonoBehaviour
         if (bossPrefabs.Length > 0 && bossPrefabs[debugBossIndex] != null)
         {
             float cameraTop = Camera.main.orthographicSize;
-            Vector3 spawnPos = new Vector3(0, cameraTop + 1f, 0);
+            Vector3 spawnPos = new Vector3(0, cameraTop *1.1f, 0);
             Instantiate(bossPrefabs[bossIndex], spawnPos, bossPrefabs[bossIndex].transform.rotation);   // mantengo rotazione del prefab
         }
 

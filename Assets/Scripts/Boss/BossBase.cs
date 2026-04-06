@@ -50,8 +50,8 @@ public abstract class BossBase : MonoBehaviour
         // Calcola posizioni dinamicamente in base alla camera
         float cameraTop = Camera.main.orthographicSize;
 
-        Vector3 startPos = new Vector3(0, cameraTop + 2f, 0); // Poco sopra la camera
-        Vector3 targetPos = new Vector3(0, cameraTop - 2f, 0); // Dentro la camera
+        Vector3 startPos = new Vector3(0, cameraTop * 1.15f, 0); // Poco sopra la camera
+        Vector3 targetPos = new Vector3(0, cameraTop * 0.85f, 0); // Dentro la camera
         //Debug.Log($"cameraTop={cameraTop}");
         //Debug.Log($"targetPos={targetPos}");
 
@@ -146,9 +146,11 @@ public abstract class BossBase : MonoBehaviour
         // Esplosione
         if (explosionDiePrefab != null && ExplosionManager.Instance != null)
         {
+            float offset = Camera.main.orthographicSize * 0.06f;
+
             ExplosionManager.Instance.SpawnBig(explosionPos, 2.5f);
-            ExplosionManager.Instance.SpawnBig(explosionPos + Vector3.right * 1f, 1f);
-            ExplosionManager.Instance.SpawnBig(explosionPos + Vector3.left * 1f, 1f);
+            ExplosionManager.Instance.SpawnBig(explosionPos + Vector3.right * offset, 1f);
+            ExplosionManager.Instance.SpawnBig(explosionPos + Vector3.left * offset, 1f);
         }
         else
         {

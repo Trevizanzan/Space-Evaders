@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BossBullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 8f;
+    [SerializeField] private float speed = 24f;
     [SerializeField] private int damage = 10;
     [SerializeField] private float lifetime = 4f; // Distruggi dopo 5 secondi se non colpisce nulla 
     // TODO: calcolare un limite di distanza dalla camera e distruggerlo se supera quel limite, invece di usare un timer, per evitare che i proiettili "fantasma" continuino a esistere fuori dalla vista del giocatore.

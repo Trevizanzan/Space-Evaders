@@ -42,7 +42,7 @@ public class BackgroundScroll : MonoBehaviour
 {
     public Transform backgroundTop;
     public Transform backgroundBottom;
-    public float scrollSpeed = 40f;
+    public float scrollSpeed = 120f;    // 40?
     [SerializeField] private float extraMargin = 1f; // margine anti-barre
 
     private float bgHeight;       // altezza completa dello sprite in world units

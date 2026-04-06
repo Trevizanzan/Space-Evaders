@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 8f;
+    [SerializeField] private float speed = 24f;
     [SerializeField] private int damage = 10;
     [SerializeField] private float lifetime = 4f; // Distruggi dopo 5 secondi se non colpisce nulla 
     // TODO: calcolare un limite di distanza dalla camera e distruggerlo se supera quel limite, invece di usare un timer, per evitare che i proiettili "fantasma" continuino a esistere fuori dalla vista del giocatore.
@@ -19,9 +19,9 @@ public class EnemyBullet : MonoBehaviour
         float camHeight = cam.orthographicSize;
         float camWidth = camHeight * cam.aspect;
 
-        destroyYBottom = -camHeight - 2f;
-        destroyYTop = camHeight + 2f;
-        destroyXLimit = camWidth + 2f;
+        destroyYBottom = -camHeight * 1.2f; // Distruggi quando è un po' sotto la camera
+        destroyYTop = camHeight * 1.2f; // Distruggi quando è un po' sopra la camera (per proiettili che potrebbero rimbalzare o essere sparati verso l'alto)
+        destroyXLimit = camWidth * 1.2f;    // Distruggi quando è un po' oltre i bordi laterali
     }
 
     private void Update()

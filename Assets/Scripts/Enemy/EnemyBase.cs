@@ -20,8 +20,8 @@ public abstract class EnemyBase : MonoBehaviour
 
         float camHeight = Camera.main.orthographicSize;
         float camWidth = camHeight * Camera.main.aspect;
-        destroyYBottom = -camHeight - .6f;
-        destroyXLimit = camWidth + 1f;
+        destroyYBottom = -camHeight * 1.1f;     // Distruggi quando è un po' sotto la camera
+        destroyXLimit = camWidth * 1.1f;    // Distruggi quando è un po' oltre i bordi laterali
     }
 
     protected virtual void Update()

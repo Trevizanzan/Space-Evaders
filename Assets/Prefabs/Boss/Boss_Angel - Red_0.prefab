@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 4.634248, y: -1.3084121, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAngel
   maxHealth: 5
-  moveSpeed: 3
+  moveSpeed: 9
   explosionDiePrefab: {fileID: 5670646399192729188, guid: c776b2872c4679e4e8f72fbe60c24c1f, type: 3}
   bossDisplayName: The Angel
   shootIntervalMin: 0.25

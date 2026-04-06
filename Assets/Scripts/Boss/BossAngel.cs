@@ -7,19 +7,24 @@ public class BossAngel : BossBase
     [SerializeField] private float shootIntervalMin = 0.25f;
     [SerializeField] private float shootIntervalMax = 0.8f;
     [SerializeField] private GameObject enemyBulletPrefab;
-    [SerializeField] private float cameraEdgeOffset = .25f;    // Distanza dal bordo camera (.5 è un quadrattino)
-    [SerializeField] private float topY = 5f; //  LIVELLO SUPERIORE (controllabile)
-    [SerializeField] private float centerY = -1f;   // Quanto scende (appena sopra il centro) // LIVELLO INFERIORE (metà camera)
+    [SerializeField] private float cameraEdgeOffset = .25f;    // Distanza dal bordo camera
+
+    [Header("Vertical Movement (% camera)")]
+    [SerializeField][Range(0f, 1f)] private float topYPercent = 0.8f;    // 80% del bordo superiore
+    [SerializeField][Range(0f, 1f)] private float centerYPercent = 0.1f; // 10% sopra il centro
     [SerializeField] private float timeAtCenterMin = 2f;
     [SerializeField] private float timeAtCenterMax = 5f;
 
+    // Calcolati a runtime in OnEntranceComplete
+    private float topY;     // Posizione Y del livello superiore (dove arriva l'entrata)
+    private float centerY;  // Posizione Y del livello inferiore (dove scende)
     private float targetX;
     private float targetY;
     private float shootTimer;
-    private float currentShootInterval; // Intervallo corrente (varia)
+    private float currentShootInterval; // Intervallo corrente per lo sparo, che varia ogni volta
     private float minX; // limite sinistro
     private float maxX; // limite destro
-    private float startY;   // Posizione Y di partenza (dove arriva l'entrata)
+    private float startY;   // posizione Y di partenza (dove arriva l'entrata)
 
     void Start()
     {
@@ -27,22 +32,46 @@ public class BossAngel : BossBase
         base.Start();
     }
 
+    //protected override void OnEntranceComplete()
+    //{
+    //    // Calcola i limiti orizzontali della camera
+    //    float cameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
+    //    minX = -cameraWidth + cameraEdgeOffset;
+    //    maxX = cameraWidth - cameraEdgeOffset;
+
+    //    // Salva la posizione iniziale dove è arrivato dopo l'entrata, da cui partirà il pattern di movimento
+    //    startY = topY;
+    //    targetY = startY;
+    //    targetX = transform.position.x;
+
+    //    // Scegli subito un nuovo target random
+    //    ChooseNewXTarget();
+    //    ChooseNewShootInterval(); // Inizializza il primo intervallo
+
+    //    StartCoroutine(VerticalMovementPattern());
+    //}
+
     protected override void OnEntranceComplete()
     {
-        // Calcola i limiti orizzontali della camera
+        float cameraTop = Camera.main.orthographicSize;
+
+        // topY = 80% del bordo superiore
+        topY = cameraTop * 0.8f;
+
+        // centerY = leggermente sopra il centro
+        centerY = cameraTop * 0.1f;
+
+        // resto del codice invariato...
         float cameraWidth = Camera.main.orthographicSize * Camera.main.aspect;
         minX = -cameraWidth + cameraEdgeOffset;
         maxX = cameraWidth - cameraEdgeOffset;
 
-        // Salva la posizione iniziale dove è arrivato dopo l'entrata, da cui partirà il pattern di movimento
         startY = topY;
         targetY = startY;
         targetX = transform.position.x;
 
-        // Scegli subito un nuovo target random
         ChooseNewXTarget();
-        ChooseNewShootInterval(); // Inizializza il primo intervallo
-
+        ChooseNewShootInterval();
         StartCoroutine(VerticalMovementPattern());
     }
 

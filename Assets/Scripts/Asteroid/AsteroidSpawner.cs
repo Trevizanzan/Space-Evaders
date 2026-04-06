@@ -18,9 +18,9 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] private float baseHorizontalInterval = 4f;
 
     [Header("Base Speeds")]
-    [SerializeField] private float baseNormalSpeed = 2f;
-    [SerializeField] private float baseDiagonalSpeed = 2.5f;
-    [SerializeField] private float baseHorizontalSpeed = 3f;
+    [SerializeField] private float baseNormalSpeed = 6f;
+    [SerializeField] private float baseDiagonalSpeed = 7.5f;
+    [SerializeField] private float baseHorizontalSpeed = 9f;
 
     [Header("Size Weights (quando asteroidSizeFocus = 0)")]
     [SerializeField] private float smallWeight = 0.5f;
@@ -35,7 +35,6 @@ public class AsteroidSpawner : MonoBehaviour
     [Header("Spawn Offsets")]
     [SerializeField] private float horizontalOffset = 1f;
     [SerializeField] private float topOffset = 2f;
-    [SerializeField] private float spawnYVariation = 5f; // Variazione casuale Y per spawn normali
 
     [Header("Debug")]
     [SerializeField] private bool debugAsteroidOnly = false; // disabilita nemici, spawna solo asteroidi

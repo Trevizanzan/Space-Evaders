@@ -204,9 +204,9 @@ Transform:
   m_GameObject: {fileID: 58584994}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 2.2778063, y: -1.1183102, z: 0}
+  m_LocalPosition: {x: 1.76, y: -1.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -296,7 +296,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1125841084}
@@ -420,7 +420,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1050214666}
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spaceship
   cam: {fileID: 0}
   sr: {fileID: 0}
-  moveSpeed: 9
+  moveSpeed: 27
   padding: 0.1
   thrusterExtraHeight: 0.35
 --- !u!114 &74886326
@@ -483,8 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9847d3ca598a329498eddd6c2361b2cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipTransitionController
-  exitSpeed: 7
-  exitHeight: 15
+  exitSpeed: 21
 --- !u!60 &74886329
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1143,7 +1142,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 11.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1125841084}
@@ -1424,7 +1423,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1125841084}
@@ -2280,15 +2279,14 @@ MonoBehaviour:
   baseNormalInterval: 2
   baseDiagonalInterval: 3
   baseHorizontalInterval: 4
-  baseNormalSpeed: 2
-  baseDiagonalSpeed: 2.5
-  baseHorizontalSpeed: 3
+  baseNormalSpeed: 6
+  baseDiagonalSpeed: 7.5
+  baseHorizontalSpeed: 9
   smallWeight: 0.5
   mediumWeight: 0.3
   largeWeight: 0.2
-  horizontalOffset: 1
-  topOffset: 2
-  spawnYVariation: 5
+  horizontalOffset: 3
+  topOffset: 6
   debugAsteroidOnly: 0
   debugNormalOnly: 0
   debugDiagonalOnly: 0
@@ -3651,7 +3649,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 11.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1125841084}
@@ -4471,7 +4469,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 16.875
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4509,14 +4507,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045221348}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.PixelPerfect::UnityEngine.U2D.PixelPerfectCamera
   m_AssetsPPU: 32
-  m_RefResolutionX: 640
-  m_RefResolutionY: 360
+  m_RefResolutionX: 1920
+  m_RefResolutionY: 1080
   m_UpscaleRT: 0
   m_PixelSnapping: 0
   m_CropFrameX: 0
