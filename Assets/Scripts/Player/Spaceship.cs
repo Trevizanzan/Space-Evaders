@@ -12,6 +12,7 @@ public class Spaceship : MonoBehaviour
     [SerializeField] private float moveSpeed = 12;
     [SerializeField] private float padding = 0f;  // margine extra dai bordi
     [SerializeField] private float thrusterExtraHeight = 1.15f; // Altezza motore
+    [SerializeField][Range(0f, 0.2f)] private float topUIPaddingViewport = 0.08f; // altezza UI in % viewport
 
     private float minX, maxX, minY, maxY;
     private int lastScreenWidth, lastScreenHeight;
@@ -97,12 +98,20 @@ public class Spaceship : MonoBehaviour
         // In ortografica la Z è irrilevante per x/y, possiamo passare 0
         Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0f, 0f, 0f));
         Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1f, 1f, 0f));
+
+        // Converti l'altezza UI (in % viewport) in world units
+        Vector3 uiTopWorld = cam.ViewportToWorldPoint(new Vector3(0f, 1f, 0f));
+        Vector3 uiBottomWorld = cam.ViewportToWorldPoint(new Vector3(0f, 1f - topUIPaddingViewport, 0f));
+        float topUIWorldHeight = uiTopWorld.y - uiBottomWorld.y;
+
         Vector2 ext = Vector2.zero;
 
         if (sr != null) ext = sr.bounds.extents; // ext.x metà larghezza, ext.y metà altezza
+
         minX = bottomLeft.x + ext.x + padding;
         maxX = topRight.x - ext.x - padding;
         minY = bottomLeft.y + ext.y + padding + thrusterExtraHeight; // Aggiunto offset motore
-        maxY = topRight.y - ext.y - padding;
+        //maxY = topRight.y - ext.y - padding;
+        maxY = topRight.y - ext.y - padding - topUIWorldHeight; // ← solo questa riga cambia
     }
 }
