@@ -60,10 +60,13 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void OnDamageFeedback()
     {
-        // Base: piccola esplosione sulla posizione del nemico
-        if (ExplosionManager.Instance != null)
-            ExplosionManager.Instance.SpawnSmall(
-                new Vector3(transform.position.x, transform.position.y, -1f), 0.7f);
+        //// Base: piccola esplosione sulla posizione del nemico
+        //if (ExplosionManager.Instance != null)
+        //    ExplosionManager.Instance.SpawnSmall(
+        //        new Vector3(transform.position.x, transform.position.y, -1f), 0.7f);
+
+        // Base: nessuna esplosione, solo suono (già gestito in TakeDamage)
+        // I boss possono overridare per aggiungere feedback visivo
     }
 
     protected virtual void Die()
@@ -71,10 +74,10 @@ public abstract class EnemyBase : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        //// Esplosione di morte
-        //if (ExplosionManager.Instance != null)
-        //    ExplosionManager.Instance.SpawnBig(
-        //        new Vector3(transform.position.x, transform.position.y, -1f), 1.2f);
+        // Esplosione solo alla morte
+        if (ExplosionManager.Instance != null)
+            ExplosionManager.Instance.SpawnBig(
+                new Vector3(transform.position.x, transform.position.y, -1f));
 
         // Punteggio
         if (ScoreManager.Instance != null)

@@ -202,4 +202,4 @@ MonoBehaviour:
   shootIntervalMin: 0.7
   shootIntervalMax: 1
   firePoint: {fileID: 0}
-  rotationSpeed: 75
+  rotationSpeed: 140
