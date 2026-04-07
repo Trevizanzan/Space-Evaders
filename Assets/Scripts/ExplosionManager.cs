@@ -38,10 +38,15 @@ public class ExplosionManager : MonoBehaviour
         // Instanzia l'effetto con posizione e rotazione casuali
         GameObject fx = Instantiate(prefab, jitterPos, rot);
 
-        // Applica una scala casuale
+        // Rispetta la scala originale del prefab e moltiplica per baseScale
+        Vector3 prefabScale = prefab.transform.localScale;
         float randomScale = baseScale * (1f + Random.Range(-scaleJitter, scaleJitter));
 
-        // Modifica la scala mantenendo la proporzione originale
-        fx.transform.localScale = new Vector3(randomScale, randomScale, 1f);
+        // Applica la scala con variazione casuale
+        fx.transform.localScale = new Vector3(
+            prefabScale.x * randomScale,
+            prefabScale.y * randomScale,
+            1f
+        );
     }
 }

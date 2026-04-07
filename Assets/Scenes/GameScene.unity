@@ -2454,8 +2454,8 @@ MonoBehaviour:
   - {fileID: 4071098312061028186, guid: b45e6a97d89556641bb3164a090bf1c9, type: 3}
   debugEnemyOnly: 1
   debugFighterOnly: 1
-  debugKamikazeOnly: 0
-  debugBomberOnly: 0
+  debugKamikazeOnly: 1
+  debugBomberOnly: 1
   debugSpawnInterval: 2
 --- !u!4 &1145615753
 Transform:

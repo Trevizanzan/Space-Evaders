@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3685811389624341044}
   - component: {fileID: 3517527918940112976}
   - component: {fileID: 7628602513888868076}
-  - component: {fileID: 1211655657225554588}
+  - component: {fileID: -6174592346398379181}
   m_Layer: 0
   m_Name: Player_Bullet
   m_TagString: Bullet
@@ -167,7 +167,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1211655657225554588
+--- !u!114 &-6174592346398379181
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,4 +179,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6f6eaff623b3043b9d4d564bbd0619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileMovement
-  speed: 18
+  speed: 42
