@@ -172,6 +172,7 @@ MonoBehaviour:
   maxHealth: 2
   scoreValue: 100
   damageToPlayer: 1
+  flashMaterial: {fileID: 2100000, guid: b01ab75e2f6accf4c89786fd4eaf4432, type: 2}
   moveSpeed: 6
   patrolMinY: 3
   patrolMaxY: 4.5

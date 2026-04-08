@@ -191,6 +191,8 @@ MonoBehaviour:
   maxHealth: 2
   scoreValue: 100
   damageToPlayer: 1
+  flashMaterial: {fileID: 2100000, guid: b01ab75e2f6accf4c89786fd4eaf4432, type: 2}
+  flashDuration: 0.12
   moveSpeed: 9
   diagonalAngle: 35
   sCurveFrequency: 0.5

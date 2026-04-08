@@ -26,10 +26,10 @@ public class BossAngel : BossBase
     private float maxX; // limite destro
     private float startY;   // posizione Y di partenza (dove arriva l'entrata)
 
-    void Start()
+    protected override void Start()  // ← "protected override", non "void"
     {
         bossDisplayName = "The Angel";
-        base.Start();
+        base.Start();   // esegue tutto lo Start() di BossBase
     }
 
     //protected override void OnEntranceComplete()
@@ -161,27 +161,12 @@ public class BossAngel : BossBase
 
     protected override void OnDamageFeedback()
     {
-        //StartCoroutine(FlashCyan());
+        FlashWhite(); // ereditato da EnemyBase/BossBase
 
-        Vector3 explosionPos = new Vector3(transform.position.x, transform.position.y, -1f);
-        if (ExplosionManager.Instance != null)
-        {
-            ExplosionManager.Instance.SpawnSmall(explosionPos, 1f);
-        }
-    }
-
-    System.Collections.IEnumerator FlashCyan()
-    {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-
-        if (sr == null)
-        {
-            yield break;
-        }
-
-        Color originalColor = sr.color;
-        sr.color = Color.cyan;
-        yield return new WaitForSeconds(0.15f);
-        sr.color = originalColor;
+        //Vector3 explosionPos = new Vector3(transform.position.x, transform.position.y, -1f);
+        //if (ExplosionManager.Instance != null)
+        //{
+        //    ExplosionManager.Instance.SpawnSmall(explosionPos, 1f);
+        //}
     }
 }

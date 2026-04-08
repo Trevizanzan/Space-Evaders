@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
@@ -14,8 +15,19 @@ public abstract class EnemyBase : MonoBehaviour
     private float destroyYBottom;
     private float destroyXLimit;
 
+    [Header("Hit Flash")]
+    [SerializeField] private Material flashMaterial;   // assegna dal Inspector
+    private float flashDuration = 0.1f;
+
+    private Material originalMaterial;
+    private SpriteRenderer sr;
+    private Coroutine flashCoroutine;
+
     protected virtual void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null) originalMaterial = sr.material;
+
         currentHealth = maxHealth;
 
         float camHeight = Camera.main.orthographicSize;
@@ -67,6 +79,23 @@ public abstract class EnemyBase : MonoBehaviour
 
         // Base: nessuna esplosione, solo suono (già gestito in TakeDamage)
         // I boss possono overridare per aggiungere feedback visivo
+
+        FlashWhite(); // ereditato da EnemyBase/BossBase
+    }
+
+    // Chiama questo da OnDamageFeedback() in ogni nemico/boss
+    protected void FlashWhite()
+    {
+        if (sr == null || flashMaterial == null) return;
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+        flashCoroutine = StartCoroutine(FlashRoutine());
+    }
+    private IEnumerator FlashRoutine()
+    {
+        sr.material = flashMaterial;
+        yield return new WaitForSeconds(flashDuration);
+        sr.material = originalMaterial;
+        flashCoroutine = null;
     }
 
     protected virtual void Die()

@@ -856,7 +856,7 @@ MonoBehaviour:
   difficultyIncreasePerLoop: 0.5
   bossPrefabs:
   - {fileID: 3479421082226168616, guid: 913eb1d9235d5d84ca6ddf40e5d414c5, type: 3}
-  skipToFirstBoss: 0
+  skipToFirstBoss: 1
   debugSpecificWave: 0
   debugWaveIndex: 0
   waveInfoGroup: {fileID: 2116371337}
@@ -2439,8 +2439,8 @@ MonoBehaviour:
   - {fileID: 6169655311992338039, guid: e4d9f1cfee031194b805e0a26bd00570, type: 3}
   bomberPrefabs:
   - {fileID: 4071098312061028186, guid: b45e6a97d89556641bb3164a090bf1c9, type: 3}
-  debugEnemyOnly: 1
-  debugFighterOnly: 1
+  debugEnemyOnly: 0
+  debugFighterOnly: 0
   debugKamikazeOnly: 1
   debugBomberOnly: 1
   debugSpawnInterval: 2

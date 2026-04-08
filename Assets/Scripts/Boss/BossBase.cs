@@ -16,8 +16,19 @@ public abstract class BossBase : MonoBehaviour
     protected bool isEntering = true;
     protected bool isDead = false;
 
+    [Header("Hit Flash")]
+    [SerializeField] private Material flashMaterial;   // assegna dal Inspector
+    private float flashDuration = 0.04f;
+
+    private Material originalMaterial;
+    private SpriteRenderer sr;
+    private Coroutine flashCoroutine;
+
     protected virtual void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null) originalMaterial = sr.material;
+
         currentHealth = maxHealth;
 
         // Mostra la barra della vita
@@ -118,7 +129,6 @@ public abstract class BossBase : MonoBehaviour
 
     protected virtual void OnDamageFeedback()
     {
-        // Override per effetti custom (flash rosso, shake, ecc.)
         // Base: esplosione piccola davanti al boss
 
         // Spawna esplosione davanti al boss (z negativo = più avanti)
@@ -127,6 +137,20 @@ public abstract class BossBase : MonoBehaviour
         {
             ExplosionManager.Instance.SpawnSmall(explosionPos, 1f);
         }
+    }
+
+    protected void FlashWhite()
+    {
+        if (sr == null || flashMaterial == null) return;
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+        flashCoroutine = StartCoroutine(FlashRoutine());
+    }
+    private IEnumerator FlashRoutine()
+    {
+        sr.material = flashMaterial;
+        yield return new WaitForSeconds(flashDuration);
+        sr.material = originalMaterial;
+        flashCoroutine = null;
     }
 
     protected virtual void Die()
