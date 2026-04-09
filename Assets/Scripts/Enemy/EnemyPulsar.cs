@@ -2,71 +2,61 @@
 
 /// <summary>
 /// EnemyPulsar — navetta corazzata che si posiziona nella fascia alta della camera,
-/// mira al player con un breve ritardo e scarica un burst di laser sottili.
+/// mira al player con un breve ritardo e scarica burst di laser sottili.
 /// 
 /// Stati:
-///   Entering    → scende dall'alto verso la propria Y di patrol
-///   Positioning → si sposta orizzontalmente verso una X casuale (rallenta in avvicinamento)
-///   Aiming      → si ferma, ruota verso il player (effetto "mira")
-///   Firing      → burst di N laser in rapida successione, poi torna a Positioning
+///   Entering     → scende dall'alto verso la propria Y di patrol
+///   Positioning  → si sposta orizzontalmente verso una X casuale
+///   Aiming       → si ferma, ruota verso il player (effetto "mira")
+///   Firing       → burst di N laser; dopo K burst consecutivi torna a Positioning
 /// </summary>
 public class EnemyPulsar : EnemyBase
 {
     [Header("Pulsar Movement")]
-    [SerializeField] private float moveSpeed = 3.5f;
+    [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float verticalSpeed = 3f;
 
     [Header("Patrol Y Range (% camera height, 0=centro, 1=bordo top)")]
     [SerializeField][Range(0f, 1f)] private float patrolMinYPercent = 0.55f;
     [SerializeField][Range(0f, 1f)] private float patrolMaxYPercent = 0.80f;
-    [SerializeField] private float positionSlowRadius = 1.2f;   // distanza entro cui inizia a rallentare
-
-    //[SerializeField][Range(0f, 1f)] private float patrolMinYPercent = 0.55f; // % altezza camera
-    //[SerializeField][Range(0f, 1f)] private float patrolMaxYPercent = 0.80f; // % altezza camera
-    //[SerializeField] private float positionSlowRadius = 1.2f;    
+    [SerializeField] private float positionSlowRadius = 0.8f;
 
     [Header("Aiming")]
-    [SerializeField] private float aimDuration = 0.5f;    // secondi di pausa prima di sparare
-    [SerializeField] private float aimRotationSpeed = 180f; // gradi/secondo durante la mira
+    [SerializeField] private float aimDuration = 0.3f;
+    [SerializeField] private float aimRotationSpeed = 180f;
 
     [Header("Burst Settings")]
     [SerializeField] private GameObject laserPrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private int burstCount = 4;          // laser per burst
-    [SerializeField] private float burstInterval = 0.12f; // secondi tra un laser e il successivo
-    [SerializeField] private float cooldownAfterBurst = 0.6f; // pausa dopo il burst prima di riposizionarsi
+    [SerializeField] private int burstsBeforeReposition = 0; // burst consecutivi prima di muoversi
 
     // ── Stato ────────────────────────────────────────────────────────────────
     private enum PulsarState { Entering, Positioning, Aiming, Firing }
     private PulsarState state = PulsarState.Entering;
 
-    private float targetY;           // Y di patrol fissa
-    private float targetX;           // X verso cui si sta spostando
-    private float minX, maxX;        // limiti orizzontali camera
+    private float targetY;
+    private float targetX;
+    private float minX, maxX;
 
-    private float stateTimer;        // timer generico per gli stati temporizzati
+    private float stateTimer;
 
     // Burst
-    private int burstShotsFired;     // laser già sparati nel burst corrente
-    private float burstTimer;        // timer tra un colpo e l'altro
-    private Vector2 frozenAimDir;    // direzione congelata al momento dello sparo
+    private Vector2 frozenAimDir;
+    private int burstsThisCycle; // burst sparati dall'ultimo Positioning
+
 
     // ── Init ─────────────────────────────────────────────────────────────────
     protected override void Start()
     {
         base.Start();
 
-        CameraBounds b = GetCameraBounds(); // un'unica chiamata centralizzata
-        
+        CameraBounds b = GetCameraBounds();
+
         minX = b.minX + 0.5f;
         maxX = b.maxX - 0.5f;
 
-        // Range calcolato in base alla Y massima della camera, per garantire che il Pulsar stia sempre nella parte alta
-        float camTop = b.topY; // bordo superiore in world space (stesso del Bomber)
-        float patrolMinY = camTop * patrolMinYPercent;
-        float patrolMaxY = camTop * patrolMaxYPercent;
-
-        targetY = Random.Range(patrolMinY, patrolMaxY);
+        float camTop = b.topY;
+        targetY = Random.Range(camTop * patrolMinYPercent, camTop * patrolMaxYPercent);
     }
 
     // ── Dispatcher ───────────────────────────────────────────────────────────
@@ -77,12 +67,11 @@ public class EnemyPulsar : EnemyBase
             case PulsarState.Entering: UpdateEntering(); break;
             case PulsarState.Positioning: UpdatePositioning(); break;
             case PulsarState.Aiming: UpdateAiming(); break;
-            case PulsarState.Firing: UpdateFiring(); break;
+            //case PulsarState.Firing: UpdateFiring(); break;  // rimetti questa riga
         }
     }
 
     // ── ENTERING ─────────────────────────────────────────────────────────────
-    // Scende verticalmente fino alla Y di patrol, orientato verso il basso
     void UpdateEntering()
     {
         transform.rotation = Quaternion.Euler(0f, 0f, -90f);
@@ -96,20 +85,18 @@ public class EnemyPulsar : EnemyBase
     }
 
     // ── POSITIONING ───────────────────────────────────────────────────────────
-    // Si sposta verso targetX rallentando quando si avvicina (ease-out)
     void UpdatePositioning()
     {
         float dist = Mathf.Abs(transform.position.x - targetX);
         float speed = dist < positionSlowRadius
-            ? moveSpeed * (dist / positionSlowRadius)   // rallenta in avvicinamento
+            ? moveSpeed * (dist / positionSlowRadius)
             : moveSpeed;
-        speed = Mathf.Max(speed, 0.3f);                 // velocità minima per non bloccarsi
+        speed = Mathf.Max(speed, 0.3f);
 
         float newX = Mathf.MoveTowards(
             transform.position.x, targetX, speed * Time.deltaTime);
         transform.position = new Vector3(newX, targetY, transform.position.z);
 
-        // Ruota verso il player anche mentre si sposta (effetto "tracciamento")
         RotateTowardPlayer(aimRotationSpeed * 0.5f);
 
         if (Mathf.Abs(transform.position.x - targetX) < 0.05f)
@@ -117,7 +104,6 @@ public class EnemyPulsar : EnemyBase
     }
 
     // ── AIMING ───────────────────────────────────────────────────────────────
-    // Fermo, ruota velocemente verso il player per aimDuration secondi
     void UpdateAiming()
     {
         stateTimer += Time.deltaTime;
@@ -126,36 +112,14 @@ public class EnemyPulsar : EnemyBase
         if (stateTimer >= aimDuration)
             EnterFiring();
     }
-
     // ── FIRING ───────────────────────────────────────────────────────────────
-    // Spara un burst di burstCount laser, poi aspetta cooldown e si riposiziona
-    void UpdateFiring()
-    {
-        stateTimer += Time.deltaTime;
-
-        // Fase sparo: emette i colpi a intervalli regolari
-        if (burstShotsFired < burstCount)
-        {
-            burstTimer += Time.deltaTime;
-            if (burstTimer >= burstInterval)
-            {
-                FireLaser();
-                burstShotsFired++;
-                burstTimer = 0f;
-            }
-            return;
-        }
-
-        // Tutti i colpi sparati → aspetta il cooldown poi torna a Positioning
-        if (stateTimer >= burstCount * burstInterval + cooldownAfterBurst)
-            EnterPositioning();
-    }
+   
 
     // ── Transizioni ──────────────────────────────────────────────────────────
     void EnterPositioning()
     {
-        // Sceglie una X casuale nella metà opposta rispetto alla posizione attuale
-        // per garantire spostamenti visibili e non triviali
+        burstsThisCycle = 0;
+
         float halfWidth = (maxX - minX) * 0.5f;
         if (transform.position.x > (minX + maxX) * 0.5f)
             targetX = Random.Range(minX, minX + halfWidth);
@@ -173,16 +137,18 @@ public class EnemyPulsar : EnemyBase
 
     void EnterFiring()
     {
-        // Congela la direzione di mira al momento in cui parte il burst
         if (playerTransform != null)
             frozenAimDir = (playerTransform.position - transform.position).normalized;
         else
             frozenAimDir = Vector2.down;
 
-        burstShotsFired = 0;
-        burstTimer = burstInterval; // spara il primo colpo subito
-        stateTimer = 0f;
-        state = PulsarState.Firing;
+        FireLaser();
+
+        burstsThisCycle++;
+        if (burstsThisCycle < burstsBeforeReposition)
+            EnterAiming();
+        else
+            EnterPositioning();
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
@@ -197,7 +163,7 @@ public class EnemyPulsar : EnemyBase
         transform.rotation = Quaternion.Euler(0f, 0f, newAngle);
     }
 
-    void FireLaser()
+    void FireLaser(float offset = 0f)
     {
         if (laserPrefab == null) return;
 
@@ -212,11 +178,10 @@ public class EnemyPulsar : EnemyBase
             rb.linearVelocity = frozenAimDir * speed;
         }
 
-        // Ruota il laser visivamente nella direzione di sparo
         float angle = Mathf.Atan2(frozenAimDir.y, frozenAimDir.x) * Mathf.Rad2Deg;
         laser.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
         if (SoundManager.Instance != null)
-            SoundManager.Instance.PlayShoot(); // TODO: suono dedicato laser Pulsar
+            SoundManager.Instance.PlayShoot();
     }
 }

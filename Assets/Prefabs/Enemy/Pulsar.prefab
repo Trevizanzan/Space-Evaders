@@ -173,15 +173,15 @@ MonoBehaviour:
   scoreValue: 100
   damageToPlayer: 1
   flashMaterial: {fileID: 2100000, guid: b01ab75e2f6accf4c89786fd4eaf4432, type: 2}
-  moveSpeed: 30.5
-  verticalSpeed: 30
+  moveSpeed: 5
+  verticalSpeed: 3
   patrolMinYPercent: 0.55
   patrolMaxYPercent: 0.9
-  positionSlowRadius: 1.2
-  aimDuration: 0.5
-  aimRotationSpeed: 180
+  positionSlowRadius: 0.6
+  aimDuration: 0.25
+  aimRotationSpeed: 130
   laserPrefab: {fileID: 6485462342135613911, guid: 6f8e2df00f4a5ba4ea34f9db981d6bcf, type: 3}
   firePoint: {fileID: 0}
   burstCount: 3
   burstInterval: 0.1
-  cooldownAfterBurst: 0.6
+  burstsBeforeReposition: 0

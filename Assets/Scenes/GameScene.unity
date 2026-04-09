@@ -2368,7 +2368,7 @@ MonoBehaviour:
   debugKamikazeOnly: 0
   debugBomberOnly: 0
   debugPulsarOnly: 1
-  debugSpawnInterval: 0.1
+  debugSpawnInterval: 1
 --- !u!4 &1145615753
 Transform:
   m_ObjectHideFlags: 0
