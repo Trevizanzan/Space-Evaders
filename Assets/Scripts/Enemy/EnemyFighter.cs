@@ -41,15 +41,10 @@ public class EnemyFighter : EnemyBase
     private float shootTimer;
     private float currentShootInterval;
 
-    private Transform playerTransform;
-
     protected override void Start()
     {
         base.Start();
         currentShootInterval = Random.Range(shootIntervalMin, shootIntervalMax);
-
-        Spaceship ship = Spaceship.GetInstance();
-        if (ship != null) playerTransform = ship.transform;
 
         AssignTrajectory();
     }

@@ -23,6 +23,8 @@ public abstract class EnemyBase : MonoBehaviour
     private SpriteRenderer sr;
     private Coroutine flashCoroutine;
 
+    protected Transform playerTransform;
+
     protected virtual void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -34,6 +36,9 @@ public abstract class EnemyBase : MonoBehaviour
         float camWidth = camHeight * Camera.main.aspect;
         destroyYBottom = -camHeight * 1.1f;     // Distruggi quando è un po' sotto la camera
         destroyXLimit = camWidth * 1.1f;    // Distruggi quando è un po' oltre i bordi laterali
+
+        Spaceship ship = Spaceship.GetInstance();
+        if (ship != null) playerTransform = ship.transform;
     }
 
     protected virtual void Update()
@@ -139,5 +144,47 @@ public abstract class EnemyBase : MonoBehaviour
             // Il nemico muore al contatto (puoi overridare per i bomber che sopravvivono)
             Die();
         }
+    }
+
+    //______ CALCOLO BOUNDS CAMERA (regola n.3) __________________________________________
+    /// <summary>
+    /// Bounds della camera in world units, con offset topbar già sottratto da topY.
+    /// </summary>
+    public struct CameraBounds
+    {
+        public float minX;
+        public float maxX;
+        public float minY;       // bordo inferiore camera
+        public float maxY;       // bordo superiore camera (lordo, senza topbar)
+        public float topY;       // bordo superiore camera AL NETTO della topbar UI
+        public float spawnY;     // Y di spawn (appena sopra il bordo superiore grezzo)
+    }
+
+    /// <summary>
+    /// Calcola i bounds della camera una volta sola.
+    /// Usa topUIPaddingViewport (stessa % usata da Spaceship) per sottrarre la topbar.
+    /// </summary>
+    public static CameraBounds GetCameraBounds(float topUIPaddingViewport = 0.08f, float spawnMargin = 0.5f)
+    {
+        Camera cam = Camera.main;
+        float camDist = -cam.transform.position.z;
+
+        Vector2 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0f, 0f, camDist));
+        Vector2 topRight = cam.ViewportToWorldPoint(new Vector3(1f, 1f, camDist));
+
+        // Calcola altezza topbar in world units (identico a Spaceship.RecalculateBounds)
+        float uiTopY = cam.ViewportToWorldPoint(new Vector3(0f, 1f, camDist)).y;
+        float uiBottomY = cam.ViewportToWorldPoint(new Vector3(0f, 1f - topUIPaddingViewport, camDist)).y;
+        float topUIWorldHeight = uiTopY - uiBottomY;
+
+        return new CameraBounds
+        {
+            minX = bottomLeft.x,
+            maxX = topRight.x,
+            minY = bottomLeft.y,
+            maxY = topRight.y,
+            topY = topRight.y - topUIWorldHeight,  // netto topbar
+            spawnY = topRight.y + spawnMargin,
+        };
     }
 }

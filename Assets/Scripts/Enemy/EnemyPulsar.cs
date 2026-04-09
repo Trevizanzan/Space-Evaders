@@ -15,9 +15,9 @@ public class EnemyPulsar : EnemyBase
     [Header("Pulsar Movement")]
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float verticalSpeed = 3f;
-    [SerializeField] private float patrolMinY = 3f;       // Y minima patrol (fascia alta, stessa del Bomber)
-    [SerializeField] private float patrolMaxY = 4.5f;     // Y massima patrol
-    [SerializeField] private float positionSlowRadius = 1.2f; // distanza entro cui inizia a rallentare
+    [SerializeField][Range(0f, 1f)] private float patrolMinYPercent = 0.55f; // % altezza camera
+    [SerializeField][Range(0f, 1f)] private float patrolMaxYPercent = 0.80f; // % altezza camera
+    [SerializeField] private float positionSlowRadius = 1.2f;    // distanza entro cui inizia a rallentare
 
     [Header("Aiming")]
     [SerializeField] private float aimDuration = 0.5f;    // secondi di pausa prima di sparare
@@ -52,17 +52,18 @@ public class EnemyPulsar : EnemyBase
     {
         base.Start();
 
-        // Calcola limiti camera una volta sola (regola n.3)
-        float camDist = -Camera.main.transform.position.z;
-        Vector2 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDist));
-        Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDist));
-        minX = bottomLeft.x + 0.5f;
-        maxX = topRight.x - 0.5f;
+        CameraBounds b = GetCameraBounds(); // un'unica chiamata centralizzata
+        
+        minX = b.minX + 0.5f;
+        maxX = b.maxX - 0.5f;
+
+        // patrolMinY/MaxY in world units, calcolate dalla % rispetto all'altezza della camera
+        // il range va da minY a topY (al netto della topbar)
+        float camHeight = b.topY - b.minY;
+        float patrolMinY = b.minY + camHeight * patrolMinYPercent;
+        float patrolMaxY = b.minY + camHeight * patrolMaxYPercent;
 
         targetY = Random.Range(patrolMinY, patrolMaxY);
-
-        Spaceship ship = Spaceship.GetInstance();
-        if (ship != null) playerTransform = ship.transform;
     }
 
     // ── Dispatcher ───────────────────────────────────────────────────────────

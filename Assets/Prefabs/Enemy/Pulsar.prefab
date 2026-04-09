@@ -182,6 +182,6 @@ MonoBehaviour:
   aimRotationSpeed: 180
   laserPrefab: {fileID: 6485462342135613911, guid: 6f8e2df00f4a5ba4ea34f9db981d6bcf, type: 3}
   firePoint: {fileID: 0}
-  burstCount: 4
-  burstInterval: 0.12
+  burstCount: 3
+  burstInterval: 0.1
   cooldownAfterBurst: 0.6

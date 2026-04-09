@@ -16,7 +16,6 @@ public class EnemyKamikaze : EnemyBase
     private enum KamikazeState { Entering, Hovering, Charging }
     private KamikazeState state = KamikazeState.Entering;
 
-    private Transform playerTransform;
     private float stateTimer = 0f;
     private float currentSpeed = 0f;
     private Vector3 chargeDir;         // direzione congelata al momento della carica
@@ -24,9 +23,7 @@ public class EnemyKamikaze : EnemyBase
     protected override void Start()
     {
         base.Start();
-
-        Spaceship ship = Spaceship.GetInstance();
-        if (ship != null) playerTransform = ship.transform;
+        // playerTransform già popolato da EnemyBase.Start()
     }
 
     protected override void UpdateBehavior()

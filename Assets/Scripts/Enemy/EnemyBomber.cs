@@ -8,6 +8,8 @@ public class EnemyBomber : EnemyBase
     [SerializeField] private float patrolMinY = 3f;    // Y minima patrol (terzo superiore camera)
     [SerializeField] private float patrolMaxY = 5f;    // Y massima patrol (appena sotto il bordo)
     [SerializeField] private float verticalSpeed = 1f;    // velocità aggiustamento Y
+    [SerializeField][Range(0f, 1f)] private float patrolMinYPercent = 0.55f; // % altezza camera
+    [SerializeField][Range(0f, 1f)] private float patrolMaxYPercent = 0.80f; // % altezza camera
 
     [Header("Bomb Settings")]
     [SerializeField] private GameObject bombPrefab;
@@ -30,13 +32,13 @@ public class EnemyBomber : EnemyBase
     {
         base.Start();
 
-        // Calcola limiti orizzontali camera
-        float camHeight = Camera.main.orthographicSize;
-        float camWidth = camHeight * Camera.main.aspect;
-        minX = -camWidth + 0.5f;
-        maxX = camWidth - 0.5f;
+        CameraBounds b = GetCameraBounds();
+        minX = b.minX + 0.5f;
+        maxX = b.maxX - 0.5f;
 
-        // Assegna Y di patrol fissa nel range superiore
+        float camHeight = b.topY - b.minY;
+        float patrolMinY = b.minY + camHeight * patrolMinYPercent;
+        float patrolMaxY = b.minY + camHeight * patrolMaxYPercent;
         targetY = Random.Range(patrolMinY, patrolMaxY);
 
         // Direzione iniziale: se spawna a sinistra va a destra, e viceversa
