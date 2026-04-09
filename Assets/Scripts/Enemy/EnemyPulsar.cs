@@ -15,9 +15,15 @@ public class EnemyPulsar : EnemyBase
     [Header("Pulsar Movement")]
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float verticalSpeed = 3f;
-    [SerializeField][Range(0f, 1f)] private float patrolMinYPercent = 0.55f; // % altezza camera
-    [SerializeField][Range(0f, 1f)] private float patrolMaxYPercent = 0.80f; // % altezza camera
-    [SerializeField] private float positionSlowRadius = 1.2f;    // distanza entro cui inizia a rallentare
+
+    [Header("Patrol Y Range (% dal bordo superiore, 0 = top, 1 = fondo schermo)")]
+    [SerializeField][Range(0f, 1f)] private float patrolMinYPercent = 0.10f; // appena sotto il top (% camera)
+    [SerializeField][Range(0f, 1f)] private float patrolMaxYPercent = 0.35f; // terzo superiore (% camera)
+    [SerializeField] private float positionSlowRadius = 1.2f;   // distanza entro cui inizia a rallentare
+
+    //[SerializeField][Range(0f, 1f)] private float patrolMinYPercent = 0.55f; // % altezza camera
+    //[SerializeField][Range(0f, 1f)] private float patrolMaxYPercent = 0.80f; // % altezza camera
+    //[SerializeField] private float positionSlowRadius = 1.2f;    
 
     [Header("Aiming")]
     [SerializeField] private float aimDuration = 0.5f;    // secondi di pausa prima di sparare
@@ -57,11 +63,10 @@ public class EnemyPulsar : EnemyBase
         minX = b.minX + 0.5f;
         maxX = b.maxX - 0.5f;
 
-        // patrolMinY/MaxY in world units, calcolate dalla % rispetto all'altezza della camera
-        // il range va da minY a topY (al netto della topbar)
+        // Range calcolato dal bordo superiore verso il basso
         float camHeight = b.topY - b.minY;
-        float patrolMinY = b.minY + camHeight * patrolMinYPercent;
-        float patrolMaxY = b.minY + camHeight * patrolMaxYPercent;
+        float patrolMinY = b.topY - camHeight * patrolMaxYPercent; // max scende di più
+        float patrolMaxY = b.topY - camHeight * patrolMinYPercent; // min scende di meno
 
         targetY = Random.Range(patrolMinY, patrolMaxY);
     }

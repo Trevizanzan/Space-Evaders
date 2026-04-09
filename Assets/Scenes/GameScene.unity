@@ -2365,10 +2365,10 @@ MonoBehaviour:
   - {fileID: 6169655311992338039, guid: 812e48ccb2978cc4eb2410548f7ae0a7, type: 3}
   debugEnemyOnly: 1
   debugFighterOnly: 0
-  debugKamikazeOnly: 1
+  debugKamikazeOnly: 0
   debugBomberOnly: 0
-  debugPulsarOnly: 0
-  debugSpawnInterval: 1
+  debugPulsarOnly: 1
+  debugSpawnInterval: 0.1
 --- !u!4 &1145615753
 Transform:
   m_ObjectHideFlags: 0
