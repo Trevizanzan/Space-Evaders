@@ -79,7 +79,8 @@ public class EnemyPulsar : EnemyBase
         transform.position = new Vector3(transform.position.x, newY, transform.position.z);
 
         if (Mathf.Abs(transform.position.y - targetY) < 0.1f)
-            EnterPositioning();
+            //EnterPositioning();
+            EnterAiming();
     }
 
     // ── POSITIONING ───────────────────────────────────────────────────────────
@@ -126,14 +127,32 @@ public class EnemyPulsar : EnemyBase
     // ── Transizioni ──────────────────────────────────────────────────────────
     void EnterPositioning()
     {
+        //burstsThisCycle = 0;
+
+        //float halfWidth = (maxX - minX) * 0.5f;
+
+        //// Se siamo più a destra, scegliamo una X a sinistra, e viceversa
+        //targetX = transform.position.x > (minX + maxX) * 0.5f
+        //    ? Random.Range(minX, minX + halfWidth)
+        //    : Random.Range(minX + halfWidth, maxX);
+
+        //state = PulsarState.Positioning;
+
         burstsThisCycle = 0;
 
-        float halfWidth = (maxX - minX) * 0.5f;
+        // Invece di sempre nella metà opposta, scegli X random ovunque
+        // con un offset minimo dalla posizione attuale per evitare spostamenti minimi
+        float minMove = 2f; // distanza minima garantita
+        float newX;
+        do
+        {
+            newX = Random.Range(minX, maxX);
+        } while (Mathf.Abs(newX - transform.position.x) < minMove);
 
-        // Se siamo più a destra, scegliamo una X a sinistra, e viceversa
-        targetX = transform.position.x > (minX + maxX) * 0.5f
-            ? Random.Range(minX, minX + halfWidth)
-            : Random.Range(minX + halfWidth, maxX);
+        targetX = newX;
+
+        // Riduci il slow radius per arrivare più deciso
+        positionSlowRadius = Random.Range(0.2f, 0.8f);
 
         state = PulsarState.Positioning;
     }

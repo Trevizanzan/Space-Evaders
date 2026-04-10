@@ -209,7 +209,7 @@ MonoBehaviour:
   verticalSpeed: 3
   patrolMinYPercent: 0.55
   patrolMaxYPercent: 0.9
-  positionSlowRadius: 0.6
+  positionSlowRadius: 0.5
   aimDuration: 0.25
   aimRotationSpeed: 130
   laserPrefab: {fileID: 6485462342135613911, guid: 6f8e2df00f4a5ba4ea34f9db981d6bcf, type: 3}
