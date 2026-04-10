@@ -16,43 +16,61 @@ MonoBehaviour:
   levelDuration: 30
   phase1:
     spawnNormal: 1
+    normalSpawnInterval: 1
+    normalSpeed: 8
     spawnDiagonal: 0
+    diagonalSpawnInterval: 0
+    diagonalSpeed: 0
     spawnHorizontal: 0
-    normalSpawnMultiplier: 0.8
-    diagonalSpawnMultiplier: 1
-    horizontalSpawnMultiplier: 1
-    allowFighters: 0
-    allowKamikazes: 0
-    allowBombers: 0
-    allowPulsars: 0
-    speedMultiplier: 0.8
+    horizontalSpawnInterval: 0
+    horizontalSpeed: 0
     healthMultiplier: 1
     asteroidSizeFocus: 1
+    allowFighters: 0
+    fighterSpawnInterval: 5
+    allowKamikazes: 0
+    kamikazeSpawnInterval: 4
+    allowBombers: 0
+    bomberSpawnInterval: 8
+    allowPulsars: 0
+    pulsarSpawnInterval: 10
   phase2:
     spawnNormal: 1
-    spawnDiagonal: 0
+    normalSpawnInterval: 0.8
+    normalSpeed: 10
+    spawnDiagonal: 1
+    diagonalSpawnInterval: 3
+    diagonalSpeed: 9
     spawnHorizontal: 0
-    normalSpawnMultiplier: 1
-    diagonalSpawnMultiplier: 1
-    horizontalSpawnMultiplier: 1
-    allowFighters: 1
-    allowKamikazes: 0
-    allowBombers: 0
-    allowPulsars: 0
-    speedMultiplier: 1
+    horizontalSpawnInterval: 0
+    horizontalSpeed: 0
     healthMultiplier: 1
     asteroidSizeFocus: 0
+    allowFighters: 1
+    fighterSpawnInterval: 3
+    allowKamikazes: 0
+    kamikazeSpawnInterval: 4
+    allowBombers: 0
+    bomberSpawnInterval: 8
+    allowPulsars: 0
+    pulsarSpawnInterval: 10
   phase3:
     spawnNormal: 1
-    spawnDiagonal: 0
-    spawnHorizontal: 0
-    normalSpawnMultiplier: 1.2
-    diagonalSpawnMultiplier: 1
-    horizontalSpawnMultiplier: 1
-    allowFighters: 1
-    allowKamikazes: 0
-    allowBombers: 0
-    allowPulsars: 0
-    speedMultiplier: 1.25
+    normalSpawnInterval: 0.6
+    normalSpeed: 12
+    spawnDiagonal: 1
+    diagonalSpawnInterval: 1
+    diagonalSpeed: 10
+    spawnHorizontal: 1
+    horizontalSpawnInterval: 4
+    horizontalSpeed: 11
     healthMultiplier: 1
     asteroidSizeFocus: 0
+    allowFighters: 1
+    fighterSpawnInterval: 2
+    allowKamikazes: 0
+    kamikazeSpawnInterval: 4
+    allowBombers: 0
+    bomberSpawnInterval: 8
+    allowPulsars: 0
+    pulsarSpawnInterval: 10

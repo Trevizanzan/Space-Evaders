@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Base Spawn Intervals")]
-    [SerializeField] private float baseFighterInterval = 8f;
-    [SerializeField] private float baseKamikazeInterval = 6f;
-    [SerializeField] private float baseBomberInterval = 12f;
-    [SerializeField] private float basePulsarInterval = 14f;  // leggermente più raro del Bomber
+    //[Header("Base Spawn Intervals")]
+    //[SerializeField] private float baseFighterInterval = 8f;
+    //[SerializeField] private float baseKamikazeInterval = 6f;
+    //[SerializeField] private float baseBomberInterval = 12f;
+    //[SerializeField] private float basePulsarInterval = 14f;  // leggermente più raro del Bomber
 
     [Header("Spawn Range Settings")]
     [SerializeField] private float topSpawnMargin = .5f;  // quanto sopra la camera
@@ -168,11 +168,9 @@ public class EnemySpawner : MonoBehaviour
     // Entra sempre dall'alto
     void HandleFighterSpawn(PhaseConfig phase)
     {
-        fighterTimer += Time.deltaTime; 
-        if (fighterTimer < baseFighterInterval / phase.speedMultiplier) return; // non è ancora ora di spawnare
-
-        Vector3 pos = GetTopSpawnPosition();
-        SpawnEnemy(fighterPrefabs, pos);
+        fighterTimer += Time.deltaTime;
+        if (fighterTimer < phase.fighterSpawnInterval) return;
+        SpawnEnemy(fighterPrefabs, GetTopSpawnPosition());
         fighterTimer = 0f;
     }
 
@@ -181,9 +179,7 @@ public class EnemySpawner : MonoBehaviour
     void HandleKamikazeSpawn(PhaseConfig phase)
     {
         kamikazeTimer += Time.deltaTime;
-        if (kamikazeTimer < baseKamikazeInterval / phase.speedMultiplier) return;
-
-        // Sempre dall'alto: la variazione di ingresso è già garantita dal range X
+        if (kamikazeTimer < phase.kamikazeSpawnInterval) return;
         SpawnEnemy(kamikazePrefabs, GetTopSpawnPosition());
         kamikazeTimer = 0f;
     }
@@ -193,10 +189,8 @@ public class EnemySpawner : MonoBehaviour
     void HandleBomberSpawn(PhaseConfig phase)
     {
         bomberTimer += Time.deltaTime;
-        if (bomberTimer < baseBomberInterval / phase.speedMultiplier) return;
-
-        Vector3 pos = GetTopSpawnPosition();
-        SpawnEnemy(bomberPrefabs, pos);
+        if (bomberTimer < phase.bomberSpawnInterval) return;
+        SpawnEnemy(bomberPrefabs, GetTopSpawnPosition());
         bomberTimer = 0f;
     }
 
@@ -205,8 +199,7 @@ public class EnemySpawner : MonoBehaviour
     void HandlePulsarSpawn(PhaseConfig phase)
     {
         pulsarTimer += Time.deltaTime;
-        if (pulsarTimer < basePulsarInterval / phase.speedMultiplier) return;
-
+        if (pulsarTimer < phase.pulsarSpawnInterval) return;
         SpawnEnemy(pulsarPrefabs, GetTopSpawnPosition());
         pulsarTimer = 0f;
     }

@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86386dbe2dd8b96498617c988f7db6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 5
+  maxHealth: 500
   invulnerabilityDuration: 1
   blinkInterval: 0.1
 --- !u!114 &74886328
@@ -820,7 +820,7 @@ MonoBehaviour:
   globalDifficultyMultiplier: 1
   difficultyIncreasePerLoop: 0.5
   skipToFirstBoss: 0
-  debugSpecificStep: 0
+  debugSpecificStep: 1
   debugStepIndex: 0
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
@@ -3100,12 +3100,6 @@ MonoBehaviour:
   topSpawnPoints: []
   leftSpawnPoints: []
   rightSpawnPoints: []
-  baseNormalInterval: 2
-  baseDiagonalInterval: 3
-  baseHorizontalInterval: 4
-  baseNormalSpeed: 6
-  baseDiagonalSpeed: 7.5
-  baseHorizontalSpeed: 9
   smallWeight: 0.5
   mediumWeight: 0.3
   largeWeight: 0.2
@@ -3267,10 +3261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5997002d91a55c4cb0986f94d558912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  baseFighterInterval: 8
-  baseKamikazeInterval: 6
-  baseBomberInterval: 12
-  basePulsarInterval: 14
   topSpawnMargin: 1.5
   sideSpawnMargin: 1.5
   topHorizontalInset: 1
