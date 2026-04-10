@@ -31,11 +31,11 @@ public class PhaseConfig
 }
 
 [System.Serializable]
-public class WaveProfile
+public class LevelProfile
 {  
-    [Header("Wave Info")]
-    public string waveName = "Default wave";
-    public float waveDuration = 30f; // Durata totale della wave in secondi
+    [Header("Level Info")]
+    public string levelName = "Default level";
+    public float levelDuration = 30f; // Durata totale della level in secondi
 
     [Header("Phase Configurations")]
     public PhaseConfig phase1 = new PhaseConfig();
@@ -59,11 +59,11 @@ public class DifficultyManager : MonoBehaviour
 {
     public static DifficultyManager Instance;
 
-    [Header("Wave Settings")]
-    [SerializeField] private float transitionDuration = 3f; // pausa tra wave e boss
+    [Header("Level Settings")]
+    [SerializeField] private float transitionDuration = 3f; // pausa tra level e boss
 
-    [Header("Wave Profiles - Configure Each Wave!")]
-    [SerializeField] private WaveProfile[] waveProfiles = new WaveProfile[6]; // 6 wave (una per boss)
+    [Header("Level Profiles - Configure Each Level!")]
+    [SerializeField] private LevelProfile[] levelProfiles = new LevelProfile[6]; // 6 level (una per boss)
 
     [Header("Difficulty Scaling")]
     [SerializeField] private float globalDifficultyMultiplier = 1f;
@@ -78,13 +78,13 @@ public class DifficultyManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool skipToFirstBoss = false;
     private int debugBossIndex = 0;
-    [SerializeField] private bool debugSpecificWave = false;    // Test wave specifica
-    [SerializeField] private int debugWaveIndex = 0;    // Quale wave testare (0-5)
+    [SerializeField] private bool debugSpecificLevel = false;    // Test level specifica
+    [SerializeField] private int debugLevelIndex = 0;    // Quale level testare (0-5)
 
-    [Header("Wave UI - Top Bar")]
-    [SerializeField] private GameObject waveInfoGroup; // Gruppo wave UI
-    [SerializeField] private TMP_Text waveText; // "WAVE 3/6"
-    [SerializeField] private UnityEngine.UI.Image waveProgressBarFill; // Barra progresso
+    [Header("Level UI - Top Bar")]
+    [SerializeField] private GameObject levelInfoGroup; // Gruppo level UI
+    [SerializeField] private TMP_Text levelText; // "level 3/6"
+    [SerializeField] private UnityEngine.UI.Image levelProgressBarFill; // Barra progresso
 
     [Header("Boss UI - Top Bar (opzionale per futuro)")]
     [SerializeField] private GameObject bossInfoGroup; // Gruppo boss UI
@@ -97,28 +97,24 @@ public class DifficultyManager : MonoBehaviour
     [SerializeField] private Color barColorEnd = new Color(1f, 0.3f, 0.2f); // Rosso
     [SerializeField] private Color barColorGold = new Color(1f, 0.85f, 0f); // Oro
 
-    // Wave state
-    private float waveTime = 0f;
+    // Level state
+    private float levelTime = 0f;
     private float progress = 0f; // 0–1
     private bool isInTransition = false;
 
     // Events
-    public System.Action OnWaveComplete;
+    public System.Action OnLevelComplete;   // evento per notificare altri sistemi (es. UI) quando un livello è completato
     //public GameObject levelCompletePanel;
     //public TMP_Text levelCompleteCountdown;
-
-    //private float levelTime = 0f;
-    public System.Action OnLevelComplete; // evento per notificare altri sistemi (es. UI) quando un livello è completato
-
 
     void Awake()
     {
         if (Instance == null) Instance = this;
 
-        // Inizializza wave profiles se vuoto (default)
-        if (waveProfiles == null || waveProfiles.Length == 0)
+        // Inizializza level profiles se vuoto (default)
+        if (levelProfiles == null || levelProfiles.Length == 0)
         {
-            InitializeDefaultWaveProfiles();
+            InitializeDefaultLevelProfiles();
         }
     }
 
@@ -126,59 +122,59 @@ public class DifficultyManager : MonoBehaviour
     {
         if (DifficultyManager.Instance != null)
         {
-            DifficultyManager.Instance.OnWaveComplete += ShowWaveComplete;
+            DifficultyManager.Instance.OnLevelComplete += ShowLevelComplete;
         }
 
-        // Inizializza UI: mostra wave bar, nascondi boss bar
-        ShowWaveUI();
+        // Inizializza UI: mostra level bar, nascondi boss bar
+        ShowLevelUI();
 
         // Debug: salta direttamente al primo boss
         if (skipToFirstBoss)
         {
             StartCoroutine(DebugSkipToBoss());
         }
-        else if (debugSpecificWave)
+        else if (debugSpecificLevel)
         {
-            StartCoroutine(DebugSkipToWave());
+            StartCoroutine(DebugSkipToLevel());
         }
     }
 
-    void ShowWaveComplete()
+    void ShowLevelComplete()
     {
-        StartCoroutine(WaveCompleteRoutine());
+        StartCoroutine(LevelCompleteRoutine());
     }
-    IEnumerator WaveCompleteRoutine()
+    IEnumerator LevelCompleteRoutine()
     {
         // ANIMAZIONE BARRA: Pulsa e diventa ORO
-        if (waveProgressBarFill != null)
+        if (levelProgressBarFill != null)
         {
-            waveProgressBarFill.fillAmount = 1f;
+            levelProgressBarFill.fillAmount = 1f;
 
             // Pulsa 3 volte
             for (int pulse = 0; pulse < 3; pulse++)
             {
-                waveProgressBarFill.color = barColorGold;
+                levelProgressBarFill.color = barColorGold;
                 yield return new WaitForSeconds(0.15f);
-                waveProgressBarFill.color = Color.white;
+                levelProgressBarFill.color = Color.white;
                 yield return new WaitForSeconds(0.15f);
             }
 
-            waveProgressBarFill.color = barColorGold; // Lascia oro
+            levelProgressBarFill.color = barColorGold; // Lascia oro
         }
     }
 
-    // Inizializza wave profiles di default (chiamato una volta)
-    void InitializeDefaultWaveProfiles()
+    // Inizializza level profiles di default (chiamato una volta)
+    void InitializeDefaultLevelProfiles()
     {
-        waveProfiles = new WaveProfile[6];
+        levelProfiles = new LevelProfile[6];
 
         // ═══════════════════════════════════════════════════════════════════════
-        // WAVE 1 - "WARM UP" - Solo asteroidi normali, introduzione graduale
+        // level 1 - "WARM UP" - Solo asteroidi normali, introduzione graduale
         // ═══════════════════════════════════════════════════════════════════════
-        waveProfiles[0] = new WaveProfile
+        levelProfiles[0] = new LevelProfile
         {
-            waveName = "Wave 1 - Asteroid Field",
-            waveDuration = 30f,
+            levelName = "Level 1 - Asteroid Field",
+            levelDuration = 30f,
             phase1 = new PhaseConfig
             {
                 // Solo asteroidi normali, lenti, mix di dimensioni
@@ -223,12 +219,12 @@ public class DifficultyManager : MonoBehaviour
             }
         };
         // ═══════════════════════════════════════════════════════════════════════
-        // WAVE 2 - "DIAGONAL ASSAULT" - Introduzione spawn diagonali - intrduce il Fight
+        // level 2 - "DIAGONAL ASSAULT" - Introduzione spawn diagonali - intrduce il Fight
         // ═══════════════════════════════════════════════════════════════════════
-        waveProfiles[1] = new WaveProfile
+        levelProfiles[1] = new LevelProfile
         {
-            waveName = "Wave 2 - Diagonal Assault",
-            waveDuration = 40f,
+            levelName = "Level 2 - Diagonal Assault",
+            levelDuration = 40f,
             phase1 = new PhaseConfig
             {
                 // INTRODUZIONE DIAGONALI - primo contatto
@@ -274,12 +270,12 @@ public class DifficultyManager : MonoBehaviour
             }
         };
         // ═══════════════════════════════════════════════════════════════════════
-        // WAVE 3 - "TRI-DIRECTIONAL CHAOS" - Tutti i tipi + primi nemici
+        // level 3 - "TRI-DIRECTIONAL CHAOS" - Tutti i tipi + primi nemici
         // ═══════════════════════════════════════════════════════════════════════
-        waveProfiles[2] = new WaveProfile
+        levelProfiles[2] = new LevelProfile
         {
-            waveName = "Wave 3 - Tri-Directional Chaos",
-            waveDuration = 55f,
+            levelName = "Level 3 - Tri-Directional Chaos",
+            levelDuration = 55f,
             phase1 = new PhaseConfig
             {
                 // Normale + diagonale insieme
@@ -329,12 +325,12 @@ public class DifficultyManager : MonoBehaviour
             }
         };
         // ═══════════════════════════════════════════════════════════════════════
-        // WAVE 4 - "KAMIKAZE RAIN" - Introduzione kamikazes + focus horizontal
+        // level 4 - "KAMIKAZE RAIN" - Introduzione kamikazes + focus horizontal
         // ═══════════════════════════════════════════════════════════════════════
-        waveProfiles[3] = new WaveProfile
+        levelProfiles[3] = new LevelProfile
         {
-            waveName = "Wave 4 - Kamikaze Rain",
-            waveDuration = 60f,
+            levelName = "Level 4 - Kamikaze Rain",
+            levelDuration = 60f,
             phase1 = new PhaseConfig
             {
                 // Focus su horizontal + diagonal
@@ -384,12 +380,12 @@ public class DifficultyManager : MonoBehaviour
             }
         };
         // ═══════════════════════════════════════════════════════════════════════
-        // WAVE 5 - "BOMBING RUN" - Tutti i nemici sbloccati, difficoltà alta
+        // level 5 - "BOMBING RUN" - Tutti i nemici sbloccati, difficoltà alta
         // ═══════════════════════════════════════════════════════════════════════
-        waveProfiles[4] = new WaveProfile
+        levelProfiles[4] = new LevelProfile
         {
-            waveName = "Wave 5 - Bombing Run",
-            waveDuration = 65f,
+            levelName = "Level 5 - Bombing Run",
+            levelDuration = 65f,
             phase1 = new PhaseConfig
             {
                 // Introduzione bombers con scenario controllato
@@ -439,12 +435,12 @@ public class DifficultyManager : MonoBehaviour
             }
         };
         // ═══════════════════════════════════════════════════════════════════════
-        // WAVE 6 - "FINAL GAUNTLET" - Massima difficoltà, preparazione al boss
+        // level 6 - "FINAL GAUNTLET" - Massima difficoltà, preparazione al boss
         // ═══════════════════════════════════════════════════════════════════════
-        waveProfiles[5] = new WaveProfile
+        levelProfiles[5] = new LevelProfile
         {
-            waveName = "Wave 6 - Final Gauntlet",
-            waveDuration = 70f,
+            levelName = "Level 6 - Final Gauntlet",
+            levelDuration = 70f,
             phase1 = new PhaseConfig
             {
                 // Apertura aggressiva - solo grandi lenti ma tank
@@ -495,14 +491,14 @@ public class DifficultyManager : MonoBehaviour
         };
     }
 
-    // Debug: Testa una wave specifica
-    IEnumerator DebugSkipToWave()
+    // Debug: Testa una level specifica
+    IEnumerator DebugSkipToLevel()
     {
         yield return null;
 
-        totalBossesDefeated = debugWaveIndex; // Simula progressione
+        totalBossesDefeated = debugLevelIndex; // Simula progressione
 
-        Debug.Log($"[DEBUG] Starting Wave {debugWaveIndex + 1}: {GetCurrentWaveProfile().waveName}");
+        Debug.Log($"[DEBUG] Starting Level {debugLevelIndex + 1}: {GetCurrentLevelProfile().levelName}");
 
         //// Disabilita UI testo
         //ScoreManager scoreManager = FindFirstObjectByType<ScoreManager>();
@@ -515,18 +511,18 @@ public class DifficultyManager : MonoBehaviour
         //    levelCompletePanel.SetActive(false);
     }
 
-    // Ottieni il profilo della wave corrente
-    public WaveProfile GetCurrentWaveProfile()
+    // Ottieni il profilo della level corrente
+    public LevelProfile GetCurrentLevelProfile()
     {
-        int waveIndex = totalBossesDefeated % waveProfiles.Length;
+        int levelIndex = totalBossesDefeated % levelProfiles.Length;
 
-        if (waveIndex < 0 || waveIndex >= waveProfiles.Length)
+        if (levelIndex < 0 || levelIndex >= levelProfiles.Length)
         {
-            Debug.LogWarning($"[DIFFICULTY] Wave index {waveIndex} out of range, using Wave 0");
-            return waveProfiles[0];
+            Debug.LogWarning($"[DIFFICULTY] Level index {levelIndex} out of range, using Level 0");
+            return levelProfiles[0];
         }
 
-        return waveProfiles[waveIndex];
+        return levelProfiles[levelIndex];
     }
 
 
@@ -556,57 +552,57 @@ public class DifficultyManager : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.IsGameOver()) return;
         if (isInTransition) return;
         if (isBossFight) return;
-        if (EnemySpawner.IsDebugMode || AsteroidSpawner.IsDebugMode) return; // ← blocca tutto: wave timer, boss transition, ship transition
+        if (EnemySpawner.IsDebugMode || AsteroidSpawner.IsDebugMode) return; // ← blocca tutto: level timer, boss transition, ship transition
 
-        waveTime += Time.deltaTime;
+        levelTime += Time.deltaTime;
 
-        WaveProfile currentWave = GetCurrentWaveProfile();
-        progress = Mathf.Clamp01(waveTime / currentWave.waveDuration); // USA waveDuration del profilo corrente
+        LevelProfile currentLevel = GetCurrentLevelProfile();
+        progress = Mathf.Clamp01(levelTime / currentLevel.levelDuration); // USA levelDuration del profilo corrente
 
         // Aggiorna UI ogni frame
-        UpdateWaveUI();
+        UpdateLevelUI();
 
-        // Check se wave finita → spawna boss
-        if (waveTime >= currentWave.waveDuration)
+        // Check se level finita → spawna boss
+        if (levelTime >= currentLevel.levelDuration)
         {
             StartCoroutine(BossTransition());
         }
     }
 
     /// <summary>
-    /// Mostra UI Wave, nasconde UI Boss
+    /// Mostra UI Level, nasconde UI Boss
     /// </summary>
-    void ShowWaveUI()
+    void ShowLevelUI()
     {
-        if (waveInfoGroup != null) waveInfoGroup.SetActive(true);
+        if (levelInfoGroup != null) levelInfoGroup.SetActive(true);
         if (bossInfoGroup != null) bossInfoGroup.SetActive(false);
 
-        // Reset barra wave
-        if (waveProgressBarFill != null)
+        // Reset barra level
+        if (levelProgressBarFill != null)
         {
-            waveProgressBarFill.fillAmount = 0f;
-            waveProgressBarFill.color = barColorStart;
+            levelProgressBarFill.fillAmount = 0f;
+            levelProgressBarFill.color = barColorStart;
         }
     }
 
     /// <summary>
-    /// Mostra UI Boss, nasconde UI Wave
+    /// Mostra UI Boss, nasconde UI Level
     /// </summary>
     public void ShowBossUI()
     {
         Debug.Log("[DifficultyManager] ShowBossUI() chiamato!");
 
-        //if (waveInfoGroup != null) waveInfoGroup.SetActive(false);
+        //if (levelInfoGroup != null) levelInfoGroup.SetActive(false);
         //if (bossInfoGroup != null) bossInfoGroup.SetActive(true);
 
-        if (waveInfoGroup != null)
+        if (levelInfoGroup != null)
         {
-            waveInfoGroup.SetActive(false);
-            Debug.Log("[DifficultyManager] WaveInfoGroup nascosto");
+            levelInfoGroup.SetActive(false);
+            Debug.Log("[DifficultyManager] LevelInfoGroup nascosto");
         }
         else
         {
-            Debug.LogError("[DifficultyManager] WaveInfoGroup è NULL!");
+            Debug.LogError("[DifficultyManager] LevelInfoGroup è NULL!");
         }
 
         if (bossInfoGroup != null)
@@ -626,10 +622,10 @@ public class DifficultyManager : MonoBehaviour
             bossHealthBarFill.color = new Color(1f, 0.2f, 0.2f);
         }
     }
-    IEnumerator FadeOutWaveBar()
+    IEnumerator FadeOutLevelBar()
     {
-        CanvasGroup cg = waveInfoGroup.GetComponent<CanvasGroup>();
-        if (cg == null) cg = waveInfoGroup.AddComponent<CanvasGroup>();
+        CanvasGroup cg = levelInfoGroup.GetComponent<CanvasGroup>();
+        if (cg == null) cg = levelInfoGroup.AddComponent<CanvasGroup>();
 
         float duration = 0.3f;
         float elapsed = 0f;
@@ -641,25 +637,25 @@ public class DifficultyManager : MonoBehaviour
             yield return null;
         }
 
-        waveInfoGroup.SetActive(false);
+        levelInfoGroup.SetActive(false);
         cg.alpha = 1f; // Reset per prossima volta
     }
 
     /// <summary>
-    /// Aggiorna UI della wave: testo, nome, barra di progresso con colori dinamici
+    /// Aggiorna UI della level: testo, nome, barra di progresso con colori dinamici
     /// </summary>
-    void UpdateWaveUI()
+    void UpdateLevelUI()
     {
-        if (waveText == null || waveProgressBarFill == null) return;
+        if (levelText == null || levelProgressBarFill == null) return;
 
-        WaveProfile currentWave = GetCurrentWaveProfile();
-        int currentWaveNumber = (totalBossesDefeated % waveProfiles.Length) + 1; // 1-6
+        LevelProfile currentLevel = GetCurrentLevelProfile();
+        int currentLevelNumber = (totalBossesDefeated % levelProfiles.Length) + 1; // 1-6
 
-        // Aggiorna testo wave
-        waveText.text = $"WAVE {currentWaveNumber}/{waveProfiles.Length}";
+        // Aggiorna testo level
+        levelText.text = $"level {currentLevelNumber}/{levelProfiles.Length}";
 
         // Aggiorna barra di progresso
-        waveProgressBarFill.fillAmount = progress;
+        levelProgressBarFill.fillAmount = progress;
 
         //// Cambia colore in base al progresso (verde → giallo → rosso)
         //Color barColor;
@@ -673,7 +669,7 @@ public class DifficultyManager : MonoBehaviour
         //    // 50% - 100%: Giallo → Rosso
         //    barColor = Color.Lerp(barColorMid, barColorEnd, (progress - 0.5f) * 2f);
         //}
-        //waveProgressBarFill.color = barColor;
+        //levelProgressBarFill.color = barColor;
     }
 
     /// <summary>
@@ -718,10 +714,10 @@ public class DifficultyManager : MonoBehaviour
     {
         if (!Application.isPlaying) return;
 
-        WaveProfile currentWave = GetCurrentWaveProfile();
+        LevelProfile currentLevel = GetCurrentLevelProfile();
 
-        GUILayout.Label($"Wave: {currentWave.waveName}");
-        GUILayout.Label($"Wave Time: {waveTime:F1}s");
+        GUILayout.Label($"Level: {currentLevel.levelName}");
+        GUILayout.Label($"Level Time: {levelTime:F1}s");
         GUILayout.Label($"Progress: {progress:F2}");
         GUILayout.Label($"Phase: {GetCurrentPhase()}");
         GUILayout.Label($"Bosses Defeated: {totalBossesDefeated}");
@@ -770,10 +766,10 @@ public class DifficultyManager : MonoBehaviour
         bossIndex++;
         totalBossesDefeated++; // Incrementa il contatore totale
 
-        //// Riattiva UI wave
-        //if (waveText != null) waveText.gameObject.SetActive(true);
-        //if (waveNameText != null) waveNameText.gameObject.SetActive(true);
-        //if (waveProgressBarFill != null) waveProgressBarFill.transform.parent.gameObject.SetActive(true);
+        //// Riattiva UI level
+        //if (levelText != null) levelText.gameObject.SetActive(true);
+        //if (levelNameText != null) levelNameText.gameObject.SetActive(true);
+        //if (levelProgressBarFill != null) levelProgressBarFill.transform.parent.gameObject.SetActive(true);
 
         // TODO: game finale??
         // Se hai battuto tutti e 6 i boss, ricomincia loop con difficoltà aumentata
@@ -783,11 +779,11 @@ public class DifficultyManager : MonoBehaviour
             globalDifficultyMultiplier += difficultyIncreasePerLoop; // +50% difficoltà ogni loop
         }
 
-        // Resetta wave
-        waveTime = 0f;
+        // Resetta level
+        levelTime = 0f;
         progress = 0f;
 
-        // Transizione ritardata con UI Wave che appare dopo
+        // Transizione ritardata con UI Level che appare dopo
         StartCoroutine(BossDefeatedTransition()); // normale transizione
     }
 
@@ -812,13 +808,13 @@ public class DifficultyManager : MonoBehaviour
             bossHealthBarFill.fillAmount = 0f; // Assicura che arrivi esattamente a 0
         }
 
-        // Aspetta qualche secondo prima di mostrare la wave bar
+        // Aspetta qualche secondo prima di mostrare la level bar
         yield return new WaitForSeconds(3f); 
 
-        // Mostra Wave UI con il numero corretto (totalBossesDefeated è già aggiornato)
-        ShowWaveUI();
+        // Mostra Level UI con il numero corretto (totalBossesDefeated è già aggiornato)
+        ShowLevelUI();
 
-        // Riattiva AsteroidSpawner DOPO che la wave bar è apparsa
+        // Riattiva AsteroidSpawner DOPO che la level bar è apparsa
         AsteroidSpawner spawner = FindFirstObjectByType<AsteroidSpawner>();
         if (spawner != null) spawner.enabled = true;
 
@@ -870,8 +866,8 @@ public class DifficultyManager : MonoBehaviour
     #region Public Getters for Spawners
 
     /// <summary>
-    /// Ritorna la fase corrente della wave
-    /// (1, 2 o 3) in base al progress della wave
+    /// Ritorna la fase corrente della level
+    /// (1, 2 o 3) in base al progress della level
     /// </summary>
     public int GetCurrentPhase()
     {
@@ -882,13 +878,6 @@ public class DifficultyManager : MonoBehaviour
         if (progress < 0.66f) return 2; // Fase 2: 20-40s
         return 3;                       // Fase 3: 40-60s
     }
-
-    //public float GetProgress() => progress;
-    //public float GetWaveTime() => waveTime;
-    //public bool IsInTransition() => isInTransition;
-    //public int GetTotalBossesDefeated() => totalBossesDefeated;
-    //public float GetGlobalMultiplier() => globalDifficultyMultiplier;
-    //public int GetCurrentLevel() => currentLevel;
 
     #endregion
 }

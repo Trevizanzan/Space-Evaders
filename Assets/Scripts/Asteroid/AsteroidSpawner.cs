@@ -107,8 +107,8 @@ public class AsteroidSpawner : MonoBehaviour
             return;
         }
 
-        WaveProfile currentWave = difficultyManager.GetCurrentWaveProfile();
-        PhaseConfig currentPhase = currentWave.GetPhaseConfig(difficultyManager.GetCurrentPhase());
+        LevelProfile currentLevel = difficultyManager.GetCurrentLevelProfile();
+        PhaseConfig currentPhase = currentLevel.GetPhaseConfig(difficultyManager.GetCurrentPhase());
 
         // Gestione spawn normali (verticali)
         if (currentPhase.spawnNormal)
