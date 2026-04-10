@@ -780,7 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 187418848}
-  - component: {fileID: 187418847}
+  - component: {fileID: 187418849}
   m_Layer: 0
   m_Name: DifficultyManager
   m_TagString: Untagged
@@ -788,37 +788,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &187418847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 187418846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c2e53082306da444b279b5a050e1e98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  transitionDuration: 5
-  waveProfiles: []
-  globalDifficultyMultiplier: 1
-  difficultyIncreasePerLoop: 0.5
-  bossPrefabs:
-  - {fileID: 3479421082226168616, guid: 913eb1d9235d5d84ca6ddf40e5d414c5, type: 3}
-  skipToFirstBoss: 0
-  debugSpecificWave: 0
-  debugWaveIndex: 0
-  waveInfoGroup: {fileID: 2116371337}
-  waveText: {fileID: 1669339249}
-  waveProgressBarFill: {fileID: 631404793}
-  bossInfoGroup: {fileID: 287971460}
-  bossNameText: {fileID: 145164570}
-  bossHealthBarFill: {fileID: 126431633}
-  barColorStart: {r: 0.2, g: 1, b: 0.3, a: 1}
-  barColorMid: {r: 1, g: 0.9, b: 0.2, a: 1}
-  barColorEnd: {r: 1, g: 0.3, b: 0.2, a: 1}
-  barColorGold: {r: 1, g: 0.85, b: 0, a: 1}
 --- !u!4 &187418848
 Transform:
   m_ObjectHideFlags: 0
@@ -828,12 +797,41 @@ Transform:
   m_GameObject: {fileID: 187418846}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.94, y: -2.78, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &187418849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187418846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb351edccf9f2b4a863bce95997c471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DifficultyManager
+  gameSequence: {fileID: 11400000, guid: b6523555dc472994b91ae8b806a1ddc6, type: 2}
+  transitionDuration: 3
+  globalDifficultyMultiplier: 1
+  difficultyIncreasePerLoop: 0.5
+  skipToFirstBoss: 0
+  debugSpecificStep: 0
+  debugStepIndex: 0
+  levelInfoGroup: {fileID: 2116371337}
+  levelText: {fileID: 1669339249}
+  levelProgressBarFill: {fileID: 631404793}
+  bossInfoGroup: {fileID: 287971460}
+  bossNameText: {fileID: 145164570}
+  bossHealthBarFill: {fileID: 126431633}
+  barColorStart: {r: 0.2, g: 1, b: 0.3, a: 1}
+  barColorMid: {r: 1, g: 0.9, b: 0.2, a: 1}
+  barColorEnd: {r: 1, g: 0.3, b: 0.2, a: 1}
+  barColorGold: {r: 1, g: 0.85, b: 0, a: 1}
 --- !u!1 &204160164
 GameObject:
   m_ObjectHideFlags: 0
@@ -3127,7 +3125,7 @@ Transform:
   m_GameObject: {fileID: 1052158365}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3276,7 +3274,6 @@ MonoBehaviour:
   topSpawnMargin: 1.5
   sideSpawnMargin: 1.5
   topHorizontalInset: 1
-  sideVerticalInset: 1
   minSpawnDistance: 2
   maxRetries: 10
   fighterPrefabs:
@@ -3287,7 +3284,7 @@ MonoBehaviour:
   - {fileID: 4071098312061028186, guid: b45e6a97d89556641bb3164a090bf1c9, type: 3}
   pulsarPrefabs:
   - {fileID: 6169655311992338039, guid: 812e48ccb2978cc4eb2410548f7ae0a7, type: 3}
-  debugEnemyOnly: 1
+  debugEnemyOnly: 0
   debugFighterOnly: 0
   debugKamikazeOnly: 0
   debugBomberOnly: 0
@@ -3302,7 +3299,7 @@ Transform:
   m_GameObject: {fileID: 1145615751}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.92845, y: -1.04771, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4522,7 +4519,7 @@ GameObject:
   - component: {fileID: 1669339249}
   - component: {fileID: 1669339248}
   m_Layer: 5
-  m_Name: WaveText
+  m_Name: LevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4587,7 +4584,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WAVE 3/6
+  m_text: LEVEL X
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a0a5dfad933922d4b837ac68fef16318, type: 2}
   m_sharedMaterial: {fileID: 207248713673495511, guid: a0a5dfad933922d4b837ac68fef16318, type: 2}
@@ -5793,7 +5790,7 @@ GameObject:
   - component: {fileID: 2095186474}
   - component: {fileID: 2095186473}
   m_Layer: 5
-  m_Name: WaveProgressBarBG
+  m_Name: LevelProgressBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5889,7 +5886,7 @@ GameObject:
   - component: {fileID: 2116371340}
   - component: {fileID: 2116371339}
   m_Layer: 5
-  m_Name: WaveInfoGroup
+  m_Name: LevelInfoGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

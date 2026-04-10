@@ -6,19 +6,17 @@ public class BossHealthBar : MonoBehaviour
 {
     public static BossHealthBar Instance;
 
-
     [Header("Settings")]
-    [SerializeField] private float smoothSpeed = 5f; // Velocità transizione smooth
+    [SerializeField] private float smoothSpeed = 5f;
 
     private int currentHealth;
     private int maxHealth;
-    private float currentFillAmount; // Attuale fill amount (per smooth lerp)
-    private float targetFillAmount; // Target fill amount
-
+    private float currentFillAmount;
+    private float targetFillAmount;
+    private bool isActive = false; // flag interno, indipendente da IsBossFightActive()
 
     void Awake()
     {
-        // Singleton
         if (Instance == null)
             Instance = this;
         else
@@ -27,54 +25,39 @@ public class BossHealthBar : MonoBehaviour
 
     void Update()
     {
-        // Smooth transition della barra
-        if (DifficultyManager.Instance != null && DifficultyManager.Instance.IsBossFightActive())
-        {
-            currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, Time.deltaTime * smoothSpeed);
+        if (!isActive) return;
 
-            // Aggiorna il DifficultyManager con il valore smooth
-            DifficultyManager.Instance.UpdateBossHealthDirect(currentFillAmount);
+        currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, Time.deltaTime * smoothSpeed);
+        DifficultyManager.Instance?.UpdateBossHealthDirect(currentFillAmount);
+
+        // Quando il lerp è abbastanza vicino allo 0, fermati
+        if (targetFillAmount <= 0f && currentFillAmount < 0.01f)
+        {
+            currentFillAmount = 0f;
+            DifficultyManager.Instance?.UpdateBossHealthDirect(0f);
+            isActive = false;
         }
     }
 
-    /// <summary>
-    /// Mostra la barra e inizializza con la vita massima del boss
-    /// </summary>
     public void ShowBar(int maxHP)
     {
         maxHealth = maxHP;
         currentHealth = maxHP;
         targetFillAmount = 1f;
         currentFillAmount = 1f;
-        
-        // Notifica al DifficultyManager (gestisce la UI nella TopBar)
-        if (DifficultyManager.Instance != null)
-            DifficultyManager.Instance.ShowBossUI();
+        isActive = true;
+
+        DifficultyManager.Instance?.ShowBossUI();
     }
 
-
-    /// <summary>
-    /// Aggiorna la barra quando il boss prende danno
-    /// </summary>
     public void UpdateHealth(int currentHP)
     {
         currentHealth = currentHP;
-        targetFillAmount = (float)currentHealth / maxHealth;
-
-        // Clamp tra 0 e 1
-        targetFillAmount = Mathf.Clamp01(targetFillAmount);
-
-        // L'aggiornamento smooth avviene in Update() tramite Lerp
-
+        targetFillAmount = Mathf.Clamp01((float)currentHealth / maxHealth);
     }
 
-    /// <summary>
-    /// Imposta il nome del boss
-    /// </summary>
     public void SetBossName(string name)
     {
-        // Passa il nome al DifficultyManager
-        if (DifficultyManager.Instance != null)
-            DifficultyManager.Instance.SetBossName(name);
+        DifficultyManager.Instance?.SetBossName(name);
     }
 }

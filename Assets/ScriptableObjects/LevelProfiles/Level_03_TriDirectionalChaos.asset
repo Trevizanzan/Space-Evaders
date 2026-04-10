@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d52c4dc37447f428b953f7f7598098, type: 3}
+  m_Name: Level_03_TriDirectionalChaos
+  m_EditorClassIdentifier: Assembly-CSharp::LevelProfile
+  levelName: Default Level
+  levelDuration: 30
+  phase1:
+    spawnNormal: 0
+    spawnDiagonal: 0
+    spawnHorizontal: 0
+    normalSpawnMultiplier: 1
+    diagonalSpawnMultiplier: 1
+    horizontalSpawnMultiplier: 1
+    allowFighters: 0
+    allowKamikazes: 0
+    allowBombers: 0
+    allowPulsars: 0
+    speedMultiplier: 1
+    healthMultiplier: 1
+    asteroidSizeFocus: 0
+  phase2:
+    spawnNormal: 0
+    spawnDiagonal: 0
+    spawnHorizontal: 0
+    normalSpawnMultiplier: 1
+    diagonalSpawnMultiplier: 1
+    horizontalSpawnMultiplier: 1
+    allowFighters: 0
+    allowKamikazes: 0
+    allowBombers: 0
+    allowPulsars: 0
+    speedMultiplier: 1
+    healthMultiplier: 1
+    asteroidSizeFocus: 0
+  phase3:
+    spawnNormal: 0
+    spawnDiagonal: 0
+    spawnHorizontal: 0
+    normalSpawnMultiplier: 1
+    diagonalSpawnMultiplier: 1
+    horizontalSpawnMultiplier: 1
+    allowFighters: 0
+    allowKamikazes: 0
+    allowBombers: 0
+    allowPulsars: 0
+    speedMultiplier: 1
+    healthMultiplier: 1
+    asteroidSizeFocus: 0
