@@ -3107,13 +3107,13 @@ MonoBehaviour:
   largeWeight: 0.2
   horizontalOffset: 3
   topOffset: 6
-  d_AsteroidOnly: 1
+  d_AsteroidOnly: 0
   d_NormalOnly: 1
   d_DiagonalOnly: 0
   d_HorizontalOnly: 0
+  d_SizeDistribution: 2
   d_SpawnInterval: 0.2
   d_Speed: 4
-  d_SizeDistribution: 2
 --- !u!4 &1052158367
 Transform:
   m_ObjectHideFlags: 0

@@ -18,8 +18,8 @@ public class DifficultyManager : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool skipToFirstBoss = false;
-    [SerializeField] private bool debugSpecificStep = false;
-    [SerializeField] private int debugStepIndex = 0; // Quale step testare (0-based)
+    [SerializeField] private bool debugSpecificLevel = false;
+    [SerializeField] private int debugLevelIndex = 0; // Quale level testare (0-based)
 
     [Header("Level UI - Top Bar")]
     [SerializeField] private GameObject levelInfoGroup;
@@ -42,7 +42,7 @@ public class DifficultyManager : MonoBehaviour
     private float progress = 0f;
     private bool isInTransition = false;
     private bool isBossFight = false;
-    private int currentStepIndex = 0;
+    private int currentLevelIndex = 0;
     private int loopCount = 0;
 
     // Events
@@ -67,8 +67,8 @@ public class DifficultyManager : MonoBehaviour
 
         if (skipToFirstBoss)
             StartCoroutine(DebugSkipToBoss());
-        else if (debugSpecificStep)
-            StartCoroutine(DebugSkipToStep());
+        else if (debugSpecificLevel)
+            StartCoroutine(DebugSkipToLevel());
     }
 
     void Update()
@@ -78,12 +78,12 @@ public class DifficultyManager : MonoBehaviour
         if (isBossFight) return;
         if (EnemySpawner.IsDebugMode || AsteroidSpawner.IsDebugMode) return;
 
-        // Solo se lo step corrente è un Level
-        if (GetCurrentStep() == null || GetCurrentStep().type != StepType.Level) return;
+        // Solo se siamo in un Level normale (non Boss) aggiorniamo il timer e la progress bar
+        if (GetCurrentLevel() == null || GetCurrentLevel().isBoss == true) return;
 
         levelTime += Time.deltaTime;
 
-        LevelProfile currentLevel = GetCurrentLevelProfile();
+        LevelProfile currentLevel = GetCurrentLevel();
         if (currentLevel == null) return;
 
         progress = Mathf.Clamp01(levelTime / currentLevel.levelDuration);
@@ -98,31 +98,19 @@ public class DifficultyManager : MonoBehaviour
     // SEQUENCE NAVIGATION
     // ══════════════════════════════════════════════════════════════════════════
 
-    public SequenceStep GetCurrentStep()
+    public LevelProfile GetCurrentLevel()
     {
-        if (gameSequence == null || gameSequence.steps == null || gameSequence.steps.Length == 0)
-        {
-            Debug.LogWarning("[DifficultyManager] GameSequence non assegnata o vuota!");
+        if (gameSequence == null || gameSequence.levels == null || gameSequence.levels.Length == 0)
             return null;
-        }
-
-        int index = currentStepIndex % gameSequence.steps.Length;
-        return gameSequence.steps[index];
-    }
-
-    public LevelProfile GetCurrentLevelProfile()
-    {
-        SequenceStep step = GetCurrentStep();
-        if (step == null || step.type != StepType.Level) return null;
-        return step.levelProfile;
+        return gameSequence.levels[currentLevelIndex % gameSequence.levels.Length];
     }
 
     // Compatibilità con AsteroidSpawner / EnemySpawner che chiamano GetCurrentWaveProfile()
-    public LevelProfile GetCurrentWaveProfile() => GetCurrentLevelProfile();
+    public LevelProfile GetCurrentWaveProfile() => GetCurrentLevel();
 
     public int GetCurrentPhase()
     {
-        LevelProfile level = GetCurrentLevelProfile();
+        LevelProfile level = GetCurrentLevel();
         if (level == null) return 1;
 
         float third = level.levelDuration / 3f;
@@ -133,12 +121,12 @@ public class DifficultyManager : MonoBehaviour
 
     void AdvanceToNextStep()
     {
-        currentStepIndex++;
+        currentLevelIndex++;
 
-        if (currentStepIndex >= gameSequence.steps.Length)
+        if (currentLevelIndex >= gameSequence.levels.Length)
         {
             // Loop completo: ricomincia con difficoltà aumentata
-            currentStepIndex = 0;
+            currentLevelIndex = 0;
             loopCount++;
             globalDifficultyMultiplier += difficultyIncreasePerLoop;
             Debug.Log($"[DifficultyManager] Loop {loopCount} iniziato! Difficoltà: {globalDifficultyMultiplier:F2}x");
@@ -175,10 +163,10 @@ public class DifficultyManager : MonoBehaviour
 
         AdvanceToNextStep();
 
-        SequenceStep nextStep = GetCurrentStep();
+        LevelProfile nextLevel = GetCurrentLevel();
 
-        if (nextStep.type == StepType.Boss)
-            StartBossFight(nextStep);
+        if (nextLevel.isBoss)
+            StartBossFight(nextLevel);
         else
             StartLevel();
 
@@ -200,11 +188,11 @@ public class DifficultyManager : MonoBehaviour
         EnemySpawner enemySpawner = FindFirstObjectByType<EnemySpawner>();
         if (enemySpawner != null) enemySpawner.enabled = true;
 
-        LevelProfile level = GetCurrentLevelProfile();
+        LevelProfile level = GetCurrentLevel();
         Debug.Log($"[DifficultyManager] Iniziato Level: {(level != null ? level.levelName : "NULL")}");
     }
 
-    void StartBossFight(SequenceStep step)
+    void StartBossFight(LevelProfile step)
     {
         isBossFight = true;
 
@@ -263,9 +251,9 @@ public class DifficultyManager : MonoBehaviour
         // Avanza al prossimo step
         AdvanceToNextStep();
 
-        SequenceStep nextStep = GetCurrentStep();
+        LevelProfile nextStep = GetCurrentLevel();
 
-        if (nextStep.type == StepType.Boss)
+        if (nextStep.isBoss)
         {
             // Due boss di fila
             StartBossFight(nextStep);
@@ -313,12 +301,12 @@ public class DifficultyManager : MonoBehaviour
         // Conta quanti Level ci sono nella sequenza per mostrare "LEVEL X/Y"
         int totalLevels = 0;
         int currentLevelNumber = 0;
-        for (int i = 0; i < gameSequence.steps.Length; i++)
+        for (int i = 0; i < gameSequence.levels.Length; i++)
         {
-            if (gameSequence.steps[i].type == StepType.Level)
+            if (!gameSequence.levels[i].isBoss)  // Conta solo i Level, salta i Boss
             {
                 totalLevels++;
-                if (i <= currentStepIndex % gameSequence.steps.Length)
+                if (i <= currentLevelIndex % gameSequence.levels.Length)
                     currentLevelNumber = totalLevels;
             }
         }
@@ -381,27 +369,27 @@ public class DifficultyManager : MonoBehaviour
         if (spawner != null) spawner.enabled = false;
 
         // Trova il primo step Boss nella sequenza
-        for (int i = 0; i < gameSequence.steps.Length; i++)
+        for (int i = 0; i < gameSequence.levels.Length; i++)
         {
-            if (gameSequence.steps[i].type == StepType.Boss)
+            if (gameSequence.levels[i].isBoss)
             {
-                currentStepIndex = i;
+                currentLevelIndex = i;
                 break;
             }
         }
 
-        StartBossFight(GetCurrentStep());
+        StartBossFight(GetCurrentLevel());
     }
 
-    IEnumerator DebugSkipToStep()
+    IEnumerator DebugSkipToLevel()
     {
         yield return null;
 
-        currentStepIndex = Mathf.Clamp(debugStepIndex, 0, gameSequence.steps.Length - 1);
+        currentLevelIndex = Mathf.Clamp(debugLevelIndex, 0, gameSequence.levels.Length - 1);
 
-        Debug.Log($"[DEBUG] Saltato allo step {currentStepIndex}: {GetCurrentStep().type}");
+        Debug.Log($"[DEBUG] Saltato al level {currentLevelIndex}: {(GetCurrentLevel().isBoss ? "Boss" : "Level")}");
 
-        if (GetCurrentStep().type == StepType.Boss)
+        if (GetCurrentLevel().isBoss)
         {
             AsteroidSpawner spawner = FindFirstObjectByType<AsteroidSpawner>();
             if (spawner != null) spawner.enabled = false;
@@ -409,7 +397,7 @@ public class DifficultyManager : MonoBehaviour
             EnemySpawner enemySpawner = FindFirstObjectByType<EnemySpawner>();
             if (enemySpawner != null) enemySpawner.enabled = false;
 
-            StartBossFight(GetCurrentStep());
+            StartBossFight(GetCurrentLevel());
         }
         else
         {
@@ -423,10 +411,9 @@ public class DifficultyManager : MonoBehaviour
     {
         if (!Application.isPlaying) return;
 
-        SequenceStep step = GetCurrentStep();
-        LevelProfile level = GetCurrentLevelProfile();
+        LevelProfile level = GetCurrentLevel();
 
-        GUILayout.Label($"Step: {currentStepIndex} ({(step != null ? step.type.ToString() : "NULL")})");
+        GUILayout.Label($"Level: {currentLevelIndex} ({(level != null ? (level.isBoss ? "Boss" : "Level") : "NULL")})");
         GUILayout.Label($"Level: {(level != null ? level.levelName : "Boss Fight")}");
         GUILayout.Label($"Level Time: {levelTime:F1}s");
         GUILayout.Label($"Progress: {progress:F2}");

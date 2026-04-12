@@ -53,6 +53,11 @@ public class PhaseConfig
 [CreateAssetMenu(fileName = "NewLevelProfile", menuName = "Game/Level Profile")]
 public class LevelProfile : ScriptableObject
 {
+    [Header("Step Type")]
+    public bool isBoss = false;
+    [Tooltip("Usato solo se isBoss = true")]
+    public GameObject bossPrefab;
+
     [Header("Level Info")]
     public string levelName = "Default Level";
     public float levelDuration = 30f;

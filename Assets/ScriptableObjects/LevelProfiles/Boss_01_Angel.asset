@@ -10,76 +10,78 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8d52c4dc37447f428b953f7f7598098, type: 3}
-  m_Name: Level_01_AsteroidField
+  m_Name: Boss_01_Angel
   m_EditorClassIdentifier: Assembly-CSharp::LevelProfile
+  isBoss: 0
+  bossPrefab: {fileID: 0}
   levelName: Default Level
   levelDuration: 30
   phase1:
     designNotes: 
-    spawnNormal: 1
-    normalSpawnInterval: 0.5
-    normalSpeed: 9
+    spawnNormal: 0
+    normalSpawnInterval: 2
+    normalSpeed: 8
     normalSizeDistribution: 0
     spawnDiagonal: 0
-    diagonalSpawnInterval: 0
-    diagonalSpeed: 0
+    diagonalSpawnInterval: 3
+    diagonalSpeed: 9
     diagonalSizeDistribution: 0
     spawnHorizontal: 0
-    horizontalSpawnInterval: 0
-    horizontalSpeed: 0
+    horizontalSpawnInterval: 4
+    horizontalSpeed: 11
     horizontalSizeDistribution: 0
     healthMultiplier: 1
     allowFighters: 0
-    fighterSpawnInterval: 0
+    fighterSpawnInterval: 5
     allowKamikazes: 0
-    kamikazeSpawnInterval: 0
+    kamikazeSpawnInterval: 4
     allowBombers: 0
-    bomberSpawnInterval: 0
+    bomberSpawnInterval: 8
     allowPulsars: 0
-    pulsarSpawnInterval: 0
+    pulsarSpawnInterval: 10
   phase2:
     designNotes: 
-    spawnNormal: 1
-    normalSpawnInterval: 0.8
-    normalSpeed: 10
+    spawnNormal: 0
+    normalSpawnInterval: 2
+    normalSpeed: 8
     normalSizeDistribution: 0
-    spawnDiagonal: 1
+    spawnDiagonal: 0
     diagonalSpawnInterval: 3
-    diagonalSpeed: 7
-    diagonalSizeDistribution: 0
-    spawnHorizontal: 0
-    horizontalSpawnInterval: 0
-    horizontalSpeed: 0
-    horizontalSizeDistribution: 0
-    healthMultiplier: 1
-    allowFighters: 1
-    fighterSpawnInterval: 2
-    allowKamikazes: 0
-    kamikazeSpawnInterval: 0
-    allowBombers: 0
-    bomberSpawnInterval: 0
-    allowPulsars: 0
-    pulsarSpawnInterval: 0
-  phase3:
-    designNotes: 
-    spawnNormal: 1
-    normalSpawnInterval: 0.6
-    normalSpeed: 10
-    normalSizeDistribution: 0
-    spawnDiagonal: 1
-    diagonalSpawnInterval: 2
     diagonalSpeed: 9
     diagonalSizeDistribution: 0
-    spawnHorizontal: 1
-    horizontalSpawnInterval: 1
-    horizontalSpeed: 7
+    spawnHorizontal: 0
+    horizontalSpawnInterval: 4
+    horizontalSpeed: 11
     horizontalSizeDistribution: 0
     healthMultiplier: 1
-    allowFighters: 1
-    fighterSpawnInterval: 2
+    allowFighters: 0
+    fighterSpawnInterval: 5
     allowKamikazes: 0
-    kamikazeSpawnInterval: 0
+    kamikazeSpawnInterval: 4
     allowBombers: 0
-    bomberSpawnInterval: 0
+    bomberSpawnInterval: 8
     allowPulsars: 0
-    pulsarSpawnInterval: 0
+    pulsarSpawnInterval: 10
+  phase3:
+    designNotes: 
+    spawnNormal: 0
+    normalSpawnInterval: 2
+    normalSpeed: 8
+    normalSizeDistribution: 0
+    spawnDiagonal: 0
+    diagonalSpawnInterval: 3
+    diagonalSpeed: 9
+    diagonalSizeDistribution: 0
+    spawnHorizontal: 0
+    horizontalSpawnInterval: 4
+    horizontalSpeed: 11
+    horizontalSizeDistribution: 0
+    healthMultiplier: 1
+    allowFighters: 0
+    fighterSpawnInterval: 5
+    allowKamikazes: 0
+    kamikazeSpawnInterval: 4
+    allowBombers: 0
+    bomberSpawnInterval: 8
+    allowPulsars: 0
+    pulsarSpawnInterval: 10

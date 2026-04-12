@@ -121,7 +121,7 @@ public class EnemySpawner : MonoBehaviour
         if (difficultyManager == null) return;
 
         PhaseConfig phase = difficultyManager
-            .GetCurrentLevelProfile()
+            .GetCurrentLevel()
             .GetPhaseConfig(difficultyManager.GetCurrentPhase());
 
         if (phase.allowFighters) HandleFighterSpawn(phase);
