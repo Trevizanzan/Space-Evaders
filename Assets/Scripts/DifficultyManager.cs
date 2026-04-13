@@ -10,7 +10,7 @@ public class DifficultyManager : MonoBehaviour
     [SerializeField] private GameSequence gameSequence; // Trascina qui il tuo GameSequence asset
 
     [Header("Level Settings")]
-    [SerializeField] private float transitionDuration = 3f; // pausa tra level e boss
+    [SerializeField] private float transitionDuration = 5f; // pausa tra level e boss
 
     [Header("Difficulty Scaling")]
     [SerializeField] private float globalDifficultyMultiplier = 1f;
@@ -91,7 +91,7 @@ public class DifficultyManager : MonoBehaviour
         UpdateLevelUI();
 
         if (levelTime >= currentLevel.levelDuration)
-            StartCoroutine(StepTransition());
+            StartCoroutine(LevelTransition());
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -119,7 +119,7 @@ public class DifficultyManager : MonoBehaviour
         return 3;
     }
 
-    void AdvanceToNextStep()
+    void AdvanceToNextLevel()
     {
         currentLevelIndex++;
 
@@ -138,39 +138,64 @@ public class DifficultyManager : MonoBehaviour
     // ══════════════════════════════════════════════════════════════════════════
 
     /// <summary>
-    /// Gestisce la transizione da uno step al successivo (Level→Boss o Boss→Level)
+    /// Gestisce la transizione da un level al successivo (Level→Boss o Boss→Level)
     /// </summary>
-    // Sostituisci StepTransition in DifficultyManager.cs con questo:
-
-    IEnumerator StepTransition()
+    IEnumerator LevelTransition()
     {
         isInTransition = true;
         OnLevelComplete?.Invoke();
         OnWaveComplete?.Invoke();
 
         // Aspetta che l'animazione gold della barra finisca (~1 secondo: 3 pulse x 0.3s)
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
 
         // Ferma spawner
-        AsteroidSpawner spawner = FindFirstObjectByType<AsteroidSpawner>();
-        if (spawner != null) spawner.enabled = false;
+        AsteroidSpawner asteroidSpawner = FindFirstObjectByType<AsteroidSpawner>();
+        if (asteroidSpawner != null) asteroidSpawner.enabled = false;
 
         EnemySpawner enemySpawner = FindFirstObjectByType<EnemySpawner>();
         if (enemySpawner != null) enemySpawner.enabled = false;
 
+        // Aspetta che la scena sia vuota
+        yield return StartCoroutine(WaitForSceneClear());
+
         // Pausa prima del boss
         yield return new WaitForSeconds(transitionDuration);
 
-        AdvanceToNextStep();
+        AdvanceToNextLevel();
 
         LevelProfile nextLevel = GetCurrentLevel();
-
         if (nextLevel.isBoss)
             StartBossFight(nextLevel);
         else
             StartLevel();
 
         isInTransition = false;
+    }
+
+    IEnumerator WaitForSceneClear()
+    {
+        float timeout = 10f; // failsafe: dopo 10s pulisce comunque
+        float elapsed = 0f;
+
+        while (elapsed < timeout)
+        {
+            bool hasAsteroids = GameObject.FindGameObjectsWithTag("Asteroid").Length > 0;
+            bool hasEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length > 0;
+
+            if (!hasAsteroids && !hasEnemies) yield break;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Failsafe: distruggi quello che è rimasto
+        foreach (var a in GameObject.FindGameObjectsWithTag("Asteroid"))
+            Destroy(a);
+        foreach (var e in GameObject.FindGameObjectsWithTag("Enemy"))
+            Destroy(e);
+
+        //Debug.Log("[DifficultyManager] Failsafe: oggetti rimasti distrutti dopo timeout.");
     }
 
     void StartLevel()
@@ -192,19 +217,19 @@ public class DifficultyManager : MonoBehaviour
         Debug.Log($"[DifficultyManager] Iniziato Level: {(level != null ? level.levelName : "NULL")}");
     }
 
-    void StartBossFight(LevelProfile step)
+    void StartBossFight(LevelProfile level)
     {
         isBossFight = true;
 
-        if (step.bossPrefab != null)
+        if (level.bossPrefab != null)
         {
             float cameraTop = Camera.main.orthographicSize;
             Vector3 spawnPos = new Vector3(0, cameraTop * 1.1f, 0);
-            Instantiate(step.bossPrefab, spawnPos, step.bossPrefab.transform.rotation);
+            Instantiate(level.bossPrefab, spawnPos, level.bossPrefab.transform.rotation);
         }
         else
         {
-            Debug.LogWarning("[DifficultyManager] Step Boss senza bossPrefab assegnato!");
+            Debug.LogWarning("[DifficultyManager] Level Boss senza bossPrefab assegnato!");
         }
 
         ShowBossUI();
@@ -225,6 +250,10 @@ public class DifficultyManager : MonoBehaviour
         StartCoroutine(BossDefeatedTransition());
     }
 
+    /// <summary>
+    /// Questo metodo gestisce la transizione dopo la sconfitta di un boss: anima la barra del boss a 0, aspetta qualche secondo, e poi avanza al prossimo level (che potrebbe essere un altro boss o un level normale)
+    /// </summary>
+    /// <returns></returns>
     IEnumerator BossDefeatedTransition()
     {
         isInTransition = true;
@@ -248,15 +277,15 @@ public class DifficultyManager : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        // Avanza al prossimo step
-        AdvanceToNextStep();
+        // Avanza al prossimo level
+        AdvanceToNextLevel();
 
-        LevelProfile nextStep = GetCurrentLevel();
+        LevelProfile nextLevel = GetCurrentLevel();
 
-        if (nextStep.isBoss)
+        if (nextLevel.isBoss)
         {
             // Due boss di fila
-            StartBossFight(nextStep);
+            StartBossFight(nextLevel);
         }
         else
         {
@@ -368,7 +397,7 @@ public class DifficultyManager : MonoBehaviour
         AsteroidSpawner spawner = FindFirstObjectByType<AsteroidSpawner>();
         if (spawner != null) spawner.enabled = false;
 
-        // Trova il primo step Boss nella sequenza
+        // Trova il primo Boss nella sequenza
         for (int i = 0; i < gameSequence.levels.Length; i++)
         {
             if (gameSequence.levels[i].isBoss)
