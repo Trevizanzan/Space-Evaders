@@ -416,7 +416,7 @@ public class DifficultyManager : MonoBehaviour
 
         currentLevelIndex = Mathf.Clamp(debugLevelIndex, 0, gameSequence.levels.Length - 1);
 
-        Debug.Log($"[DEBUG] Saltato al level {currentLevelIndex}: {(GetCurrentLevel().isBoss ? "Boss" : "Level")}");
+        Debug.Log($"[DEBUG] Debugging level {currentLevelIndex}: type {(GetCurrentLevel().isBoss ? "Boss" : "Level")}");
 
         if (GetCurrentLevel().isBoss)
         {

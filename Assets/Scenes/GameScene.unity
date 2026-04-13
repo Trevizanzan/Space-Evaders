@@ -454,6 +454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooting
   projectilePrefab: {fileID: 2093506508120260160, guid: 0934b5481a133a949abcb2f8c7ee5e54, type: 3}
   firePoint: {fileID: 1050214666}
+  autoFire: 1
+  shootCooldown: 0.15
 --- !u!114 &74886327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,7 +823,7 @@ MonoBehaviour:
   difficultyIncreasePerLoop: 0.5
   skipToFirstBoss: 0
   debugSpecificLevel: 1
-  debugLevelIndex: 0
+  debugLevelIndex: 1
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
   levelProgressBarFill: {fileID: 631404793}
@@ -3092,9 +3094,8 @@ MonoBehaviour:
   - {fileID: 7281149511739552336, guid: 0e3f8e9f838425147a7be351a68716ff, type: 3}
   - {fileID: 7824893673477367955, guid: 5852c8506fedf6c4bb55bcc9047f2c3a, type: 3}
   mediumAsteroids:
-  - {fileID: 1557415453779876514, guid: d3d4bca083355eb4a80c53cb8f108485, type: 3}
-  bigAsteroids:
   - {fileID: 6342991118519517000, guid: aee20b28e8292c842861f365d06e9faa, type: 3}
+  bigAsteroids:
   - {fileID: 1557415453779876514, guid: d3d4bca083355eb4a80c53cb8f108485, type: 3}
   - {fileID: 1933450810738102250, guid: 584d4491b285b1b47a5d26669f26f5bc, type: 3}
   bigScaleMin: 1.5
@@ -3102,7 +3103,7 @@ MonoBehaviour:
   smallWeight: 0.5
   mediumWeight: 0.3
   largeWeight: 0.2
-  d_AsteroidOnly: 1
+  d_AsteroidOnly: 0
   d_NormalOnly: 0
   d_DiagonalOnly: 0
   d_HorizontalOnly: 1
@@ -4105,6 +4106,8 @@ MonoBehaviour:
   topHorizontalInsetPct: 0.05
   diagonalMinYPct: 0.75
   diagonalMarginPct: 0.1
+  horizontalMinYPct: 0.2
+  horizontalMaxYPct: 0.9
   sideMarginPct: 0.1
   destroyBottomMarginPct: 0.18
   destroySideMarginPct: 0.3
@@ -4317,7 +4320,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 143.03464, y: -9}
+  m_AnchoredPosition: {x: 142.995, y: -9}
   m_SizeDelta: {x: 14.01, y: 14.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449258773

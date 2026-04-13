@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameSequence
   levels:
   - {fileID: 11400000, guid: 656f13b5c08dc894194e8720c443fa59, type: 2}
-  - {fileID: 11400000, guid: 9a63ed3dce9d34b4dae6cd3f61ddb427, type: 2}
+  - {fileID: 11400000, guid: 6f16fb6c2f3969f4296398e421b1839b, type: 2}
   - {fileID: 11400000, guid: b422fce22e038dd4c9232b82efb500de, type: 2}
   - {fileID: 11400000, guid: 72dc7a488790245408cb836260ab52e8, type: 2}

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1871477164294089250}
   - component: {fileID: 1338985946537083060}
   - component: {fileID: 1812248757572472728}
-  - component: {fileID: 5540177460153975058}
   - component: {fileID: 6047792405631826444}
+  - component: {fileID: 5481539212029894970}
   m_Layer: 0
   m_Name: Kamikaze
   m_TagString: Enemy
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6169655311992338039}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.53, y: -7.22, z: 0}
+  m_LocalPosition: {x: 9.271418, y: -4.3120613, z: 0}
   m_LocalScale: {x: 2.6, y: 2.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121,8 +121,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &5540177460153975058
-BoxCollider2D:
+--- !u!114 &6047792405631826444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6169655311992338039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150bd8857ba9978409935e36cb1ddde6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyKamikaze
+  maxHealth: 3
+  scoreValue: 100
+  damageToPlayer: 1
+  flashMaterial: {fileID: 2100000, guid: b01ab75e2f6accf4c89786fd4eaf4432, type: 2}
+  moveSpeed: 15
+  rotationSpeed: 200
+  accelerationTime: 1.5
+  chargeDelay: 0.8
+  chargeSpeedBoost: 2.5
+--- !u!58 &5481539212029894970
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -155,36 +176,5 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.044582367, y: 0.0014378577}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.0625, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.71447265, y: 0.25504866}
-  m_EdgeRadius: 0
---- !u!114 &6047792405631826444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6169655311992338039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 150bd8857ba9978409935e36cb1ddde6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyKamikaze
-  maxHealth: 2
-  scoreValue: 100
-  damageToPlayer: 1
-  flashMaterial: {fileID: 2100000, guid: b01ab75e2f6accf4c89786fd4eaf4432, type: 2}
-  moveSpeed: 15
-  rotationSpeed: 200
-  accelerationTime: 1.5
-  chargeDelay: 0.8
-  chargeSpeedBoost: 2.5
+  m_Offset: {x: 0.00029288806, y: 0.007007168}
+  m_Radius: 0.31636515

@@ -10,8 +10,12 @@ public class PlayerShooting : MonoBehaviour
     public Transform firePoint;      // punto dove spawna (davanti alla nave)
 
     // Aggiunta cooldown per evitare di sparare troppo velocemente
-    private float shootCooldown = 0.13f; // tra uno sparo e l'altro devono passare almeno 0.12 secondi (8 spari al secondo)
     private float lastShootTime = 0f;
+
+    [Header("Auto Fire")]
+    [SerializeField] private bool autoFire = false;
+
+    [SerializeField] private float shootCooldown = 0.13f; // tra uno sparo e l'altro devono passare almeno 0.13 secondi (8 spari al secondo)
 
     void Update()
     {
@@ -19,20 +23,21 @@ public class PlayerShooting : MonoBehaviour
         if (BossBase.IsBossEntering) return;
 
         // tasto destro del mouse o barra spaziatrice per sparare
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(1))
+        bool manualFire = (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1))
+                          && Time.time - lastShootTime >= shootCooldown;
+
+        bool shouldShoot = autoFire
+            ? Time.time - lastShootTime >= shootCooldown
+            : manualFire;
+
+        if (shouldShoot)
         {
-            if (Time.time - lastShootTime >= shootCooldown)
-            {
-                Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
+            Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
 
-                // suona il suono dello sparo
-                if (SoundManager.Instance != null)
-                {
-                    SoundManager.Instance.PlayShoot();
-                }
+            if (SoundManager.Instance != null)
+                SoundManager.Instance.PlayShoot();
 
-                lastShootTime = Time.time;  // aggiorna il tempo dell'ultimo sparo
-            }
+            lastShootTime = Time.time;
         }
     }
 }
