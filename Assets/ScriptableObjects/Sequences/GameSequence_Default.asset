@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c4505cdb74d01409ea79f943f59b27, type: 3}
   m_Name: GameSequence_Default
   m_EditorClassIdentifier: Assembly-CSharp::GameSequence
-  steps:
-  - {fileID: 11400000, guid: f9bc0de26a2a091418c66648b688e55c, type: 2}
-  - {fileID: 11400000, guid: c75cf56e2a47a734c8c20d54e6070c77, type: 2}
-  - {fileID: 11400000, guid: e00e98cec42b2484aa5058a5c8ac5045, type: 2}
-  - {fileID: 11400000, guid: f9bc0de26a2a091418c66648b688e55c, type: 2}
+  levels:
+  - {fileID: 11400000, guid: 656f13b5c08dc894194e8720c443fa59, type: 2}
+  - {fileID: 11400000, guid: 72dc7a488790245408cb836260ab52e8, type: 2}
+  - {fileID: 11400000, guid: 9a63ed3dce9d34b4dae6cd3f61ddb427, type: 2}
+  - {fileID: 11400000, guid: d5eb610ad406926438f1c7d678590547, type: 2}

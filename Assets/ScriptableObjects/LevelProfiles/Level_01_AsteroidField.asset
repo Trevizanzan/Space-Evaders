@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d52c4dc37447f428b953f7f7598098, type: 3}
   m_Name: Level_01_AsteroidField
   m_EditorClassIdentifier: Assembly-CSharp::LevelProfile
+  isBoss: 0
+  bossPrefab: {fileID: 0}
   levelName: Default Level
-  levelDuration: 30
+  levelDuration: 10
   phase1:
-    designNotes: 
+    designNotes: test primo livello
     spawnNormal: 1
     normalSpawnInterval: 0.5
     normalSpeed: 9
@@ -61,7 +63,7 @@ MonoBehaviour:
     allowPulsars: 0
     pulsarSpawnInterval: 0
   phase3:
-    designNotes: 
+    designNotes: test primo livello
     spawnNormal: 1
     normalSpawnInterval: 0.6
     normalSpeed: 10

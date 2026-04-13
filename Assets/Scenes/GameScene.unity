@@ -816,12 +816,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DifficultyManager
   gameSequence: {fileID: 11400000, guid: b6523555dc472994b91ae8b806a1ddc6, type: 2}
-  transitionDuration: 3
+  transitionDuration: 5
   globalDifficultyMultiplier: 1
   difficultyIncreasePerLoop: 0.5
   skipToFirstBoss: 0
-  debugSpecificStep: 0
-  debugStepIndex: 0
+  debugSpecificLevel: 0
+  debugLevelIndex: 0
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
   levelProgressBarFill: {fileID: 631404793}

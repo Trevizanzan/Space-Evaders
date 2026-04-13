@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d52c4dc37447f428b953f7f7598098, type: 3}
   m_Name: Boss_01_Angel
   m_EditorClassIdentifier: Assembly-CSharp::LevelProfile
-  isBoss: 0
-  bossPrefab: {fileID: 0}
+  isBoss: 1
+  bossPrefab: {fileID: 3479421082226168616, guid: 913eb1d9235d5d84ca6ddf40e5d414c5, type: 3}
   levelName: Default Level
   levelDuration: 30
   phase1:
