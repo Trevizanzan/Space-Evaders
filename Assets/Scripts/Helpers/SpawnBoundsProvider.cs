@@ -15,9 +15,14 @@ public class SpawnBoundsProvider : MonoBehaviour
     [Header("Diagonal Spawn (% altezza camera)")]
     [Range(0f, 1f)][SerializeField] private float diagonalMinYPct = 0.75f; // 0=bottom, 1=top della camera
     [Range(0f, 0.5f)][SerializeField] private float diagonalMarginPct = 0.1f; // quanto sopra il bordo top
-
     public float DiagonalMinY { get; private set; }
     public float DiagonalMaxY { get; private set; }
+
+    [Header("Horizontal Spawn (% altezza camera)")]
+    [Range(0f, 1f)][SerializeField] private float horizontalMinYPct = 0.2f;  // 0=bottom, 1=top
+    [Range(0f, 1f)][SerializeField] private float horizontalMaxYPct = 0.75f; // 0=bottom, 1=top
+    public float HorizontalMinY { get; private set; }
+    public float HorizontalMaxY { get; private set; }
 
     [Header("Side Spawn (% larghezza camera)")]
     [Range(0f, 0.5f)][SerializeField] private float sideMarginPct = 0.1f;      // quanto fuori dai bordi laterali es. 0.1 = 10% fuori dai bordi laterali
@@ -76,12 +81,15 @@ public class SpawnBoundsProvider : MonoBehaviour
         TopY = tr.y + camHeight * topMarginPct;
         TopMinX = bl.x + camWidth * topHorizontalInsetPct;
         TopMaxX = tr.x - camWidth * topHorizontalInsetPct;
-
-        // Calcola i bordi di spawn laterale (più ampi per gestire spawn diagonali)
         LeftX = bl.x - camWidth * sideMarginPct;
         RightX = tr.x + camWidth * sideMarginPct;
+
         DiagonalMinY = bl.y + camHeight * diagonalMinYPct;
         DiagonalMaxY = tr.y + camHeight * diagonalMarginPct;
+
+        HorizontalMinY = bl.y + camHeight * horizontalMinYPct;
+        HorizontalMaxY = bl.y + camHeight * horizontalMaxYPct;
+
         SideMinY = center.y;
         SideMaxY = tr.y + camHeight * sideMarginPct;
 

@@ -43,10 +43,10 @@ MonoBehaviour:
     designNotes: 
     spawnNormal: 1
     normalSpawnInterval: 0.8
-    normalSpeed: 10
+    normalSpeed: 9
     normalSizeDistribution: 0
     spawnDiagonal: 1
-    diagonalSpawnInterval: 1
+    diagonalSpawnInterval: 0.5
     diagonalSpeed: 7
     diagonalSizeDistribution: 2
     spawnHorizontal: 0
@@ -65,15 +65,15 @@ MonoBehaviour:
   phase3:
     designNotes: test primo livello
     spawnNormal: 1
-    normalSpawnInterval: 0.6
-    normalSpeed: 10
+    normalSpawnInterval: 1.1
+    normalSpeed: 9
     normalSizeDistribution: 0
     spawnDiagonal: 1
-    diagonalSpawnInterval: 2
+    diagonalSpawnInterval: 0.9
     diagonalSpeed: 7
-    diagonalSizeDistribution: 0
+    diagonalSizeDistribution: 2
     spawnHorizontal: 1
-    horizontalSpawnInterval: 1
+    horizontalSpawnInterval: 0.5
     horizontalSpeed: 7
     horizontalSizeDistribution: 3
     healthMultiplier: 1

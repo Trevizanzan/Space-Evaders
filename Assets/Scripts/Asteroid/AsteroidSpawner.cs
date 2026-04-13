@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AsteroidSpawner : MonoBehaviour
@@ -251,10 +252,10 @@ public class AsteroidSpawner : MonoBehaviour
         GameObject asteroidPrefab = GetAsteroidBySize(phase.horizontalSizeDistribution);
         if (asteroidPrefab == null) return;
 
-        var b = SpawnBoundsProvider.Instance;
+        var bounds = SpawnBoundsProvider.Instance;
         bool spawnFromLeft = Random.value > 0.5f;
-        float spawnX = spawnFromLeft ? b.LeftX : b.RightX;
-        float spawnPosY = Random.Range(b.SideMinY, b.SideMaxY);
+        float spawnX = spawnFromLeft ? bounds.LeftX : bounds.RightX;
+        float spawnPosY = Random.Range(bounds.HorizontalMinY, bounds.HorizontalMaxY);
         Vector3 spawnPosition = new Vector3(spawnX, spawnPosY, 0f);
 
         GameObject asteroid = Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);

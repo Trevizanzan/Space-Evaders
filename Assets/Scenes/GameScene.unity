@@ -820,7 +820,7 @@ MonoBehaviour:
   globalDifficultyMultiplier: 1
   difficultyIncreasePerLoop: 0.5
   skipToFirstBoss: 0
-  debugSpecificLevel: 0
+  debugSpecificLevel: 1
   debugLevelIndex: 0
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
@@ -3104,9 +3104,9 @@ MonoBehaviour:
   largeWeight: 0.2
   d_AsteroidOnly: 1
   d_NormalOnly: 0
-  d_DiagonalOnly: 1
-  d_HorizontalOnly: 0
-  d_SizeDistribution: 3
+  d_DiagonalOnly: 0
+  d_HorizontalOnly: 1
+  d_SizeDistribution: 1
   d_SpawnInterval: 0.5
   d_Speed: 7
 --- !u!4 &1052158367
@@ -4317,7 +4317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 142.995, y: -9}
+  m_AnchoredPosition: {x: 143.03464, y: -9}
   m_SizeDelta: {x: 14.01, y: 14.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449258773
