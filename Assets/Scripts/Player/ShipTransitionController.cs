@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ShipTransitionController : MonoBehaviour
 {
-    [SerializeField] private float exitSpeed = 24f;
+    [SerializeField] private float exitSpeed = 21f;
     //[SerializeField] private float exitHeight = 15f; // altezza oltre la camera
 
     private Spaceship ship;
@@ -13,10 +13,11 @@ public class ShipTransitionController : MonoBehaviour
     {
         ship = Spaceship.GetInstance();
 
-        if (DifficultyManager.Instance != null)
-        {
-            DifficultyManager.Instance.OnLevelComplete += StartTransition;
-        }
+        // DISABILITATO PER IL MOMENTO, POI VEDREMO SE SERVE OPPURE SE FAREMO UNA TRANSIZIONE DIVERSA
+        //if (DifficultyManager.Instance != null)
+        //{
+        //    DifficultyManager.Instance.OnLevelComplete += StartTransition;
+        //}
     }
 
     void StartTransition()
