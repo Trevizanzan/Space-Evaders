@@ -436,7 +436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spaceship
   cam: {fileID: 0}
   sr: {fileID: 0}
-  moveSpeed: 27
+  moveSpeed: 25
   padding: 0
   thrusterExtraHeight: 1.3
   topUIPaddingViewport: 0.08
@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86386dbe2dd8b96498617c988f7db6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 500
+  maxHealth: 5
   invulnerabilityDuration: 1
   blinkInterval: 0.1
 --- !u!114 &74886328

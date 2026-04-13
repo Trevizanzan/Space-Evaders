@@ -168,7 +168,7 @@ public class EnemySpawner : MonoBehaviour
     {
         fighterTimer += Time.deltaTime;
         if (fighterTimer < phase.fighterSpawnInterval) return;
-        SpawnEnemy(fighterPrefabs, GetTopSpawnPosition());
+        SpawnEnemy(fighterPrefabs, GetTopSpawnPosition(), phase);
         fighterTimer = 0f;
     }
 
@@ -178,7 +178,7 @@ public class EnemySpawner : MonoBehaviour
     {
         kamikazeTimer += Time.deltaTime;
         if (kamikazeTimer < phase.kamikazeSpawnInterval) return;
-        SpawnEnemy(kamikazePrefabs, GetTopSpawnPosition());
+        SpawnEnemy(kamikazePrefabs, GetTopSpawnPosition(), phase);
         kamikazeTimer = 0f;
     }
 
@@ -188,7 +188,7 @@ public class EnemySpawner : MonoBehaviour
     {
         bomberTimer += Time.deltaTime;
         if (bomberTimer < phase.bomberSpawnInterval) return;
-        SpawnEnemy(bomberPrefabs, GetTopSpawnPosition());
+        SpawnEnemy(bomberPrefabs, GetTopSpawnPosition(), phase);
         bomberTimer = 0f;
     }
 
@@ -198,7 +198,7 @@ public class EnemySpawner : MonoBehaviour
     {
         pulsarTimer += Time.deltaTime;
         if (pulsarTimer < phase.pulsarSpawnInterval) return;
-        SpawnEnemy(pulsarPrefabs, GetTopSpawnPosition());
+        SpawnEnemy(pulsarPrefabs, GetTopSpawnPosition(), phase);
         pulsarTimer = 0f;
     }
 
@@ -242,13 +242,20 @@ public class EnemySpawner : MonoBehaviour
 
     // ── SPAWN ─────────────────────────────────────────────────────────────────
 
-    void SpawnEnemy(GameObject[] prefabs, Vector3 position)
+    void SpawnEnemy(GameObject[] prefabs, Vector3 position, PhaseConfig phase = null)
     {
         if (prefabs == null || prefabs.Length == 0) return;
 
         GameObject prefab = prefabs[Random.Range(0, prefabs.Length)];
         if (prefab == null) return;
 
-        Instantiate(prefab, position, prefab.transform.rotation);
+        GameObject go = Instantiate(prefab, position, prefab.transform.rotation);
+
+        if (phase == null) return;
+
+        go.GetComponent<EnemyFighter>()?.Initialize(phase);
+        go.GetComponent<EnemyKamikaze>()?.Initialize(phase);
+        go.GetComponent<EnemyBomber>()?.Initialize(phase);
+        go.GetComponent<EnemyPulsar>()?.Initialize(phase);
     }
 }

@@ -41,6 +41,13 @@ public class EnemyFighter : EnemyBase
     private float shootTimer;
     private float currentShootInterval;
 
+    public void Initialize(PhaseConfig phase)
+    {
+        moveSpeed = moveSpeed * phase.fighterSpeedMult;
+        shootIntervalMin = shootIntervalMin * phase.fighterShootRateMult;
+        shootIntervalMax = shootIntervalMax * phase.fighterShootRateMult;
+    }
+
     protected override void Start()
     {
         base.Start();

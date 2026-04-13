@@ -33,21 +33,40 @@ public class PhaseConfig
     public float healthMultiplier = 1f;
 
     [Header("_____________ ENEMIES _____________")]
+
     [Header("Fighters")]
     public bool allowFighters = false;
     public float fighterSpawnInterval = 5f;
+    [Tooltip("Velocità di movimento (1 = base del prefab)")]
+    public float fighterSpeedMult = 1f;
+    [Tooltip("Moltiplicatore intervallo di sparo. < 1 = spara più spesso (1 = base)")]
+    public float fighterShootRateMult = 1f;
 
     [Header("Kamikazes")]
     public bool allowKamikazes = false;
     public float kamikazeSpawnInterval = 4f;
+    [Tooltip("Velocità di carica (1 = base del prefab)")]
+    public float kamikazeSpeedMult = 1f;
+    [Tooltip("Moltiplicatore delay prima della carica. < 1 = carica prima (1 = base)")]
+    public float kamikazeChargeDelayMult = 1f;
 
     [Header("Bombers")]
     public bool allowBombers = false;
     public float bomberSpawnInterval = 8f;
+    [Tooltip("Velocità di traversata (1 = base del prefab)")]
+    public float bomberSpeedMult = 1f;
+    [Tooltip("Moltiplicatore intervallo bombe. < 1 = sgancia più spesso (1 = base)")]
+    public float bomberDropRateMult = 1f;
 
     [Header("Pulsars")]
     public bool allowPulsars = false;
     public float pulsarSpawnInterval = 10f;
+    [Tooltip("Velocità di spostamento (1 = base del prefab)")]
+    public float pulsarSpeedMult = 1f;
+    [Tooltip("Moltiplicatore durata mira. < 1 = mira meno prima di sparare (1 = base)")]
+    public float pulsarAimDurationMult = 1f;
+    [Tooltip("Burst consecutivi prima di riposizionarsi. 0 = usa valore del prefab")]
+    public int pulsarBurstsOverride = 0;
 }
 
 [CreateAssetMenu(fileName = "NewLevelProfile", menuName = "Game/Level Profile")]

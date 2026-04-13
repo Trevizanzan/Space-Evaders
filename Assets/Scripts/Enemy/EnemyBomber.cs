@@ -29,6 +29,13 @@ public class EnemyBomber : EnemyBase
     private float bombTimer;
     private float currentBombInterval;
 
+    public void Initialize(PhaseConfig phase)
+    {
+        moveSpeed = moveSpeed * phase.bomberSpeedMult;
+        bombIntervalMin = bombIntervalMin * phase.bomberDropRateMult;
+        bombIntervalMax = bombIntervalMax * phase.bomberDropRateMult;
+    }
+
     protected override void Start()
     {
         base.Start();

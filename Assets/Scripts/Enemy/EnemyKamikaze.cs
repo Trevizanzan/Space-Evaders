@@ -23,6 +23,12 @@ public class EnemyKamikaze : EnemyBase
     private float currentSpeed = 0f;
     private Vector3 chargeDir;         // direzione congelata al momento della carica
 
+    public void Initialize(PhaseConfig phase)
+    {
+        moveSpeed = moveSpeed * phase.kamikazeSpeedMult;
+        chargeDelay = chargeDelay * phase.kamikazeChargeDelayMult;
+    }
+
     protected override void Start()
     {
         base.Start();

@@ -45,6 +45,16 @@ public class EnemyPulsar : EnemyBase
 
 
     // ── Init ─────────────────────────────────────────────────────────────────
+
+    public void Initialize(PhaseConfig phase)
+    {
+        moveSpeed = moveSpeed * phase.pulsarSpeedMult;
+        aimDuration = aimDuration * phase.pulsarAimDurationMult;
+
+        if (phase.pulsarBurstsOverride > 0)
+            burstsBeforeReposition = phase.pulsarBurstsOverride;
+    }
+
     protected override void Start()
     {
         base.Start();
