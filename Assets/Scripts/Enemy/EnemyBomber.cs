@@ -82,6 +82,7 @@ public class EnemyBomber : EnemyBase
 
         if (Mathf.Abs(transform.position.y - targetY) < 0.1f)
         {
+            DropBomb();
             state = BomberState.Patrolling;
         }
     }

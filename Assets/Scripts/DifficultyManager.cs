@@ -119,6 +119,10 @@ public class DifficultyManager : MonoBehaviour
         return 3;
     }
 
+    /// <summary>
+    /// TODO: cosa fa l'if? da togliere per loop infinito.
+    /// Al momento serve per evitare di fare il loop completo durante lo sviluppo, ma una volta che la sequenza è completa e bilanciata, si può togliere per farla ripartire all'infinito aumentando sempre di più la difficoltà.
+    /// </summary>
     void AdvanceToNextLevel()
     {
         currentLevelIndex++;
@@ -146,9 +150,6 @@ public class DifficultyManager : MonoBehaviour
         OnLevelComplete?.Invoke();
         OnWaveComplete?.Invoke();
 
-        // Aspetta che l'animazione gold della barra finisca (~1 secondo: 3 pulse x 0.3s)
-        //yield return new WaitForSeconds(1f);
-
         // Ferma spawner
         AsteroidSpawner asteroidSpawner = FindFirstObjectByType<AsteroidSpawner>();
         if (asteroidSpawner != null) asteroidSpawner.enabled = false;
@@ -173,9 +174,12 @@ public class DifficultyManager : MonoBehaviour
         isInTransition = false;
     }
 
+    /// <summary>
+    /// Questo metodo aspetta che non ci siano più asteroidi o nemici in scena prima di continuare, per evitare di farli sparire magicamente.
+    /// </summary>
     IEnumerator WaitForSceneClear()
     {
-        float timeout = 10f; // failsafe: dopo 10s pulisce comunque
+        float timeout = 30f;
         float elapsed = 0f;
 
         while (elapsed < timeout)
@@ -189,13 +193,11 @@ public class DifficultyManager : MonoBehaviour
             yield return null;
         }
 
-        // Failsafe: distruggi quello che è rimasto
+        // Failsafe: dopo 30s distruggi tutto quello che è rimasto
         foreach (var a in GameObject.FindGameObjectsWithTag("Asteroid"))
             Destroy(a);
-        foreach (var e in GameObject.FindGameObjectsWithTag("Enemy"))
-            Destroy(e);
-
-        //Debug.Log("[DifficultyManager] Failsafe: oggetti rimasti distrutti dopo timeout.");
+        //foreach (var e in GameObject.FindGameObjectsWithTag("Enemy"))
+        //    Destroy(e);
     }
 
     void StartLevel()
@@ -207,8 +209,8 @@ public class DifficultyManager : MonoBehaviour
         ShowLevelUI();
 
         // Riattiva spawner
-        AsteroidSpawner spawner = FindFirstObjectByType<AsteroidSpawner>();
-        if (spawner != null) spawner.enabled = true;
+        AsteroidSpawner asteroidSpawner = FindFirstObjectByType<AsteroidSpawner>();
+        if (asteroidSpawner != null) asteroidSpawner.enabled = true;
 
         EnemySpawner enemySpawner = FindFirstObjectByType<EnemySpawner>();
         if (enemySpawner != null) enemySpawner.enabled = true;

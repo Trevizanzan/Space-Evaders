@@ -454,7 +454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooting
   projectilePrefab: {fileID: 2093506508120260160, guid: 0934b5481a133a949abcb2f8c7ee5e54, type: 3}
   firePoint: {fileID: 1050214666}
-  autoFire: 1
+  autoFire: 0
   shootCooldown: 0.15
 --- !u!114 &74886327
 MonoBehaviour:

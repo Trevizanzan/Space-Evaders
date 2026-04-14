@@ -201,6 +201,6 @@ MonoBehaviour:
   allowSCurve: 0
   bulletPrefab: {fileID: 2093506508120260160, guid: a986b5a78d2838b47b22c7d962b9574e, type: 3}
   shootIntervalMin: 0.7
-  shootIntervalMax: 1
+  shootIntervalMax: 1.3
   firePoint: {fileID: 0}
   rotationSpeed: 500
