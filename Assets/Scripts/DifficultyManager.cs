@@ -187,7 +187,7 @@ public class DifficultyManager : MonoBehaviour
     /// </summary>
     IEnumerator WaitForSceneClear()
     {
-        float timeout = 30f;
+        float timeout = 10f;
         float elapsed = 0f;
 
         while (elapsed < timeout)
