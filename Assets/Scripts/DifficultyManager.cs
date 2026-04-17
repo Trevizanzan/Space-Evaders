@@ -10,7 +10,7 @@ public class DifficultyManager : MonoBehaviour
     [SerializeField] private GameSequence gameSequence; // Trascina qui il tuo GameSequence asset
 
     [Header("Level Settings")]
-    [SerializeField] private float transitionDuration = 5f; // pausa tra level e boss
+    [SerializeField] private float transitionDuration = 3f; // pausa tra un level e l'altro, e tra boss e level
 
     [Header("Difficulty Scaling")]
     [SerializeField] private float globalDifficultyMultiplier = 1f;
