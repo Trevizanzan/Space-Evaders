@@ -200,7 +200,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidMovement
   minRotationSpeed: -180
   maxRotationSpeed: 180
-  destroyBorderMultiplier: 2
   defalutFallSpeed: 3
 --- !u!114 &9195123081901347944
 MonoBehaviour:
@@ -216,3 +215,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidHealth
   maxHealth: 2
   scoreValue: 20
+  flashMaterial: {fileID: 2100000, guid: b01ab75e2f6accf4c89786fd4eaf4432, type: 2}
+  flashDuration: 0.1

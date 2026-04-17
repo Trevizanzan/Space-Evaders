@@ -43,7 +43,6 @@ public class PlayerHealth : MonoBehaviour
         if (ScoreManager.Instance != null)
             ScoreManager.Instance.UpdateLivesUI();
 
-
         // Controlla se il giocatore è morto
         if (currentHealth <= 0)
         {

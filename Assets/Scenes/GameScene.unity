@@ -870,7 +870,7 @@ MonoBehaviour:
   globalDifficultyMultiplier: 1
   skipToFirstBoss: 0
   debugSpecificLevel: 1
-  debugLevelIndex: 3
+  debugLevelIndex: 2
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
   levelProgressBarFill: {fileID: 631404793}
