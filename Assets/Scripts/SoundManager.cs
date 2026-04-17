@@ -11,11 +11,21 @@ public class SoundManager : MonoBehaviour
     [Header("Clips")]
     public AudioClip shootClip;
     public AudioClip asteroidExplodeClip;
-    public AudioClip playerHitClip;
-    public AudioClip gameOverClip;
+
+    public AudioClip enemyShootClip;
+    public AudioClip enemyDeadClip;
+
     public AudioClip bossEntranceClip;
     public AudioClip bossDeadClip;
 
+    public AudioClip playerHitClip;
+    public AudioClip gameOverClip;
+
+    private float lastShootTime = -999f;
+    [SerializeField] private float shootSoundCooldown = 0.65f; // max ~12 suoni/sec
+
+    private float lastAsteroidExplodeTime = -999f;
+    [SerializeField] private float asteroidExplodeSoundCooldown = 0.25f;
 
     void Awake()
     {
@@ -30,31 +40,67 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    #region Player
+
     public void PlayShoot()
     {
-        PlayOneShot(shootClip, 0.8f);
-    }
+        //PlayOneShot(shootClip, 0.8f);
 
-    public void PlayAsteroidExplode()
-    {
-        PlayOneShot(asteroidExplodeClip, 0.7f);
+        ////if (Time.time - lastShootTime < shootSoundCooldown) return;
+        ////lastShootTime = Time.time;
+
+        ////// Pitch random per varietà
+        ////sfxSource.pitch = Random.Range(0.3f, 0.5f);
+        ////PlayOneShot(shootClip, 0.40f); // volume abbassato da 0.8 a 0.3
+        ////sfxSource.pitch = 1f; // resetta dopo
     }
 
     public void PlayPlayerHit()
     {
-        PlayOneShot(playerHitClip, 1.0f);
+        PlayOneShot(playerHitClip, .8f);
     }
 
     public void PlayGameOver()
     {
-        PlayOneShot(gameOverClip, .7f);
+        PlayOneShot(gameOverClip, 1f);
     }
+
+    #endregion
+
+    #region Asteroid
+
+    public void PlayAsteroidExplode()
+    {
+        //PlayOneShot(asteroidExplodeClip, 0.5f);
+
+        if (Time.time - lastAsteroidExplodeTime < asteroidExplodeSoundCooldown) return;
+        lastAsteroidExplodeTime = Time.time;
+        PlayOneShot(asteroidExplodeClip, 0.4f);
+    }
+
+    #endregion
+
+    #region Enemy
+
+    public void PlayEnemyShoot()
+    {
+        // I nemici usano questo — nessun cooldown, ma volume più basso
+        AudioClip clip = enemyShootClip != null ? enemyShootClip : shootClip;
+        PlayOneShot(clip, 0.4f);
+    }
+
+    public void PlayEnemyDead()
+    {
+        PlayOneShot(enemyDeadClip, .5f);
+    }
+
+    #endregion
 
     #region Boss
 
     public void PlayBossEntrance(float duration = 0f)
     {
-        PlayOneShot(bossEntranceClip, 1f, duration);
+        PlayOneShot(bossEntranceClip, .8f, duration);
     }
 
     public void PlayBossDead()
@@ -64,7 +110,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBossHit()
     {
-        PlayOneShot(playerHitClip, .25f);
+        //PlayOneShot(playerHitClip, .4f);
     }
 
     #endregion

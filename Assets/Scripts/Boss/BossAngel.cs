@@ -135,7 +135,7 @@ public class BossAngel : BossBase
 
         // Suono (opzionale)
         if (SoundManager.Instance != null)
-            SoundManager.Instance.PlayShoot();
+            SoundManager.Instance.PlayEnemyShoot();
     }
 
     protected override void OnDamageFeedback()

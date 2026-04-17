@@ -869,8 +869,8 @@ MonoBehaviour:
   transitionDuration: 5
   globalDifficultyMultiplier: 1
   skipToFirstBoss: 0
-  debugSpecificLevel: 0
-  debugLevelIndex: 0
+  debugSpecificLevel: 1
+  debugLevelIndex: 3
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
   levelProgressBarFill: {fileID: 631404793}
@@ -5283,11 +5283,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   sfxSource: {fileID: 1712983329}
   shootClip: {fileID: 8300000, guid: 9d971ae956410c14cb1e181a0abd00b6, type: 3}
-  asteroidExplodeClip: {fileID: 8300000, guid: c6af8aa23e48a7f49af59a37d4aa0b01, type: 3}
-  playerHitClip: {fileID: 8300000, guid: 302a696e67d74134faad35f06e4a7f68, type: 3}
-  gameOverClip: {fileID: 8300000, guid: 2c8acab18021e584c9f2ecffc0463f9d, type: 3}
+  asteroidExplodeClip: {fileID: 8300000, guid: 93960c541e3e35445ae5dea756092680, type: 3}
+  enemyShootClip: {fileID: 8300000, guid: ad468c192141f914587c503b0719660e, type: 3}
+  enemyDeadClip: {fileID: 8300000, guid: e5df091e34d1ab04d9f4052e174e5f4a, type: 3}
   bossEntranceClip: {fileID: 8300000, guid: b57285a16184fc742a088543f08bbc35, type: 3}
   bossDeadClip: {fileID: 8300000, guid: 6e4e3b0420803244c968d2be81c19c7b, type: 3}
+  playerHitClip: {fileID: 8300000, guid: 302a696e67d74134faad35f06e4a7f68, type: 3}
+  gameOverClip: {fileID: 8300000, guid: 2c8acab18021e584c9f2ecffc0463f9d, type: 3}
+  shootSoundCooldown: 0.65
+  asteroidExplodeSoundCooldown: 0.6
 --- !u!4 &1712983331
 Transform:
   m_ObjectHideFlags: 0

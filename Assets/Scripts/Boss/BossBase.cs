@@ -172,12 +172,6 @@ public abstract class BossBase : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        //// Nascondi la barra
-        //if (BossHealthBar.Instance != null)
-        //{
-        //    BossHealthBar.Instance.HideBar();
-        //}
-
         // Posizione davanti al boss
         Vector3 explosionPos = new Vector3(transform.position.x, transform.position.y, -1f);
 
@@ -186,7 +180,7 @@ public abstract class BossBase : MonoBehaviour
         {
             float offset = Camera.main.orthographicSize * 0.06f;
 
-            ExplosionManager.Instance.SpawnBig(explosionPos, 2.5f);
+            ExplosionManager.Instance.SpawnBig(explosionPos, 1.3f);
             //ExplosionManager.Instance.SpawnBig(explosionPos + Vector3.right * offset, 1f);
             //ExplosionManager.Instance.SpawnBig(explosionPos + Vector3.left * offset, 1f);
         }

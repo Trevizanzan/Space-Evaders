@@ -135,7 +135,7 @@ public class EnemyBomber : EnemyBase
         if (rb != null)
             rb.linearVelocity = Vector2.down * bomb.GetComponent<EnemyBullet>().GetSpeed();
 
-        if (SoundManager.Instance != null)
-            SoundManager.Instance.PlayShoot(); // TODO: suono dedicato bomba
+        //if (SoundManager.Instance != null)
+            //SoundManager.Instance.PlayShoot(); // TODO: suono dedicato bomba
     }
 }

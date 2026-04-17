@@ -66,8 +66,8 @@ public abstract class EnemyBase : MonoBehaviour
         currentHealth -= amount;
         currentHealth = Mathf.Max(0, currentHealth);
 
-        if (SoundManager.Instance != null)
-            SoundManager.Instance.PlayAsteroidExplode(); // TODO: riusa suono esistente, sostituire con nemico-specifico in futuro
+        //if (SoundManager.Instance != null)
+        //    SoundManager.Instance.PlayEnemyDead(); // TODO: sostituire con nemico-specifico in futuro
 
         OnDamageFeedback();
 
@@ -122,7 +122,7 @@ public abstract class EnemyBase : MonoBehaviour
 
         // Suono
         if (SoundManager.Instance != null)
-            SoundManager.Instance.PlayAsteroidExplode();    // TODO suono dedicato per nemico
+            SoundManager.Instance.PlayEnemyDead();    // TODO suono dedicato per nemico
 
         Destroy(gameObject, 0.1f); // piccolo delay per far partire l'esplosione
     }

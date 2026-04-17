@@ -166,7 +166,7 @@ public class EnemyFighter : EnemyBase
         if (rb != null)
             rb.linearVelocity = shootDir * bullet.GetComponent<EnemyBullet>().GetSpeed();
 
-        if (SoundManager.Instance != null)
-            SoundManager.Instance.PlayShoot();  // TODO: teniamo?
+        //if (SoundManager.Instance != null)
+            //SoundManager.Instance.PlayShoot();  // TODO: teniamo?
     }
 }

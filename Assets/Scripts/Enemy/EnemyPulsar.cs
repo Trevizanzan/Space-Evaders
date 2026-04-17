@@ -216,7 +216,7 @@ public class EnemyPulsar : EnemyBase
         float angle = Mathf.Atan2(frozenAimDir.y, frozenAimDir.x) * Mathf.Rad2Deg;
         laser.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-        if (SoundManager.Instance != null)
-            SoundManager.Instance.PlayShoot();
+        //if (SoundManager.Instance != null)
+        //    SoundManager.Instance.PlayShoot();
     }
 }
