@@ -15,7 +15,7 @@ MonoBehaviour:
   isBoss: 0
   bossPrefab: {fileID: 0}
   levelName: Level_Minefield
-  levelDuration: 35
+  levelDuration: 40
   disableShooting: 1
   phase1:
     designNotes: "Usa solo asteroidi lenti ma tantissimi e ravvicinati \u2014 il

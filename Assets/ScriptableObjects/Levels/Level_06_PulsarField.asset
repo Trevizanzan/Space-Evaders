@@ -15,7 +15,8 @@ MonoBehaviour:
   isBoss: 0
   bossPrefab: {fileID: 0}
   levelName: Level_06
-  levelDuration: 45
+  levelDuration: 40
+  disableShooting: 0
   phase1:
     designNotes: 
     spawnNormal: 1

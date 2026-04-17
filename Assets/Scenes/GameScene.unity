@@ -869,8 +869,8 @@ MonoBehaviour:
   transitionDuration: 5
   globalDifficultyMultiplier: 1
   skipToFirstBoss: 0
-  debugSpecificLevel: 1
-  debugLevelIndex: 2
+  debugSpecificLevel: 0
+  debugLevelIndex: 0
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
   levelProgressBarFill: {fileID: 631404793}
@@ -3153,7 +3153,7 @@ MonoBehaviour:
   d_AsteroidOnly: 0
   d_NormalOnly: 0
   d_DiagonalOnly: 0
-  d_HorizontalOnly: 1
+  d_HorizontalOnly: 0
   d_SizeDistribution: 1
   d_SpawnInterval: 0.5
   d_Speed: 7

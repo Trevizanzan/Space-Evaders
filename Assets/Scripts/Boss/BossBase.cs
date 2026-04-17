@@ -56,6 +56,10 @@ public abstract class BossBase : MonoBehaviour
             Debug.LogError("[BossBase] BossHealthBar.Instance è NULL! Non trovato nella scena!");
         }
 
+        // Disabilita sparo player durante entrance boss
+        PlayerShooting ps = FindFirstObjectByType<PlayerShooting>();
+        if (ps != null) ps.SetShootingDisabled(true);
+
         StartCoroutine(EntranceRoutine());
 
         // Suono di spawn del boss
@@ -76,9 +80,11 @@ public abstract class BossBase : MonoBehaviour
         float cameraTop = Camera.main.orthographicSize;
 
         Vector3 startPos = new Vector3(0, cameraTop * 1.15f, 0); // Poco sopra la camera
-        Vector3 targetPos = new Vector3(0, cameraTop * 0.85f, 0); // Dentro la camera
+        Vector3 targetPos = new Vector3(0, cameraTop * 0.55f, 0); // Dentro la camera
         //Debug.Log($"cameraTop={cameraTop}");
         //Debug.Log($"targetPos={targetPos}");
+
+        transform.position = startPos;
 
         transform.position = startPos;
 
@@ -89,10 +95,18 @@ public abstract class BossBase : MonoBehaviour
             yield return null;
         }
 
-        isEntering = false;
-
         // Riabilita sparo del player dopo l'entrata
         IsBossEntering = false;
+
+        // Pausa drammatica: boss fermo, nessuno spara
+        yield return new WaitForSeconds(2.5f);
+
+        isEntering = false;
+
+        // Riabilita sparo del player dopo l'entrata (qui, non in OnEntranceComplete,
+        // perché i boss figli fanno override di OnEntranceComplete senza chiamare base)
+        PlayerShooting ps = FindFirstObjectByType<PlayerShooting>();
+        if (ps != null) ps.SetShootingDisabled(false);
 
         OnEntranceComplete();
     }
