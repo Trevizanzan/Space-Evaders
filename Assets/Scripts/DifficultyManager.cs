@@ -192,7 +192,7 @@ public class DifficultyManager : MonoBehaviour
             yield return null;
         }
 
-        // Failsafe: dopo 30s distruggi tutto quello che è rimasto
+        // Failsafe: dopo 10s distruggi tutto quello che è rimasto
         foreach (var a in GameObject.FindGameObjectsWithTag("Asteroid"))
             Destroy(a);
         //foreach (var e in GameObject.FindGameObjectsWithTag("Enemy"))

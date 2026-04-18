@@ -62,7 +62,10 @@ public class SpawnBoundsProvider : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
 
+    void Start()
+    {
         Calculate();
     }
 
