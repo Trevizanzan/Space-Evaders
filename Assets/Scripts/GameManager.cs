@@ -153,21 +153,34 @@ public class GameManager : MonoBehaviour
         Scene current = SceneManager.GetActiveScene();
         SceneManager.LoadScene(current.name);
     }
+
+    //void Update()
+    //{
+    //    //// Restart da tastiera
+    //    //if (isGameOver && Input.GetKeyDown(KeyCode.Return))
+    //    //{
+    //    //    RestartGame();
+    //    //}
+
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        ReturnToMainMenu();
+    //        return;
+    //    }
+
+    //    if (isGameOver && Input.GetKeyDown(KeyCode.Return))
+    //        RestartGame();
+    //}
+
     void Update()
     {
-        //// Restart da tastiera
-        //if (isGameOver && Input.GetKeyDown(KeyCode.Return))
-        //{
-        //    RestartGame();
-        //}
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) // Start button
         {
             ReturnToMainMenu();
             return;
         }
 
-        if (isGameOver && Input.GetKeyDown(KeyCode.Return))
+        if (isGameOver && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton1))) // B button
             RestartGame();
     }
 

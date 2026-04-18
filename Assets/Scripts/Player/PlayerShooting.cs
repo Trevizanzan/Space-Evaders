@@ -31,8 +31,11 @@ public class PlayerShooting : MonoBehaviour
         if (BossBase.IsBossEntering) return;
 
         // tasto destro del mouse o barra spaziatrice per sparare
-        bool manualFire = (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1))
-                          && Time.time - lastShootTime >= shootCooldown;
+        //bool manualFire = (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1))
+        //                  && Time.time - lastShootTime >= shootCooldown;
+
+        bool manualFire = (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1) || Input.GetKey(KeyCode.JoystickButton0)) // A button
+                  && Time.time - lastShootTime >= shootCooldown;
 
         bool shouldShoot = autoFire
             ? Time.time - lastShootTime >= shootCooldown

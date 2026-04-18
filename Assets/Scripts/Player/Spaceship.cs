@@ -48,9 +48,10 @@ public class Spaceship : MonoBehaviour
             lastScreenHeight = Screen.height;
         }
 
-        float horizontalInput = 0f;
-        float verticalInput = 0f;
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
 
+        // Fallback tastiera (sovrascrive solo se premuto)
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) verticalInput = 1f;
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) horizontalInput = -1f;
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) verticalInput = -1f;
