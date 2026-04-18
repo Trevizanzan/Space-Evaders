@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Gameplay")]
     public AsteroidSpawner asteroidSpawner;
+    public EnemySpawner enemySpawner;
 
     [Header("Game Over UI")]
     public GameObject gameOverPanel;
@@ -60,10 +61,18 @@ public class GameManager : MonoBehaviour
         if (SoundManager.Instance != null) 
             SoundManager.Instance.PlayGameOver();
 
-        // Ferma lo spawner
+        // Ferma gli spawners
         if (asteroidSpawner != null)
             asteroidSpawner.enabled = false;
-        
+
+        if (enemySpawner != null)
+            enemySpawner.enabled = false;
+
+        // Disabilita spari del player
+        PlayerShooting shooting = FindFirstObjectByType<PlayerShooting>();
+        if (shooting != null)
+            shooting.enabled = false;
+
         //Time.timeScale = 0f;
 
         // Aggiorna testi della schermata
@@ -110,7 +119,15 @@ public class GameManager : MonoBehaviour
             CursorManager.Instance.SetMenuCursor();
 
         // Aspetta un attimo (tempo reale, non affected dal timeScale)
-        yield return new WaitForSecondsRealtime(0.333f); 
+        yield return new WaitForSecondsRealtime(0.333f);
+
+        // Aspetta che Discord finisca di inviare (max 5 secondi)
+        float waitTime = 0f;
+        while (StatsRecorder.Instance != null && StatsRecorder.Instance.IsSending && waitTime < 5f)
+        {
+            waitTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
 
         // Ferma il gioco
         Time.timeScale = 0f;

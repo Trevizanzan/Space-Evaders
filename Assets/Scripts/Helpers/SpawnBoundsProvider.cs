@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Singleton centralizzato che calcola i bounds di spawn dalla camera una volta sola.
@@ -64,8 +65,10 @@ public class SpawnBoundsProvider : MonoBehaviour
         }
     }
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return null; // aspetta fine frame 1
+        yield return null; // aspetta fine frame 2 (PixelPerfectCamera ha già corretto)
         Calculate();
     }
 

@@ -19,6 +19,8 @@ public class StatsRecorder : MonoBehaviour
     private int levelStartShots;
     private int levelStartDamage;
 
+    public bool IsSending { get; private set; } = false;
+
     void Awake()
     {
         if (Instance == null)
@@ -122,6 +124,8 @@ public class StatsRecorder : MonoBehaviour
         if (string.IsNullOrEmpty(discordWebhookUrl)) yield break;
         if (!File.Exists(filePath)) yield break;
 
+        IsSending = true;
+
         byte[] fileBytes = File.ReadAllBytes(filePath);
         string fileName = "playtester_stats.json";
 
@@ -136,5 +140,7 @@ public class StatsRecorder : MonoBehaviour
             Debug.Log("[StatsRecorder] File inviato a Discord!");
         else
             Debug.LogWarning($"[StatsRecorder] Errore invio Discord: {req.error}");
+
+        IsSending = false;
     }
 }
