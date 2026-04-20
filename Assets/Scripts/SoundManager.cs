@@ -21,8 +21,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerHitClip;
     public AudioClip gameOverClip;
 
-    private float lastShootTime = -999f;
-    [SerializeField] private float shootSoundCooldown = 0.65f; // max ~12 suoni/sec
+    //private float lastShootTime = -999f;
+    //[SerializeField] private float shootSoundCooldown = 0.65f; // max ~12 suoni/sec
 
     private float lastAsteroidExplodeTime = -999f;
     [SerializeField] private float asteroidExplodeSoundCooldown = 0.25f;

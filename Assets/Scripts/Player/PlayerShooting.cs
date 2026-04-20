@@ -45,8 +45,9 @@ public class PlayerShooting : MonoBehaviour
         {
             Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
 
-            if (SoundManager.Instance != null)
-                SoundManager.Instance.PlayShoot();
+            // SOUND for shooting (uncomment if you have a SoundManager)
+            //if (SoundManager.Instance != null)
+            //    SoundManager.Instance.PlayShoot();
 
             lastShootTime = Time.time;
         }
