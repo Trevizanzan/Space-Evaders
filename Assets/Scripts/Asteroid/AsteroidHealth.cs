@@ -19,14 +19,8 @@ public class AsteroidHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        sr = GetComponent<SpriteRenderer>();                  
-        if (sr != null) originalMaterial = sr.material;      
-
-        //// Opzionale: scalare la salute in base alla difficoltà attuale
-        //float multiplier = DifficultyManager.Instance != null
-        //    ? DifficultyManager.Instance.GetHealthMultiplier()
-        //    : 1f;
-        //currentHealth = Mathf.RoundToInt(maxHealth * multiplier);
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null) originalMaterial = sr.material;
     }
 
     // Applica danno all'asteroide, se muore, aggiungi punteggio
@@ -40,6 +34,19 @@ public class AsteroidHealth : MonoBehaviour
         { 
             Die();
         }
+    }
+
+    /// <summary>
+    /// Applica un moltiplicatore alla vita dell'asteroide. 
+    /// Va chiamato subito dopo Instantiate, sovrascrive il valore impostato in Awake.
+    /// Usa Ceiling per garantire che multiplier > 1 aumenti sempre gli HP, 
+    /// e Mathf.Max(1, ...) per non avere mai asteroidi con 0 HP.
+    /// </summary>
+    public void ApplyHealthMultiplier(float multiplier)
+    {
+        maxHealth = Mathf.Max(1, Mathf.CeilToInt(maxHealth * multiplier));
+        currentHealth = maxHealth;
+        scoreValue = Mathf.CeilToInt(scoreValue * multiplier);
     }
 
     private void Die()

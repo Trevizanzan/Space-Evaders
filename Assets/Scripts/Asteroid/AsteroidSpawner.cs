@@ -337,18 +337,18 @@ public class AsteroidSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Applica il moltiplicatore di vita all'asteroide (TODO: implementare quando AsteroidHealth esiste)
+    /// Applica il moltiplicatore di vita all'asteroide spawnato.
+    /// Skip se multiplier == 1 per evitare lavoro inutile.
     /// </summary>
     void ApplyHealthMultiplier(GameObject asteroid, float multiplier)
     {
-        // TODO: Implementare quando esiste il sistema di vita
-        // Esempio:
-        // AsteroidHealth health = asteroid.GetComponent<AsteroidHealth>();
-        // if (health != null)
-        // {
-        //     health.maxHealth *= multiplier;
-        //     health.currentHealth = health.maxHealth;
-        // }
+        if (Mathf.Approximately(multiplier, 1f)) return;
+
+        AsteroidHealth health = asteroid.GetComponent<AsteroidHealth>();
+        if (health != null)
+        {
+            health.ApplyHealthMultiplier(multiplier);
+        }
     }
 
     /// <summary>
