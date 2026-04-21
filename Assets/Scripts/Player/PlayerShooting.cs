@@ -1,13 +1,18 @@
 using UnityEngine;
 
 /// <summary>
-/// questa classe si occupa solamente di gestire lo sparo del proiettile quando il giocatore preme la barra spaziatrice. (QUANDO e DOVE sparare)
+/// questa classe si occupa solamente di gestire lo sparo del proiettile quando il giocatore preme il tasto di fuoco. (QUANDO e DOVE sparare)
 /// non si occupa della logica del proiettile, che è gestita da un altro script attaccato al prefab del proiettile stesso.  (COME si comporta il proiettile)
 /// </summary>
 public class PlayerShooting : MonoBehaviour
 {
     public GameObject projectilePrefab;  // slot per il prefab
     public Transform firePoint;      // punto dove spawna (davanti alla nave)
+
+    [Header("Auto Fire")]
+    [SerializeField] private bool autoFire = false;
+
+    [SerializeField] private float shootCooldown = 0.13f; // tra uno sparo e l'altro devono passare almeno 0.13 secondi (8 spari al secondo)
 
     // Aggiunta cooldown per evitare di sparare troppo velocemente
     private float lastShootTime = 0f;
@@ -18,10 +23,22 @@ public class PlayerShooting : MonoBehaviour
         shootingDisabled = disabled;
     }
 
-    [Header("Auto Fire")]
-    [SerializeField] private bool autoFire = false;
+    // Input System
+    private SpaceEvaderInputActions inputActions;
 
-    [SerializeField] private float shootCooldown = 0.13f; // tra uno sparo e l'altro devono passare almeno 0.13 secondi (8 spari al secondo)
+    void Awake()
+    {
+        // Initialize Input System
+        inputActions = new SpaceEvaderInputActions();
+        inputActions.Player.Enable();
+    }
+
+    void OnDestroy()
+    {
+        // Clean up Input System
+        inputActions?.Disable();
+        inputActions?.Dispose();
+    }
 
     void Update()
     {
@@ -30,12 +47,9 @@ public class PlayerShooting : MonoBehaviour
         // Il player non può sparare se il boss sta entrando
         if (BossBase.IsBossEntering) return;
 
-        // tasto destro del mouse o barra spaziatrice per sparare
-        //bool manualFire = (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1))
-        //                  && Time.time - lastShootTime >= shootCooldown;
+        bool firePressed = inputActions.Player.Fire.IsPressed();
 
-        bool manualFire = (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(1) || Input.GetKey(KeyCode.JoystickButton0)) // A button
-                  && Time.time - lastShootTime >= shootCooldown;
+        bool manualFire = firePressed && Time.time - lastShootTime >= shootCooldown;
 
         bool shouldShoot = autoFire
             ? Time.time - lastShootTime >= shootCooldown

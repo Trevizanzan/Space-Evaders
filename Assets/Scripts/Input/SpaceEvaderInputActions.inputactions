@@ -14,6 +14,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "45d72ab1-2165-478e-af1e-c0616af060c0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "a0e86ed5-d424-43ad-a9b7-4042d2ad743a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -137,77 +155,10 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                }
-            ]
-        },
-        {
-            "name": "Fire",
-            "id": "1778901e-b92f-4cdd-8d9e-500691fef2f1",
-            "actions": [
-                {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "098b5263-acdc-470a-a56b-38351b8ed113",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "e5db8804-b528-4cbc-9864-c92f6b90f4da",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "3f2041b0-da8f-4476-99ff-34327b22a8fc",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3513c2f5-d71b-4750-8fb3-e8a2b33ac610",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Pause",
-            "id": "557d9f03-a7b0-4ebd-83d0-c1055157be17",
-            "actions": [
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "0843d3b9-f83f-483f-b807-9dbaed3830d4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "3710e529-53d2-4973-88d9-ae560e84cf32",
+                    "id": "556256c9-1bdc-4fa6-8bc4-570f2f3e4797",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
@@ -218,12 +169,45 @@
                 },
                 {
                     "name": "",
-                    "id": "33bd645a-ea57-4067-92ec-bfd8a37fd683",
+                    "id": "a39babe8-cb89-45b8-967c-56f05c5d27ba",
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6e72b9c-db52-4364-ba36-e98ea976c1a8",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5aed4b3-f38e-4d5d-8211-bb7a2fe99fbe",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00c8c473-6dd8-4c06-b78e-b7f43de376a0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
