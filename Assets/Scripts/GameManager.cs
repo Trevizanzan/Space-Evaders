@@ -276,10 +276,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // NOTA: "Pause" oggi triggera un "exit to menu" (nessuna pausa vera
-        // con Time.timeScale = 0). Il nome è mantenuto nell'asset di input 
-        // in vista della futura implementazione di pausa vera 
-        // (task dedicato post-migrazione).
         if (inputActions.Player.Pause.WasPressedThisFrame())
         {
             TogglePause();
