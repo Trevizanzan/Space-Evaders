@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.prefab$\")",
+      "Bash(git -C \"C:/GameDevelopment/Space Evaders\" fetch origin claude/test-github-mcp-qIB8s claude/review-animationcontroller-tsCah)",
+      "Bash(git -C \"C:/GameDevelopment/Space Evaders\" log origin/master..origin/claude/test-github-mcp-qIB8s --oneline)",
+      "Bash(git -C \"C:/GameDevelopment/Space Evaders\" fetch origin claude/review-animationcontroller-tsCah)",
+      "Bash(git -C \"C:/GameDevelopment/Space Evaders\" log origin/master..origin/claude/review-animationcontroller-tsCah --oneline)",
+      "Bash(git *)"
+    ]
+  },
+  "outputStyle": "default"
+}

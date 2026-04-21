@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51686dc40d936f946acfee4cf89339f4, type: 3}
+  m_Name: Blaster
+  m_EditorClassIdentifier: Assembly-CSharp::BlasterData
+  weaponName: Weapon
+  description: Blaster
+  autoFire: 1
+  shootCooldown: 0.18
+  requiresCharging: 0
+  chargeTime: 0
+  projectilePrefab: {fileID: 2093506508120260160, guid: 0934b5481a133a949abcb2f8c7ee5e54, type: 3}
+  damage: 1
