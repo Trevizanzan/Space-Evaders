@@ -1,56 +1,47 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
-    public float speed = 42f; // Speed of the projectile
-    private float destroyY;
+    public float speed = 42f;
+    public int damage = 1;
+    public bool piercing = false;
+
     private Rigidbody2D rigidBody;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Chiamato da WeaponData.Fire() subito dopo Instantiate, prima di Start()
+    public void Initialize(int damage, bool piercing = false)
+    {
+        this.damage = damage;
+        this.piercing = piercing;
+    }
+
     void Start()
     {
-        if (RunStats.Instance != null)
-            RunStats.Instance.RegisterShotFired();
-
-        float cameraHeight = Camera.main.orthographicSize * 2f;
-        //float cameraWidth = cameraHeight / Screen.height * Screen.width;
-        //Debug.Log($"Camera Height: {cameraHeight}");
-        //Debug.Log($"Camera Width: {cameraWidth}");
-
-        rigidBody = gameObject.GetComponent<Rigidbody2D>();
-        //rigidBody.linearVelocity = transform.up * speed; // Move the projectile in the direction it is facing (up)
-        rigidBody.linearVelocity = new Vector2(0, speed); // Move the projectile straight up regardless of its rotation
-
-        // Calcola bordo superiore camera per distruzione
-        float camDistance = transform.position.z - Camera.main.transform.position.z;
-        Vector2 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
-        destroyY = topRight.y + (cameraHeight * 0.2f);  // (cameraHeight * 0.1f) è un offset per distruggere il proiettile un po' dopo che esca completamente dalla camera, evitando così di avere proiettili "fantasma" che continuano a esistere fuori dalla vista del giocatore.
+        rigidBody = GetComponent<Rigidbody2D>();
+        // transform.up tiene conto della rotazione di spawn: usato da SpreadGun per il ventaglio
+        rigidBody.linearVelocity = (Vector2)transform.up * speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Distruzione se esce sopra
-        if (transform.position.y > destroyY)
-        {
+        // Viewport check: gestisce l'uscita dalla cima e dai lati (SpreadGun)
+        Vector3 vp = Camera.main.WorldToViewportPoint(transform.position);
+        if (vp.x < -0.1f || vp.x > 1.1f || vp.y > 1.1f)
             Destroy(gameObject);
-        }
     }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Asteroid"))
         {
             AsteroidHealth asteroidHealth = collision.GetComponent<AsteroidHealth>();
             if (asteroidHealth != null)
-            {
-                asteroidHealth.TakeDamage(1); // Applica danno all'asteroide
-            }
+                asteroidHealth.TakeDamage(damage);
 
-            // Il proiettile viene distrutto sempre, in ogni caso, dopo aver colpito l'asteroide
-            Destroy(gameObject);
+            // I proiettili perforanti (Railgun) attraversano gli asteroidi senza distruggersi
+            if (!piercing) Destroy(gameObject);
         }
 
-        // la collisione con il bosso è gestita in BossBase, quindi non è necessario aggiungere codice qui per quella situazione
-
+        // La collisione con il boss è gestita in BossBase
     }
 }
