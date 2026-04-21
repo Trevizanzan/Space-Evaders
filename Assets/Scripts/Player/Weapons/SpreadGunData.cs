@@ -11,11 +11,12 @@ public class SpreadGunData : WeaponData
     {
         float halfSpread = spreadAngle / 2f;
         float step = bulletCount > 1 ? spreadAngle / (bulletCount - 1) : 0f;
+        // Base rotation del prefab (es. 90° per Player_Bullet): rispettata per qualsiasi prefab
+        Quaternion baseRotation = projectilePrefab.transform.rotation;
         for (int i = 0; i < bulletCount; i++)
         {
             float offset = halfSpread - step * i;  // da +half (sinistra) a -half (destra)
-            // 90° = rotazione base del prefab (sprite verso l'alto) + offset di spread
-            Quaternion rotation = Quaternion.Euler(0, 0, 90f + offset);
+            Quaternion rotation = baseRotation * Quaternion.Euler(0, 0, offset);
             var go = Instantiate(projectilePrefab, firePoint.position, rotation);
             if (go.TryGetComponent<PlayerBullet>(out var bullet))
                 bullet.Initialize(damage);

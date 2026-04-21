@@ -10,6 +10,9 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private WeaponData defaultWeapon;
     public Transform firePoint;
 
+    [Header("Railgun Charge Effect")]
+    [SerializeField] private GameObject chargeEffectPrefab;
+
     private WeaponData currentWeapon;
     private float lastShootTime;
     private bool shootingDisabled;
@@ -17,6 +20,7 @@ public class PlayerShooting : MonoBehaviour
     // Stato carica per armi con requiresCharging (es. Railgun)
     private bool isCharging;
     private float chargeStartTime;
+    private GameObject activeChargeEffect;
 
     private SpaceEvaderInputActions inputActions;
 
@@ -58,22 +62,41 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
-    // Logica di carica: tieni premuto per caricare, rilascia per sparare (se carica completa)
+    // Logica di carica: tieni premuto → l'effetto cresce → rilascia per sparare
     void HandleChargingFire(bool fireHeld)
     {
         if (fireHeld && !isCharging)
         {
             isCharging = true;
             chargeStartTime = Time.time;
+            SpawnChargeEffect();
         }
 
         if (!fireHeld && isCharging)
         {
-            isCharging = false;
             bool fullyCharged = (Time.time - chargeStartTime) >= currentWeapon.chargeTime;
             bool cooldownReady = (Time.time - lastShootTime) >= currentWeapon.shootCooldown;
+            CancelCharge();
             if (fullyCharged && cooldownReady)
                 Shoot();
+        }
+    }
+
+    void SpawnChargeEffect()
+    {
+        if (chargeEffectPrefab == null || firePoint == null) return;
+        activeChargeEffect = Instantiate(chargeEffectPrefab, firePoint.position, firePoint.rotation, firePoint);
+        if (activeChargeEffect.TryGetComponent<ChargeEffect>(out var fx))
+            fx.Initialize(currentWeapon.chargeTime);
+    }
+
+    void CancelCharge()
+    {
+        isCharging = false;
+        if (activeChargeEffect != null)
+        {
+            Destroy(activeChargeEffect);
+            activeChargeEffect = null;
         }
     }
 
@@ -84,12 +107,16 @@ public class PlayerShooting : MonoBehaviour
         lastShootTime = Time.time;
     }
 
-    public void SetShootingDisabled(bool disabled) => shootingDisabled = disabled;
+    public void SetShootingDisabled(bool disabled)
+    {
+        shootingDisabled = disabled;
+        if (disabled) CancelCharge(); // interrompe carica se il player viene bloccato
+    }
 
     // Usato dal futuro menu di selezione arma (task #4) o per swap runtime
     public void EquipWeapon(WeaponData weapon)
     {
+        CancelCharge();
         currentWeapon = weapon;
-        isCharging = false;
     }
 }
