@@ -5,7 +5,9 @@ public class BlasterData : WeaponData
 {
     public override void Fire(Transform firePoint)
     {
-        var go = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        // Usa la rotazione del prefab (90° Z) così lo sprite guarda verso l'alto
+        // e transform.right = (0,1) = verso l'alto (usato da PlayerBullet.Awake)
+        var go = Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
         if (go.TryGetComponent<PlayerBullet>(out var bullet))
             bullet.Initialize(damage);
     }

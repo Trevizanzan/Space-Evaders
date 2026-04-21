@@ -8,18 +8,20 @@ public class PlayerBullet : MonoBehaviour
 
     private Rigidbody2D rigidBody;
 
-    // Chiamato da WeaponData.Fire() subito dopo Instantiate, prima di Start()
+    // Chiamato da WeaponData.Fire() subito dopo Instantiate, prima di Awake()
     public void Initialize(int damage, bool piercing = false)
     {
         this.damage = damage;
         this.piercing = piercing;
     }
 
-    void Start()
+    void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        // transform.up tiene conto della rotazione di spawn: usato da SpreadGun per il ventaglio
-        rigidBody.linearVelocity = (Vector2)transform.up * speed;
+        // Il prefab Player_Bullet ha una rotazione base di 90° Z (sprite verso l'alto).
+        // transform.right con rotazione 90° = (0, 1) = direzione verso l'alto.
+        // Per proiettili angolati (SpreadGun), la rotazione di spawn determina la direzione.
+        rigidBody.linearVelocity = (Vector2)transform.right * speed;
     }
 
     void Update()

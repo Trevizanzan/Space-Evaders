@@ -6,7 +6,8 @@ public class RailgunData : WeaponData
 {
     public override void Fire(Transform firePoint)
     {
-        var go = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        // Usa la rotazione base del prefab (90° Z) per direzione verso l'alto
+        var go = Instantiate(projectilePrefab, firePoint.position, projectilePrefab.transform.rotation);
         if (go.TryGetComponent<PlayerBullet>(out var bullet))
             bullet.Initialize(damage, piercing: true);
     }
