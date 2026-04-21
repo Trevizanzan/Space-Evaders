@@ -3,13 +3,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameState
+{
+    Playing,
+    Paused,
+    GameOver
+}
+
 public class GameManager : MonoBehaviour
 {
-    // MISURE DELLA CAMEREA
-    //  Con orthographicSize = 5.5:
-    //  Altezza visibile = 2 * 5.5 = 11 unità
-    //  Con 16:9, larghezza visibile ≈ 11 * 16/9 = 19.56 unità
-
     [Header("Gameplay")]
     public AsteroidSpawner asteroidSpawner;
     public EnemySpawner enemySpawner;
@@ -18,9 +20,13 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel;
     public TMP_Text goScoreText;
     public TMP_Text goBestText;
-    
-    private bool isGameOver = false;
-    public bool IsGameOver() => isGameOver;
+
+    private GameState currentState = GameState.Playing;
+    public GameState CurrentState => currentState;
+
+    // Backward compatibility: mantiene l'API esistente per gli altri script
+    public bool IsGameOver() => currentState == GameState.GameOver;
+    public bool IsPaused() => currentState == GameState.Paused;
 
     [Header("Game Over UI - Stats")]
     public TMP_Text goTimeText;
@@ -61,8 +67,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (isGameOver) return;
-        isGameOver = true;
+        if (currentState == GameState.GameOver) return;
+        currentState = GameState.GameOver;
 
         // suona suono di game over
         if (SoundManager.Instance != null) 
@@ -161,6 +167,59 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(current.name);
     }
 
+    #region Pause
+
+    /// <summary>
+    /// Mette in pausa il gioco. Ignora la chiamata se si è in Game Over 
+    /// o se il gioco è già in pausa.
+    /// </summary>
+    public void Pause()
+    {
+        if (currentState != GameState.Playing) return;
+
+        currentState = GameState.Paused;
+        Time.timeScale = 0f;
+
+        // Mute globale durante la pausa
+        AudioListener.pause = true;
+
+        // Mostra cursore per poter cliccare su eventuale UI
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.SetMenuCursor();
+    }
+
+    /// <summary>
+    /// Riprende il gioco dalla pausa. Ignora se non si è in pausa.
+    /// </summary>
+    public void Resume()
+    {
+        if (currentState != GameState.Paused) return;
+
+        currentState = GameState.Playing;
+        Time.timeScale = 1f;
+
+        AudioListener.pause = false;
+
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.SetGameplayCursor();
+    }
+
+    /// <summary>
+    /// Toggle della pausa. Se in Game Over non fa nulla.
+    /// Chiamato dal tasto Pause del nuovo Input System.
+    /// </summary>
+    public void TogglePause()
+    {
+        if (currentState == GameState.GameOver) return;
+
+        if (currentState == GameState.Playing)
+            Pause();
+        else if (currentState == GameState.Paused)
+            Resume();
+    }
+
+    #endregion
+
     void Update()
     {
         // NOTA: "Pause" oggi triggera un "exit to menu" (nessuna pausa vera
@@ -169,11 +228,11 @@ public class GameManager : MonoBehaviour
         // (task dedicato post-migrazione).
         if (inputActions.Player.Pause.WasPressedThisFrame())
         {
-            ReturnToMainMenu();
+            TogglePause();
             return;
         }
 
-        if (isGameOver && inputActions.Player.Restart.WasPressedThisFrame())
+        if (currentState == GameState.GameOver && inputActions.Player.Restart.WasPressedThisFrame())
         {
             RestartGame();
         }
