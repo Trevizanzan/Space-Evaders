@@ -451,10 +451,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549054919cffcac4db95e2fe8f5c6fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShooting
-  projectilePrefab: {fileID: 2093506508120260160, guid: 0934b5481a133a949abcb2f8c7ee5e54, type: 3}
+  defaultWeapon: {fileID: 11400000, guid: cf86476cc3c1d3346beebddac0d9261d, type: 2}
   firePoint: {fileID: 1050214666}
-  autoFire: 1
-  shootCooldown: 0.15
+  chargeEffectPrefab: {fileID: 1957276293491760085, guid: a18d18423872c89469cbce3d3c6aec61, type: 3}
 --- !u!114 &74886327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86386dbe2dd8b96498617c988f7db6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 5
+  maxHealth: 500
   invulnerabilityDuration: 1
   blinkInterval: 0.1
 --- !u!60 &74886329
@@ -1010,7 +1009,7 @@ MonoBehaviour:
   globalDifficultyMultiplier: 1
   skipToFirstBoss: 0
   debugSpecificLevel: 0
-  debugLevelIndex: 0
+  debugLevelIndex: 3
   levelInfoGroup: {fileID: 2116371337}
   levelText: {fileID: 1669339249}
   levelProgressBarFill: {fileID: 631404793}
@@ -3744,8 +3743,8 @@ Transform:
   m_GameObject: {fileID: 1050214665}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0.6, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 74886324}
@@ -4580,6 +4579,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5073737055460347699, guid: 2f69acea5e5d0e44fbb0468c368235ac, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8709853376356306448, guid: 2f69acea5e5d0e44fbb0468c368235ac, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -5125,7 +5128,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 142.94928, y: -9}
+  m_AnchoredPosition: {x: 142.96799, y: -9}
   m_SizeDelta: {x: 14.01, y: 14.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449258773

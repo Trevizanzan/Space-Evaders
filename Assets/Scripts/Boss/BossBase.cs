@@ -26,7 +26,7 @@ public abstract class BossBase : MonoBehaviour
 
     [Header("UI Padding (sincronizzato con Spaceship)")]
     [SerializeField][Range(0f, 0.2f)] protected float topUIPaddingViewport = 0.08f;
-    // Proprietà read-only usabile dai figli
+    // Proprietï¿½ read-only usabile dai figli
     protected float TopUIWorldHeight
     {
         get
@@ -53,7 +53,7 @@ public abstract class BossBase : MonoBehaviour
         }
         else
         {
-            Debug.LogError("[BossBase] BossHealthBar.Instance è NULL! Non trovato nella scena!");
+            Debug.LogError("[BossBase] BossHealthBar.Instance ï¿½ NULL! Non trovato nella scena!");
         }
 
         // Disabilita sparo player durante entrance boss
@@ -69,7 +69,7 @@ public abstract class BossBase : MonoBehaviour
 
     /// <summary>
     /// Base: il boss entra dall'alto, fermandosi a una certa posizione centrale.
-    /// Durante l'entrata, il player non può sparare.
+    /// Durante l'entrata, il player non puï¿½ sparare.
     /// </summary>
     protected virtual IEnumerator EntranceRoutine()
     {
@@ -104,14 +104,14 @@ public abstract class BossBase : MonoBehaviour
         isEntering = false;
 
         // Riabilita sparo del player dopo l'entrata (qui, non in OnEntranceComplete,
-        // perché i boss figli fanno override di OnEntranceComplete senza chiamare base)
+        // perchï¿½ i boss figli fanno override di OnEntranceComplete senza chiamare base)
         PlayerShooting ps = FindFirstObjectByType<PlayerShooting>();
         if (ps != null) ps.SetShootingDisabled(false);
 
         OnEntranceComplete();
     }
 
-    // Chiamato quando l'entrata è finita, ogni boss inizia il suo pattern qui
+    // Chiamato quando l'entrata ï¿½ finita, ogni boss inizia il suo pattern qui
     protected virtual void OnEntranceComplete()
     {
         // Override nei boss specifici
@@ -159,7 +159,7 @@ public abstract class BossBase : MonoBehaviour
     {
         // Base: esplosione piccola davanti al boss
 
-        // Spawna esplosione davanti al boss (z negativo = più avanti)
+        // Spawna esplosione davanti al boss (z negativo = piï¿½ avanti)
         Vector3 explosionPos = new Vector3(transform.position.x, transform.position.y, -1f);
         if (ExplosionManager.Instance != null)
         {
@@ -216,10 +216,13 @@ public abstract class BossBase : MonoBehaviour
     {
         if (isDead) return;
 
-        if (collision.CompareTag("Bullet")) // tag del bullet del player
+        if (collision.CompareTag("Bullet"))
         {
-            TakeDamage(1);
-            Destroy(collision.gameObject);
+            int dmg = 1;
+            if (collision.TryGetComponent<PlayerBullet>(out var bullet))
+                dmg = bullet.damage;
+            TakeDamage(dmg);
+            Destroy(collision.gameObject); // il boss ferma sempre il proiettile, anche se piercing
         }
     }
 }
