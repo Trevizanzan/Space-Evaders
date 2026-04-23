@@ -20,6 +20,26 @@ Il player è un **Evader** — un fuggitivo solitario braccato in un universo os
 
 ---
 
+## 1.5 Stile visivo e palette
+
+Pixel art "arcade moderno" — stile tra R-Type e fumetto arcade anni '90. Palette intensa su sfondo spaziale scuro. Boss con facce mostruose ed espressive, navicelle con animazioni thruster.
+
+### Palette ufficiale
+
+| Colore | Hex | Ruolo |
+|---|---|---|
+| Nero | `#000000` | Sfondo spazio, ombre profonde |
+| Viola scuro | `#2A0E54` | Sfondo nebula, UI dark |
+| Magenta | `#AA1E65` | Nemici, accenti ostili |
+| Rosa/Rosso | `#FB4F69` | Pericolo, proiettili nemici, HP basso |
+| Bianco caldo | `#F9F7F7` | Testi, highlight neutri |
+| Arancione | `#FC8141` | Esplosioni, energia, thruster |
+| Giallo | `#FAD946` | Score, loot, accenti dorati |
+| Blu | `#2F68DC` | Player, proiettili player, UI primaria |
+| Ciano | `#46E7EC` | Armi speciali, charge effect, UI secondaria |
+
+---
+
 ## 2. Core loop
 
 MainMenu (PlayGame) → GameScene → Run (sequenza di Level + Boss da GameSequence) → Morte/Vittoria → Game Over con stats → [futuro: sblocchi] → MainMenu
