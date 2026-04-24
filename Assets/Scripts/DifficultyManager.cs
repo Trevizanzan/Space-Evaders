@@ -26,21 +26,36 @@ public class DifficultyManager : MonoBehaviour
     [SerializeField] private bool debugSpecificLevel = false;
     [SerializeField] private int debugLevelIndex = 0; // Quale level testare (0-based)
 
-    [Header("Level UI - Top Bar")]
+    [Header("Top Bar - Unified Progress Bar")]
+    [Tooltip("Image Fill della barra unificata (verde in level, rossa in boss). Usata sia per level progress che per boss HP.")]
+    [SerializeField] private UnityEngine.UI.Image levelProgressBarFill;
+    [Tooltip("Stessa Image di levelProgressBarFill - mantenuta per retrocompatibilità con chiamate esistenti.")]
+    [SerializeField] private UnityEngine.UI.Image bossHealthBarFill;
+    [Tooltip("Testo piccolo al bordo destro della barra: numero livello in level, nome boss durante boss fight.")]
+    [SerializeField] private TMP_Text barRightText;
+
+    [Header("Top Bar - Deprecated (disabled in scene)")]
     [SerializeField] private GameObject levelInfoGroup;
     [SerializeField] private TMP_Text levelText;
-    [SerializeField] private UnityEngine.UI.Image levelProgressBarFill;
-
-    [Header("Boss UI - Top Bar")]
     [SerializeField] private GameObject bossInfoGroup;
     [SerializeField] private TMP_Text bossNameText;
-    [SerializeField] private UnityEngine.UI.Image bossHealthBarFill;
 
-    [Header("Progress Bar Colors")]
-    [SerializeField] private Color barColorStart = new Color(0.2f, 1f, 0.3f);
-    [SerializeField] private Color barColorMid = new Color(1f, 0.9f, 0.2f);
-    [SerializeField] private Color barColorEnd = new Color(1f, 0.3f, 0.2f);
-    [SerializeField] private Color barColorGold = new Color(1f, 0.85f, 0f);
+    // Palette ufficiale: Blu #2F68DC (level), Rosa #FB4F69 (boss), Giallo #FAD946 (flash)
+    private static readonly Color BarColorLevel = new Color(0.184f, 0.408f, 0.863f);
+    private static readonly Color BarColorBoss  = new Color(0.984f, 0.310f, 0.412f);
+    private static readonly Color BarColorFlash = new Color(0.980f, 0.851f, 0.275f);
+
+//    |---|---|---|
+//| Nero | `#000000` | Sfondo spazio, ombre profonde |
+//| Viola scuro | `#2A0E54` | Sfondo nebula, UI dark |
+//| Magenta | `#AA1E65` | Nemici, accenti ostili |
+//| Rosa/Rosso | `#FB4F69` | Pericolo, proiettili nemici, HP basso |
+//| Bianco caldo | `#F9F7F7` | Testi, highlight neutri |
+//| Arancione | `#FC8141` | Esplosioni, energia, thruster |
+//| Giallo | `#FAD946` | Score, loot, accenti dorati |
+//| Blu | `#2F68DC` | Player, proiettili player, UI primaria |
+//| Ciano | `#46E7EC` | Armi speciali, charge effect, UI secondaria |
+
 
     // State
     private float levelTime = 0f;
@@ -316,48 +331,50 @@ public class DifficultyManager : MonoBehaviour
 
     void ShowLevelUI()
     {
-        if (levelInfoGroup != null) levelInfoGroup.SetActive(true);
-        if (bossInfoGroup != null) bossInfoGroup.SetActive(false);
+        // LevelInfoGroup/BossInfoGroup sono disabilitati permanentemente in scena (barra unificata).
+        // Qui basta tintare la barra verde e aggiornare il testo destro al numero livello.
 
         if (levelProgressBarFill != null)
         {
             levelProgressBarFill.fillAmount = 0f;
-            levelProgressBarFill.color = barColorStart;
+            levelProgressBarFill.color = BarColorLevel;
         }
+
+        UpdateBarRightText(); // numero livello
     }
 
     public void ShowBossUI()
     {
-        if (levelInfoGroup != null) levelInfoGroup.SetActive(false);
-        if (bossInfoGroup != null) bossInfoGroup.SetActive(true);
-
         if (bossHealthBarFill != null)
         {
             bossHealthBarFill.fillAmount = 1f;
-            bossHealthBarFill.color = new Color(1f, 0.2f, 0.2f);
+            bossHealthBarFill.color = BarColorBoss;
         }
+        // barRightText viene impostato da BossBase via SetBossName()
     }
 
     void UpdateLevelUI()
     {
-        if (levelText == null || levelProgressBarFill == null) return;
+        if (levelProgressBarFill == null) return;
 
-        // Conta quanti Level ci sono nella sequenza per mostrare "LEVEL X/Y"
-        int totalLevels = 0;
+        UpdateBarRightText();
+        levelProgressBarFill.fillAmount = progress;
+    }
+
+    void UpdateBarRightText()
+    {
+        if (barRightText == null || gameSequence == null || gameSequence.levels == null) return;
+
+        // Conta i Level (non Boss) fino al currentLevelIndex compreso
+        int idx = currentLevelIndex % gameSequence.levels.Length;
         int currentLevelNumber = 0;
-        for (int i = 0; i < gameSequence.levels.Length; i++)
+        for (int i = 0; i <= idx; i++)
         {
-            if (!gameSequence.levels[i].isBoss)  // Conta solo i Level, salta i Boss
-            {
-                totalLevels++;
-                if (i <= currentLevelIndex % gameSequence.levels.Length)
-                    currentLevelNumber = totalLevels;
-            }
+            if (!gameSequence.levels[i].isBoss)
+                currentLevelNumber++;
         }
 
-        //levelText.text = $"LEVEL {currentLevelNumber}/{totalLevels}";
-        levelText.text = $"LEVEL {currentLevelNumber}";
-        levelProgressBarFill.fillAmount = progress;
+        barRightText.text = currentLevelNumber.ToString();
     }
 
     void ShowLevelComplete()
@@ -373,13 +390,13 @@ public class DifficultyManager : MonoBehaviour
 
             for (int pulse = 0; pulse < 3; pulse++)
             {
-                levelProgressBarFill.color = barColorGold;
+                levelProgressBarFill.color = BarColorFlash;
                 yield return new WaitForSeconds(0.15f);
                 levelProgressBarFill.color = Color.white;
                 yield return new WaitForSeconds(0.15f);
             }
 
-            levelProgressBarFill.color = barColorGold;
+            levelProgressBarFill.color = BarColorLevel;
         }
     }
 
@@ -391,8 +408,8 @@ public class DifficultyManager : MonoBehaviour
 
     public void SetBossName(string name)
     {
-        if (bossNameText != null)
-            bossNameText.text = name;
+        if (barRightText != null)
+            barRightText.text = name;
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -466,21 +483,21 @@ public class DifficultyManager : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    void OnGUI()
-    {
-        if (!Application.isPlaying) return;
+    //void OnGUI()
+    //{
+    //    if (!Application.isPlaying) return;
 
-        LevelProfile level = GetCurrentLevel();
+    //    LevelProfile level = GetCurrentLevel();
 
-        GUILayout.Label($"Level: {currentLevelIndex} ({(level != null ? (level.isBoss ? "Boss" : "Level") : "NULL")})");
-        GUILayout.Label($"Level: {(level != null ? level.levelName : "Boss Fight")}");
-        GUILayout.Label($"Level Time: {levelTime:F1}s");
-        GUILayout.Label($"Progress: {progress:F2}");
-        GUILayout.Label($"Phase: {GetCurrentPhase()}");
-        //GUILayout.Label($"Loop: {loopCount}");
-        GUILayout.Label($"Global Multiplier: {globalDifficultyMultiplier:F2}x");
-        GUILayout.Label($"Boss Fight: {isBossFight}");
-    }
+    //    GUILayout.Label($"Level: {currentLevelIndex} ({(level != null ? (level.isBoss ? "Boss" : "Level") : "NULL")})");
+    //    GUILayout.Label($"Level: {(level != null ? level.levelName : "Boss Fight")}");
+    //    GUILayout.Label($"Level Time: {levelTime:F1}s");
+    //    GUILayout.Label($"Progress: {progress:F2}");
+    //    GUILayout.Label($"Phase: {GetCurrentPhase()}");
+    //    //GUILayout.Label($"Loop: {loopCount}");
+    //    GUILayout.Label($"Global Multiplier: {globalDifficultyMultiplier:F2}x");
+    //    GUILayout.Label($"Boss Fight: {isBossFight}");
+    //}
 #endif
 
     public int GetCurrentLevelIndex() => currentLevelIndex;
