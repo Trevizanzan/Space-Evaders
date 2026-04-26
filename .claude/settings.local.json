@@ -14,7 +14,9 @@
       "Bash(sed -n '2026,2060p' Assets/Scenes/GameScene.unity)",
       "Bash(sed -n '1059,1085p' Assets/Scenes/GameScene.unity)",
       "Bash(sed -n '2025,2055p' Assets/Scenes/GameScene.unity)",
-      "Bash(sed -n '4622,4680p' Assets/Scenes/GameScene.unity)"
+      "Bash(sed -n '4622,4680p' Assets/Scenes/GameScene.unity)",
+      "Bash(sed -n '1059,1120p' Assets/Scenes/GameScene.unity)",
+      "Bash(sed -n '2026,2090p' Assets/Scenes/GameScene.unity)"
     ]
   },
   "outputStyle": "default"
