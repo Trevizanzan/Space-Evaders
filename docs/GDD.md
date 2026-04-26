@@ -361,6 +361,7 @@ Per far emergere i tradeoff delle armi serve il giusto mix di nemici in ogni Lev
 
 - Altri boss (almeno uno per blocco, più il Mega Boss finale)
 - Ogni boss dovrebbe avere pattern distintivo e telegrafato
+- **TODO — Invulnerabilità durante entrance**: il boss deve essere invulnerabile per tutta la sua fase di ingresso/pausa iniziale (discesa + pausa di 2.5 s prima del combattimento). Diventa vulnerabile solo quando parte il pattern di attacco. Attualmente i colpi del player passano danno già durante l'entrance — bug minore. Fix: in `BossBase` aggiungere flag `isInvulnerable` attivo finché `IsBossEntering` è true, e ignorare il danno in `TakeDamage` se invulnerabile.
 
 ### Principi di design boss
 
