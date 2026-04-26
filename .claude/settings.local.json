@@ -9,7 +9,12 @@
       "Bash(git *)",
       "mcp__claude_ai_Google_Drive__search_files",
       "mcp__claude_ai_Google_Drive__read_file_content",
-      "Bash(xargs grep *)"
+      "Bash(xargs grep *)",
+      "Bash(sed -n '1059,1080p' Assets/Scenes/GameScene.unity)",
+      "Bash(sed -n '2026,2060p' Assets/Scenes/GameScene.unity)",
+      "Bash(sed -n '1059,1085p' Assets/Scenes/GameScene.unity)",
+      "Bash(sed -n '2025,2055p' Assets/Scenes/GameScene.unity)",
+      "Bash(sed -n '4622,4680p' Assets/Scenes/GameScene.unity)"
     ]
   },
   "outputStyle": "default"

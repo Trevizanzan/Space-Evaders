@@ -37,11 +37,6 @@ public class DifficultyManager : MonoBehaviour
     [Tooltip("Testo piccolo al bordo destro della barra: numero livello in level, nome boss durante boss fight.")]
     [SerializeField] private TMP_Text barRightText;
 
-    [Header("Top Bar - Deprecated (disabled in scene)")]
-    [SerializeField] private GameObject levelInfoGroup;
-    [SerializeField] private TMP_Text levelText;
-    [SerializeField] private GameObject bossInfoGroup;
-    [SerializeField] private TMP_Text bossNameText;
 
     // Palette ufficiale: Blu #2F68DC (level), Rosa #FB4F69 (boss), Giallo #FAD946 (flash)
     private static readonly Color BarColorLevel = new Color(0.184f, 0.408f, 0.863f);
@@ -76,8 +71,8 @@ public class DifficultyManager : MonoBehaviour
 
         ShowLevelUI();
 
-        if (debugApplyTestPerks && PerkManager.Instance != null)
-            foreach (var p in debugTestPerks) PerkManager.Instance.ApplyPerk(p);
+        if (debugApplyTestPerks)
+            StartCoroutine(ApplyTestPerksNextFrame());
 
         if (skipToFirstBoss)
             StartCoroutine(DebugSkipToBoss());
@@ -416,6 +411,13 @@ public class DifficultyManager : MonoBehaviour
     // ══════════════════════════════════════════════════════════════════════════
     // DEBUG
     // ══════════════════════════════════════════════════════════════════════════
+
+    IEnumerator ApplyTestPerksNextFrame()
+    {
+        yield return null; // aspetta un frame per il layout pass del Canvas
+        if (PerkManager.Instance != null)
+            foreach (var p in debugTestPerks) PerkManager.Instance.ApplyPerk(p);
+    }
 
     IEnumerator DebugSkipToBoss()
     {

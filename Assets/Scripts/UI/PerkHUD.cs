@@ -11,18 +11,16 @@ public class PerkHUD : MonoBehaviour
 
     private readonly Dictionary<PerkData, GameObject> iconInstances = new Dictionary<PerkData, GameObject>();
 
+    void Start()
+    {
+        Subscribe();
+    }
+
     void OnEnable()
     {
-        ClearIcons();
-
+        // Solo per re-enable dopo il primo Start (es. scene reload con PerkManager già vivo)
         if (PerkManager.Instance != null)
-        {
-            PerkManager.Instance.OnPerkAdded += AddIcon;
-            PerkManager.Instance.OnShieldConsumed += RemoveShieldIcon;
-
-            foreach (var p in PerkManager.Instance.ActivePerks)
-                AddIcon(p);
-        }
+            Subscribe();
     }
 
     void OnDisable()
@@ -32,6 +30,20 @@ public class PerkHUD : MonoBehaviour
             PerkManager.Instance.OnPerkAdded -= AddIcon;
             PerkManager.Instance.OnShieldConsumed -= RemoveShieldIcon;
         }
+    }
+
+    private void Subscribe()
+    {
+        if (PerkManager.Instance == null) return;
+
+        PerkManager.Instance.OnPerkAdded -= AddIcon;
+        PerkManager.Instance.OnShieldConsumed -= RemoveShieldIcon;
+        PerkManager.Instance.OnPerkAdded += AddIcon;
+        PerkManager.Instance.OnShieldConsumed += RemoveShieldIcon;
+
+        ClearIcons();
+        foreach (var p in PerkManager.Instance.ActivePerks)
+            AddIcon(p);
     }
 
     private void ClearIcons()
@@ -46,10 +58,12 @@ public class PerkHUD : MonoBehaviour
 
     private void AddIcon(PerkData perk)
     {
+        Debug.Log($"[PerkHUD] AddIcon called: {(perk != null ? perk.name : "NULL")} | prefab={perkIconPrefab != null} | container={iconsContainer != null}");
         if (perkIconPrefab == null || iconsContainer == null || perk == null) return;
         if (iconInstances.ContainsKey(perk)) return;
 
         GameObject go = Instantiate(perkIconPrefab, iconsContainer);
+        Debug.Log($"[PerkHUD] Icon instantiated for {perk.name}, children now: {iconsContainer.childCount}");
 
         var img = go.GetComponentInChildren<Image>();
         if (img != null) img.sprite = perk.icon;
