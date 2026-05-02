@@ -58,12 +58,12 @@ public class PerkHUD : MonoBehaviour
 
     private void AddIcon(PerkData perk)
     {
-        Debug.Log($"[PerkHUD] AddIcon called: {(perk != null ? perk.name : "NULL")} | prefab={perkIconPrefab != null} | container={iconsContainer != null}");
+        //Debug.Log($"[PerkHUD] AddIcon called: {(perk != null ? perk.name : "NULL")} | prefab={perkIconPrefab != null} | container={iconsContainer != null}");
         if (perkIconPrefab == null || iconsContainer == null || perk == null) return;
         if (iconInstances.ContainsKey(perk)) return;
 
         GameObject go = Instantiate(perkIconPrefab, iconsContainer);
-        Debug.Log($"[PerkHUD] Icon instantiated for {perk.name}, children now: {iconsContainer.childCount}");
+        //Debug.Log($"[PerkHUD] Icon instantiated for {perk.name}, children now: {iconsContainer.childCount}");
 
         var img = go.GetComponentInChildren<Image>();
         if (img != null) img.sprite = perk.icon;
