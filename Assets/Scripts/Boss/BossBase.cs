@@ -230,10 +230,14 @@ public abstract class BossBase : MonoBehaviour
 
         if (collision.CompareTag("Bullet"))
         {
-            int dmg = 1;
-            if (collision.TryGetComponent<PlayerBullet>(out var bullet))
-                dmg = bullet.damage;
-            TakeDamage(dmg);
+            // Durante l'entrata i proiettili già in volo vengono assorbiti senza danno
+            if (!isEntering)
+            {
+                int dmg = 1;
+                if (collision.TryGetComponent<PlayerBullet>(out var bullet))
+                    dmg = bullet.damage;
+                TakeDamage(dmg);
+            }
             Destroy(collision.gameObject); // il boss ferma sempre il proiettile, anche se piercing
         }
     }
