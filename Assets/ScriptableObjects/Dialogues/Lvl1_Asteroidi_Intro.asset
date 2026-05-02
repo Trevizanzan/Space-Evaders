@@ -33,21 +33,19 @@ MonoBehaviour:
     pauseAfter: 0.4
     charsPerSecond: 0
   - italian: "Bene. Sono io. Sono qui con te. Sono sempre stata qui. Non ricordi
-      tutto, vero? \xC8 normale. La memoria torna a str"
+      tutto, vero? \xC8 normale. La memoria torna a strati. Torner\xE0."
     english: 
     pauseAfter: 0.4
     charsPerSecond: 0
   - italian: "Per adesso ti basta sapere una cosa: questa nave. \xC8 tua. Ti conosce.
-      \xC8 stata costruita su di te \u2014 sulla tua mano,"
+      \xC8 stata costruita su di te \u2014 sulla tua mano, sui tuoi riflessi, sul
+      tuo respiro."
     english: 
     pauseAfter: 0.4
     charsPerSecond: 0
-  - italian: I comandi rispondono al pensiero un istante prima del gesto. Le armi
-      pesano quanto pesa la tua intenzione. Non se
-    english: 
-    pauseAfter: 0.4
-    charsPerSecond: 0
-  - italian: "sola. Fidati di lei: ti porter\xE0 dove vuoi andare."
+  - italian: "I comandi rispondono al pensiero un istante prima del gesto. Le armi
+      pesano quanto pesa la tua intenzione. Non sei tu dentro una macchina. Siete
+      una cosa sola. Fidati di lei: ti porter\xE0 dove vuoi andare."
     english: 
     pauseAfter: 0.4
     charsPerSecond: 0
@@ -56,7 +54,7 @@ MonoBehaviour:
     pauseAfter: 0.4
     charsPerSecond: 0
   - italian: Siamo nello spazio profondo. Lontani da tutto, lontani da tutti. Davanti
-      a noi solo nero, e qualche luce tra il n
+      a noi solo nero, e qualche luce tra il nero.
     english: 
     pauseAfter: 0.4
     charsPerSecond: 0
@@ -71,7 +69,7 @@ MonoBehaviour:
     pauseAfter: 0.4
     charsPerSecond: 0
   - italian: "Tra noi e ci\xF2 che cerchi c'\xE8 del rumore. Detriti. Cacciatori.
-      Vecchi relitti che si sono dimenticati di essere st"
+      Vecchi relitti che si sono dimenticati di essere stati navi."
     english: 
     pauseAfter: 0.4
     charsPerSecond: 0

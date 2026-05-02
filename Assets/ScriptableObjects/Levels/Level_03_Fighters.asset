@@ -15,7 +15,7 @@ MonoBehaviour:
   isBoss: 0
   bossPrefab: {fileID: 0}
   levelName: Level_03
-  levelDuration: 40
+  levelDuration: 5
   disableShooting: 0
   dialogueIntro: {fileID: 0}
   dialogueOutro: {fileID: 0}
