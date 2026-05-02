@@ -2,7 +2,7 @@
 
 **Version:** 1.0
 **Status:** Living document (riflette sia la visione sia lo stato attuale del progetto)
-**Last updated:** 2026-04-26
+**Last updated:** 2026-05-02
 **Repository:** Unity 2D project (C#, URP/built-in, Input System nuovo — migrazione completata)
 
 ---
@@ -306,24 +306,20 @@ Dopo aver scelto un perk appare una piccola icona (+ valore se applicabile) nel 
 
 ### Stato attuale
 
-**❌ Lore non implementata.** I Level hanno un campo `levelName` testuale ma non esiste un sistema per mostrare lore durante il gioco o agli sblocchi.
+**✅ Sistema di dialogo/lore implementato.** Architettura:
 
-### Visione target (da implementare)
+- `DialogueSequence` (ScriptableObject): array di `DialogueLine` (speaker + testo localizzato IT/EN)
+- `DialogueOverlay` (singleton MonoBehaviour): mostra le linee in sequenza con fade, avatar speaker, avanzamento con Fire o skip con Pause (hold ~0.6s)
+- `LevelProfile` espone `dialogueIntro` e `dialogueOutro` (`DialogueSequence`): riprodotti automaticamente all'inizio/fine del level e al completamento del boss
+- `LanguageManager`: gestisce la lingua attiva (IT default); testo scelto automaticamente da `DialogueLine.GetText()`
+- `DialogueSequenceEditor`: editor Unity custom per anteprima e editing delle sequenze in-Inspector
 
-**Layer 1 — Lore durante la run:**
-
-- All'inizio di ogni Level: breve testo in overlay (trasmissione radio, voce interna dell'Evader)
-- Non interrompe il gameplay, fade-in/fade-out rapido
-- Ogni Level ha un suo frammento di lore
+Asset dialoghi in `Assets/ScriptableObjects/Dialogues/`. Documentazione narrativa in `docs/LORE.md` e `docs/DIALOGO.md`.
 
 **Layer 2 — Lore agli sblocchi:**
 
-- Alla sblocco di un'arma: schermata con 2-3 righe tematiche
+- Alla sblocco di un'arma: schermata con 2-3 righe tematiche — **non ancora implementato**
 - Esempio Spread Gun: *"Scavenged from a derelict outpost. The previous owner never made it out."*
-
-### Implementazione suggerita
-
-Aggiungere un campo `[TextArea] public string loreIntro` a `LevelProfile`, e un sistema UI che lo mostra durante la transizione tra level o all'inizio del level.
 
 ---
 
@@ -360,14 +356,34 @@ Per far emergere i tradeoff delle armi serve il giusto mix di nemici in ogni Lev
 ### ✅ Stato attuale
 
 - **1 boss implementato: `BossAngel`** (`BossAngel.cs`)
-- Pattern: ping-pong orizzontale + movimento verticale (scende/risale con pattern temporale), spara proiettili verso il basso a intervalli random
 - Esiste `BossBase` come classe padre e prefab `BossHealthBar.prefab` per la UI boss
+
+#### BossAngel — Pattern di combattimento
+
+**Movimento:**
+- Asse X: ping-pong verso target X random entro i bordi schermo
+- Asse Y: si sposta verso una quota Y random scelta nel range `[centerY, topY]`, aspetta un tempo random, poi sceglie una nuova quota — comportamento imprevedibile ma sempre dentro i bounds configurabili
+
+**Sistema a 3 fasi (HP-based):**
+
+| Fase | HP | Cadenza sparo | Colpi mirati | Velocità |
+|---|---|---|---|---|
+| 1 | > 66% | 0.25–0.8s | nessuno | base |
+| 2 | 33–66% | 0.15–0.5s | 50% (configurabile) | base |
+| 3 | < 33% | 0.1–0.35s | 100% | aumentata |
+
+Al cambio di fase: 3 flash bianchi come feedback visivo.
+
+**Sparo mirato:** in fase 2/3, i proiettili calcolano la direzione verso il player al momento dello sparo (`BossBullet.SetDirection()`). Velocità dei colpi mirati ridotta rispetto ai colpi diritti (configurabile via `aimedShotSpeed`).
+
+**Comportamento dei proiettili (`BossBullet`):** distruzione basata su viewport (`WorldToViewportPoint`, margine 10% su tutti i 4 lati). Dopo la morte del boss, il `BossDefeatedTransition` attende che tutti i bullet escano dallo schermo prima di mostrare il perk overlay.
+
+**Invulnerabilità durante l'entrance:** ✅ i proiettili del player in volo al momento dello spawn vengono assorbiti senza danno finché `isEntering` è `true`. Lo sparo del player è disabilitato durante tutta la discesa del boss.
 
 ### Da implementare
 
 - Altri boss (almeno uno per blocco, più il Mega Boss finale)
 - Ogni boss dovrebbe avere pattern distintivo e telegrafato
-- **TODO — Invulnerabilità durante entrance**: il boss deve essere invulnerabile per tutta la sua fase di ingresso/pausa iniziale (discesa + pausa di 2.5 s prima del combattimento). Diventa vulnerabile solo quando parte il pattern di attacco. Attualmente i colpi del player passano danno già durante l'entrance — bug minore. Fix: in `BossBase` aggiungere flag `isInvulnerable` attivo finché `IsBossEntering` è true, e ignorare il danno in `TakeDamage` se invulnerabile.
 
 ### Principi di design boss
 
@@ -461,7 +477,7 @@ In ordine consigliato di priorità:
 3. ✅ **Sistema di meta-progressione** — unlock armi permanenti via PlayerPrefs + perk in-run dopo ogni boss + Perk HUD in-game (icone verticali accanto alle vite, auto-width)
 4. ✅ **Schermata di selezione arma pre-run** — `WeaponSelectionMenu` sub-panel del MainMenu; 3 card (Blaster, SpreadGun, Railgun) tutte sbloccate; selezione chiama `WeaponSelection.SetWeapon()` e carica la GameScene; layout orizzontale con `HorizontalLayoutGroup` + `VerticalLayoutGroup` interno per auto-sizing delle card
 4.5. ✅ **TopBar rework** — barra full-width unificata (blu per livelli, rossa per boss); testo bordo destro mostra numero livello o nome boss; pannello score a sinistra, vite + perk HUD a destra
-5. **Sistema di lore in-game** (overlay all'inizio di ogni Level)
+5. ✅ **Sistema di lore/dialogo in-game** — `DialogueSequence`, `DialogueOverlay`, `LanguageManager`, editor custom; dialoghi intro/outro per ogni Level e Boss
 6. **Popolamento del GameSequence** (definire i 4 blocchi + mega boss)
 7. **Creazione degli altri boss** (almeno 3 nuovi + mega boss)
 
